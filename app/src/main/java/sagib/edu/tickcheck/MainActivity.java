@@ -1,5 +1,6 @@
 package sagib.edu.tickcheck;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,12 +10,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.view.View.GONE;
+
 public class MainActivity extends AppCompatActivity implements ShowDataSource.OnShowArrivedListener {
     RecyclerView recycler;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +28,15 @@ public class MainActivity extends AppCompatActivity implements ShowDataSource.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
+        dialog = new ProgressDialog(MainActivity.this);
+        dialog.setTitle("אנא המתן...");
+        dialog.setMessage("מאתר כרטיסים זמינים...");
+        dialog.show();
         recycler = (RecyclerView) findViewById(R.id.recycler);
         ShowDataSource.getShows(this);
         recycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     }
 
     @Override
@@ -43,8 +54,10 @@ public class MainActivity extends AppCompatActivity implements ShowDataSource.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_refresh) {
+            dialog.show();
+            ShowDataSource.getShows(this);
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -55,13 +68,11 @@ public class MainActivity extends AppCompatActivity implements ShowDataSource.On
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (e == null){
+                if (e == null) {
                     ShowAdapter adapter = new ShowAdapter(data, MainActivity.this);
                     recycler.setAdapter(adapter);
-                    for (int i = 0; i < data.size(); i++) {
-                        Log.d("Sagi",data.get(i).toString());
-                    }
-                }else{
+                    dialog.dismiss();
+                } else {
                     Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
                     Log.d("Sagi", e.toString());
                 }

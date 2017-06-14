@@ -1,13 +1,22 @@
 package sagib.edu.tickcheck;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -17,7 +26,7 @@ import java.util.ArrayList;
  * Created by sagib on 14/06/2017.
  */
 
-public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder>{
+public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder> {
 
     private ArrayList<Show> data;
     private Context context;
@@ -37,26 +46,33 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
 
     @Override
     public void onBindViewHolder(ShowViewHolder holder, int position) {
-        Show show = data.get(position);
+        final Show show = data.get(position);
         Picasso.with(context).load(show.getImage()).into(holder.ivImage);
-        holder.tvPerformer.setText(show.getPerformer());
+        holder.tvPerformer.setText("\n" + show.getPerformer());
         holder.tvArena.setText(show.getArena());
-        if (show.isTicketsAvailable()){
-            holder.tvTicketsAvailable.setText("יש כרטיסים זמינים");
-            holder.tvTicketsAvailable.setTextColor(Color.GREEN);
-        } else{
-            holder.tvTicketsAvailable.setText("אין כרטיסים זמינים");
+        if (show.isTicketsAvailable()) {
+            holder.tvTicketsAvailable.setText("כרטיסים: זמינים");
+            holder.tvTicketsAvailable.setTextColor(Color.rgb(0, 204, 0));
+            holder.tvTicketsAvailable.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(show.getLink()));
+                    context.startActivity(intent);
+                }
+            });
+        } else {
+            holder.tvTicketsAvailable.setText("כרטיסים: תפוסים");
             holder.tvTicketsAvailable.setTextColor(Color.RED);
         }
-        holder.tvDayDateTime.setText(show.getDayDateTime());
+        holder.tvDayDateTime.setText(show.getDayDateTime() + "\n");
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return data.size();
     }
 
-    class ShowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ShowViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivImage;
         TextView tvPerformer;
@@ -71,12 +87,30 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
             tvArena = (TextView) v.findViewById(R.id.tvArena);
             tvTicketsAvailable = (TextView) v.findViewById(R.id.tvTicketsAvailable);
             tvDayDateTime = (TextView) v.findViewById(R.id.tvDayDateTime);
-            v.setOnClickListener(this);
-        }
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    final Show show = data.get(position);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("איזורים ב" + show.getArena()).
+                            setMessage(" " + show.getZones().toString().replace("[", "").replace("]", "").replace(",", "")).
+                            setCancelable(true).
+                            setNegativeButton("חזרה", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).setPositiveButton("לרכישה", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(show.getLink()));
+                            context.startActivity(intent);
+                        }
+                    }).show();
 
-        @Override
-        public void onClick(View v) {
-
+                }
+            });
         }
     }
 }

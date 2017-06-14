@@ -38,4 +38,11 @@ public class Zone {
     public void setFree(int free) {
         this.free = free;
     }
+
+    @Override
+    public String toString() {
+//        return name + " - מקומות: " + capacity + " פנויים: " + free + "\n";
+        String string = String.format("%s - מקומות פנויים: %d\n",name,free);
+        return string;
+    }
 }
