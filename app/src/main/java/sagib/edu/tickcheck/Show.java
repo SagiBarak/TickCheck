@@ -28,7 +28,7 @@ public class Show {
     }
 
     public String getDayDateTime(){
-        return getDay() + " " + getDateTime();
+        return getDay() + " " + getDateTime().replace("2017", "2017 בשעה:");
     }
 
     public String getImage() {

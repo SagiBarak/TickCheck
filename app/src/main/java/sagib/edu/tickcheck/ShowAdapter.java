@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -46,8 +47,9 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
         holder.tvPerformer.setText("\n" + show.getPerformer());
         holder.tvArena.setText(show.getArena());
         if (show.isTicketsAvailable()) {
-            holder.tvTicketsAvailable.setText("כרטיסים: זמינים");
-            holder.tvTicketsAvailable.setTextColor(Color.rgb(0, 204, 0));
+            holder.tvTicketsAvailable.setText("כרטיסים:" + "\n" + "זמינים");
+            holder.tvTicketsAvailable.setTextColor(Color.rgb(0, 190, 0));
+            holder.container.setBackgroundColor(Color.argb(35,0,190,0));
             holder.tvTicketsAvailable.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -56,8 +58,9 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
                 }
             });
         } else {
-            holder.tvTicketsAvailable.setText("כרטיסים: תפוסים");
+            holder.tvTicketsAvailable.setText("כרטיסים:" + "\n" + "תפוסים");
             holder.tvTicketsAvailable.setTextColor(Color.RED);
+            holder.container.setBackgroundColor(Color.argb(35,255,0,0));
         }
         holder.tvDayDateTime.setText(show.getDayDateTime() + "\n");
     }
@@ -74,6 +77,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
         TextView tvArena;
         TextView tvTicketsAvailable;
         TextView tvDayDateTime;
+        ConstraintLayout container;
 
         public ShowViewHolder(View v) {
             super(v);
@@ -82,6 +86,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
             tvArena = (TextView) v.findViewById(R.id.tvArena);
             tvTicketsAvailable = (TextView) v.findViewById(R.id.tvTicketsAvailable);
             tvDayDateTime = (TextView) v.findViewById(R.id.tvDayDateTime);
+            container = (ConstraintLayout) v.findViewById(R.id.container);
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

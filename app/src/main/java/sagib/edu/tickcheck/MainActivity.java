@@ -30,13 +30,14 @@ public class MainActivity extends AppCompatActivity implements ShowDataSource.On
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
-        dialog = new ProgressDialog(MainActivity.this);
-        dialog.setTitle("אנא המתן...");
-        dialog.setMessage("מאתר כרטיסים זמינים...");
-        dialog.show();
         recycler = (RecyclerView) findViewById(R.id.recycler);
         ShowDataSource.getShows(this);
         recycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("נא להמתין, מרענן רשימת הופעות...");
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
     }
 
     @Override
@@ -57,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements ShowDataSource.On
         if (id == R.id.action_refresh) {
             dialog.show();
             ShowDataSource.getShows(this);
-
         }
 
         return super.onOptionsItemSelected(item);

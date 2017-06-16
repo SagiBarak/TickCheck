@@ -35,6 +35,7 @@ public class ShowDataSource {
                 try {
                     URL url = new URL("https://www.zappa-club.co.il/%D7%AA%D7%92%D7%99%D7%95%D7%AA/%D7%A9%D7%9C%D7%9E%D7%94-%D7%90%D7%A8%D7%A6%D7%99/");
                     URLConnection con = url.openConnection();
+                    con.setRequestProperty("User-Agent","Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1");
                     InputStream in = con.getInputStream();
                     html = StreamIO.read(in);
                 } catch (IOException e) {
@@ -43,39 +44,40 @@ public class ShowDataSource {
                 }
                 Document parse = Jsoup.parse(html);
                 Elements select = parse.select("#content > div > div.loader_wrap > article");
-                SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy  HH:mm");
+                SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm");
                 SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
                 for (int i = 0; i < select.size(); i++) {
-                    Elements temp = select.get(i).select(String.format("a > div > div.event_data > div:nth-child(%1$d) > meta:nth-child(%1$d)", 1));
-                    Elements temp1 = select.get(i).select(String.format("a > div > div.event_data > div:nth-child(%1$d) > meta:nth-child(%1$d)", 2));
-                    Elements temp2 = select.get(i).select(String.format("a > div > div.event_data > div:nth-child(%1$d) > span", 2));
-                    Elements temp3 = select.get(i).select(String.format("article:nth-child(%d) > div > h2", i + 1));
-                    Elements temp4 = select.get(i).select(String.format("article:nth-child(%d) > div > a", i + 1));
-                    Element temp5 = select.get(i).select("a > div > div.event_img > img").first();
+                    Elements elementArena = select.get(i).select(String.format("a > div > div.event_data > div:nth-child(%1$d) > meta:nth-child(%1$d)", 1));
+                    Elements elementHour = select.get(i).select(String.format("a > div > div.event_data > div:nth-child(%1$d) > meta:nth-child(%1$d)", 2));
+                    Elements elementDay = select.get(i).select(String.format("a > div > div.event_data > div:nth-child(%1$d) > span", 2));
+                    Elements elementPerformer = select.get(i).select(String.format("article:nth-child(%d) > div > h2", i + 1));
+                    Elements elementLink = select.get(i).select(String.format("article:nth-child(%d) > div > a", i + 1));
+                    Element elementImage = select.get(i).select("a > div > div.event_img > img").first();
                     Date time = null;
-                    String hour = temp1.attr("content");
+                    String hour = elementHour.attr("content");
                     try {
                         time = formatter1.parse(hour);
                     } catch (ParseException e) {
                         e.printStackTrace();
                         listener.onShowArrived(null, e);
                     }
-                    String link = temp4.toString().replace("<a class=\"buyTicket\" href=\"", "").replace("\">לרכישת כרטיסים ← </a>", "").replace("\">לפרטים ורכישה ← </a>", "");
+                    String link = elementLink.toString().replace("<a class=\"buyTicket\" href=\"", "").replace("\">לרכישת כרטיסים ← </a>", "").replace("\">לפרטים ורכישה ← </a>", "");
                     String parsedlink = "";
                     try {
                         URL url = new URL(StreamIO.encodeZappaFromEncode(link));
                         link = url.toString();
                         URLConnection con = url.openConnection();
+                        con.setRequestProperty("User-Agent","Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1");
                         InputStream in = con.getInputStream();
                         parsedlink = StreamIO.read(in);
                     } catch (IOException e) {
                         e.printStackTrace();
                         listener.onShowArrived(null, e);
                     }
-                    String image = temp5.absUrl("src");
-                    String performer = temp3.toString().replace("<h2 itemprop=\"name\">", "").replace("</h2>", "");
-                    String arena = temp.attr("content");
-                    String day = temp2.toString().replace("<span class=\"day\">", "").replace("</span>", "");
+                    String image = elementImage.absUrl("src");
+                    String performer = elementPerformer.toString().replace("<h2 itemprop=\"name\">", "").replace("</h2>", "");
+                    String arena = elementArena.attr("content");
+                    String day = elementDay.toString().replace("<span class=\"day\">", "").replace("</span>", "");
                     String dateTime = formatter.format(time);
                     boolean ticketsAvailable;
                     if (parsedlink.contains("כל הכרטיסים לארוע נמכרו."))
@@ -91,19 +93,19 @@ public class ShowDataSource {
                     int sectors = substring.split("name").length - 1;
                     for (int j = 0; j < sectors; j++) {
                         int index = StreamIO.ordinalIndexOf(substring, "\"name\":\"", j + 1);
-                        String tempp = substring.substring(index);
-                        index = StreamIO.ordinalIndexOf(tempp, "\"", 13);
-                        String subsss = tempp.substring(0, index);
-                        if (subsss.contains("capacity")) {
-                            int areaidx = subsss.indexOf("\"name\":\"") + 8;
-                            int areaendidx = subsss.indexOf("\"", areaidx);
-                            String area = subsss.substring(areaidx, areaendidx);
-                            int capaidx = subsss.indexOf("\"capacity\":", areaendidx) + 11;
-                            int capaendidx = subsss.indexOf("\"", capaidx);
-                            String capacity = subsss.substring(capaidx, capaendidx - 2);
-                            int freeidx = subsss.indexOf("\"free\":", capaendidx) + 7;
-                            int freeendidx = subsss.indexOf(",", freeidx);
-                            String free = subsss.substring(freeidx, freeendidx);
+                        String temp = substring.substring(index);
+                        index = StreamIO.ordinalIndexOf(temp, "\"", 13);
+                        String zoneSubstring = temp.substring(0, index);
+                        if (zoneSubstring.contains("capacity")) {
+                            int areaidx = zoneSubstring.indexOf("\"name\":\"") + 8;
+                            int areaendidx = zoneSubstring.indexOf("\"", areaidx);
+                            String area = zoneSubstring.substring(areaidx, areaendidx);
+                            int capaidx = zoneSubstring.indexOf("\"capacity\":", areaendidx) + 11;
+                            int capaendidx = zoneSubstring.indexOf("\"", capaidx);
+                            String capacity = zoneSubstring.substring(capaidx, capaendidx - 2);
+                            int freeidx = zoneSubstring.indexOf("\"free\":", capaendidx) + 7;
+                            int freeendidx = zoneSubstring.indexOf(",", freeidx);
+                            String free = zoneSubstring.substring(freeidx, freeendidx);
                             Zone zone = new Zone(area, Integer.valueOf(capacity), Integer.valueOf(free));
                             zones.add(zone);
                         }
