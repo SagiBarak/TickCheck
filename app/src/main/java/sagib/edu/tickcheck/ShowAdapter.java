@@ -89,14 +89,15 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
                     final Show show = data.get(position);
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("איזורים ב" + show.getArena()).
-                            setMessage(" " + show.getZones().toString().replace("[", "").replace("]", "").replace(",", "")).
+                            setMessage(" " + show.getZones().
+                                    toString().replace("[", "").replace("]", "").replace(",", "")).
                             setCancelable(true).
                             setNegativeButton("חזרה", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).setPositiveButton("לרכישה", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).setPositiveButton("לרכישה", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(show.getLink()));
