@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -101,13 +100,16 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
-                            }).setPositiveButton("לרכישה", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            goToWebView(show.getLink());
-                        }
-                    }).show();
-
+                            });
+                    if (show.getFreeFromShow() > 0) {
+                        builder.setPositiveButton("לרכישה", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                goToWebView(show.getLink());
+                            }
+                        });
+                    }
+                    builder.show();
                 }
             });
         }

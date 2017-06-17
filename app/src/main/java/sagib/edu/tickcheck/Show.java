@@ -91,6 +91,15 @@ public class Show {
         return zones;
     }
 
+    public int getFreeFromShow() {
+        int total = 0;
+        ArrayList<Zone> zones = this.getZones();
+        for (Zone zone : zones) {
+            total += zone.getFree();
+        }
+        return total;
+    }
+
     public void setZones(ArrayList<Zone> zones) {
         this.zones = zones;
     }
