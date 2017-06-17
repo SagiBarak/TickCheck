@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements ShowDataSource.On
         ShowDataSource.getShows(this);
         recycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         dialog = new ProgressDialog(this);
-        dialog.setMessage("נא להמתין, מרענן רשימת הופעות...");
+        dialog.setMessage("נא להמתין, מרענן רשימת הופעות..." + "\n" + "על מנת לחסוך בשימוש חבילת נתונים," + "\n" + "מומלץ להתחבר לרשת אלחוטית.");
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();

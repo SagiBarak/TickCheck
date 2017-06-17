@@ -49,18 +49,17 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
         if (show.isTicketsAvailable()) {
             holder.tvTicketsAvailable.setText("כרטיסים:" + "\n" + "זמינים");
             holder.tvTicketsAvailable.setTextColor(Color.rgb(0, 190, 0));
-            holder.container.setBackgroundColor(Color.argb(35,0,190,0));
+            holder.container.setBackgroundColor(Color.argb(35, 0, 190, 0));
             holder.tvTicketsAvailable.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(show.getLink()));
-                    context.startActivity(intent);
+                    goToWebView(show.getLink());
                 }
             });
         } else {
             holder.tvTicketsAvailable.setText("כרטיסים:" + "\n" + "תפוסים");
             holder.tvTicketsAvailable.setTextColor(Color.RED);
-            holder.container.setBackgroundColor(Color.argb(35,255,0,0));
+            holder.container.setBackgroundColor(Color.argb(35, 255, 0, 0));
         }
         holder.tvDayDateTime.setText(show.getDayDateTime() + "\n");
     }
@@ -105,13 +104,18 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
                             }).setPositiveButton("לרכישה", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(show.getLink()));
-                            context.startActivity(intent);
+                            goToWebView(show.getLink());
                         }
                     }).show();
 
                 }
             });
         }
+    }
+
+    public void goToWebView(String link) {
+        Intent intent = new Intent(context, WebViewActivity.class);
+        intent.putExtra("link", link);
+        context.startActivity(intent);
     }
 }
