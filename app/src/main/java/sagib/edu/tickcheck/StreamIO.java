@@ -79,6 +79,25 @@ public class StreamIO {
         return read(in);
     }
 
+    public static String readWebSiteMobile(String address) throws IOException {
+        URL url = null;
+        try {
+            url = new URL(address);
+        } catch (MalformedURLException e) {
+            throw new IOException("Failed at parsing the url.", e);
+        }
+        URLConnection con = null;
+        try {
+            con = url.openConnection();
+            con.setRequestProperty("User-Agent","Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1");
+        } catch (IOException e) {
+            throw new IOException("Failed at opening the connection", e);
+        }
+        InputStream in = null;
+        in = con.getInputStream();
+        return read(in);
+    }
+
     public static String read(InputStream in) throws IOException {
         return read(in,"utf-8");
     }
@@ -152,7 +171,7 @@ public class StreamIO {
         String finalUrl = "";
         string += encode;
         try {
-            String site = StreamIO.readWebSite(string);
+            String site = StreamIO.readWebSiteMobile(string);
             int index = site.indexOf("event%3D") + 8;
             String id = site.substring(index, index + 5);
             finalUrl = "https://tickets.zappa-club.co.il/loader.aspx/?target=hall.aspx?event%3D" + id;

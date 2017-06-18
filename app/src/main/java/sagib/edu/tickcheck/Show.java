@@ -1,12 +1,15 @@
 package sagib.edu.tickcheck;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
  * Created by sagib on 14/06/2017.
  */
 
-public class Show {
+public class Show implements Parcelable {
     private String image;
     private String performer;
     private String arena;
@@ -108,4 +111,45 @@ public class Show {
     public String toString() {
         return getPerformer() + " " + getArena() + isTicketsAvailable();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.image);
+        dest.writeString(this.performer);
+        dest.writeString(this.arena);
+        dest.writeString(this.day);
+        dest.writeString(this.dateTime);
+        dest.writeString(this.link);
+        dest.writeByte(this.ticketsAvailable ? (byte) 1 : (byte) 0);
+        dest.writeList(this.zones);
+    }
+
+    protected Show(Parcel in) {
+        this.image = in.readString();
+        this.performer = in.readString();
+        this.arena = in.readString();
+        this.day = in.readString();
+        this.dateTime = in.readString();
+        this.link = in.readString();
+        this.ticketsAvailable = in.readByte() != 0;
+        this.zones = new ArrayList<Zone>();
+        in.readList(this.zones, Zone.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Show> CREATOR = new Parcelable.Creator<Show>() {
+        @Override
+        public Show createFromParcel(Parcel source) {
+            return new Show(source);
+        }
+
+        @Override
+        public Show[] newArray(int size) {
+            return new Show[size];
+        }
+    };
 }

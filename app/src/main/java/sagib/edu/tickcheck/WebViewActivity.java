@@ -12,11 +12,13 @@ import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 public class WebViewActivity extends AppCompatActivity {
 
     WebView webview;
-    String link;
+    Show show;
+    TextView tvPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +27,11 @@ public class WebViewActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         webview = (WebView) findViewById(R.id.webview);
+        tvPage = (TextView) findViewById(R.id.tvPage);
         Intent intent = getIntent();
-        String link = intent.getStringExtra("link");
+        show = intent.getParcelableExtra("show");
+        tvPage.setText(String.format("האם נרכשו כרטיסים למופע:\n%s ב%s\nב%s", show.getPerformer(),show.getArena(),show.getDayDateTime()));
         webview.getSettings().setJavaScriptEnabled(true);
-        // JS
-        // redirect...
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
@@ -55,15 +57,23 @@ public class WebViewActivity extends AppCompatActivity {
                 super.onPageStarted(view, url, favicon);
             }
         });
-        webview.loadUrl(link);
+        webview.loadUrl(show.getLink());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, String.format("נרכש כרטיס ל%s ב%s ב%s", show.getPerformer(),show.getArena(),show.getDayDateTime()), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
+    }
+    @Override
+    public void onBackPressed() {
+        if (webview.canGoBack()) {
+            webview.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }

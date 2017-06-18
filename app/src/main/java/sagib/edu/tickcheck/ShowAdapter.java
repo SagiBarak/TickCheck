@@ -52,7 +52,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
             holder.tvTicketsAvailable.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    goToWebView(show.getLink());
+                    goToWebView(show);
                 }
             });
         } else {
@@ -105,7 +105,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
                         builder.setPositiveButton("לרכישה", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                goToWebView(show.getLink());
+                                goToWebView(show);
                             }
                         });
                     }
@@ -115,9 +115,9 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
         }
     }
 
-    public void goToWebView(String link) {
+    public void goToWebView(Show show) {
         Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra("link", link);
+        intent.putExtra("show", show);
         context.startActivity(intent);
     }
 }
