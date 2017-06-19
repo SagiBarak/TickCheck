@@ -12,12 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -114,21 +117,24 @@ public class LoginActivity extends AppCompatActivity {
         firstName = etFirstName.getText().toString();
         lastName = etLastName.getText().toString();
         if (!email.isEmpty() && !password.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty()) {
-            final UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                    .setDisplayName(firstName + " " + lastName).build();
-            mAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
-                public void onSuccess(AuthResult authResult) {
-                    FirebaseUser user = authResult.getUser();
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    final FirebaseUser user = mAuth.getCurrentUser();
                     UserProfileChangeRequest change = new UserProfileChangeRequest.Builder().setDisplayName(firstName + " " + lastName).build();
-                    user.updateProfile(change);
-                    user.reload();
-                    goToMain();
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    if (user != null) {
+                        user.updateProfile(change).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                user.reload().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        goToMain();
+                                    }
+                                });
+                            }
+                        });
+                    }
                 }
             });
         }

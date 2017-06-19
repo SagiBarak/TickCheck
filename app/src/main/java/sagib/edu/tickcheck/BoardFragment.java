@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
@@ -34,7 +35,7 @@ public class BoardFragment extends Fragment {
     FirebaseUser user;
     FirebaseDatabase database;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
+    BoardAdapter adapter;
     @BindView(R.id.etMessage)
     EditText etMessage;
     @BindView(R.id.tilMessage)
@@ -58,7 +59,7 @@ public class BoardFragment extends Fragment {
     }
 
     private void setupRecycler() {
-        BoardAdapter adapter = new BoardAdapter(database.getReference("Board"));
+        adapter = new BoardAdapter(database.getReference("Board"));
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -74,19 +75,20 @@ public class BoardFragment extends Fragment {
         String content = etMessage.getText().toString() + "\n";
         if (TextUtils.isEmpty(content)) return;
         String title = user.getDisplayName();
-        BoardPost post = new BoardPost(title, content);
+        String email = user.getEmail();
+        BoardPost post = new BoardPost(title, content, email);
         database.getReference("Board").push().setValue(post);
         etMessage.setText(null);
 
     }
 
-    static class BoardAdapter extends FirebaseRecyclerAdapter<BoardPost, BoardAdapter.BoardViewHolder> {
+    public static class BoardAdapter extends FirebaseRecyclerAdapter<BoardPost, BoardAdapter.BoardViewHolder> {
         public BoardAdapter(Query ref) {
             super(BoardPost.class, R.layout.board_item, BoardViewHolder.class, ref);
         }
 
         @Override
-        protected void populateViewHolder(BoardViewHolder viewHolder, BoardPost post, int position) {
+        protected void populateViewHolder(final BoardViewHolder viewHolder, BoardPost post, final int position) {
             viewHolder.tvPostContent.setText(post.getContents());
             viewHolder.tvDisplayName.setText(post.getTitle());
         }
@@ -95,11 +97,13 @@ public class BoardFragment extends Fragment {
 
             TextView tvDisplayName;
             TextView tvPostContent;
+            ImageView ivDelete;
 
             public BoardViewHolder(View itemView) {
                 super(itemView);
                 tvDisplayName = (TextView) itemView.findViewById(R.id.tvDisplayName);
                 tvPostContent = (TextView) itemView.findViewById(R.id.tvPostContent);
+                ivDelete = (ImageView) itemView.findViewById(R.id.ivDelete);
             }
         }
     }

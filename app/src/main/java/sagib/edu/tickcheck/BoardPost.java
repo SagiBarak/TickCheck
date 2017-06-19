@@ -7,13 +7,15 @@ package sagib.edu.tickcheck;
 public class BoardPost {
     private String title;
     private String contents;
+    private String email;
 
     public BoardPost() {
     }
 
-    public BoardPost(String title, String contents) {
+    public BoardPost(String title, String contents, String email) {
         this.title = title;
         this.contents = contents;
+        this.email = email;
     }
 
     public String getTitle() {
@@ -30,5 +32,13 @@ public class BoardPost {
 
     public void setContents(String contents) {
         this.contents = contents;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
