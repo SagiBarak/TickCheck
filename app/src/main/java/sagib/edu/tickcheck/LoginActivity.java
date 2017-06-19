@@ -16,6 +16,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -112,9 +114,15 @@ public class LoginActivity extends AppCompatActivity {
         firstName = etFirstName.getText().toString();
         lastName = etLastName.getText().toString();
         if (!email.isEmpty() && !password.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty()) {
+            final UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(firstName + " " + lastName).build();
             mAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
+                    FirebaseUser user = authResult.getUser();
+                    UserProfileChangeRequest change = new UserProfileChangeRequest.Builder().setDisplayName(firstName + " " + lastName).build();
+                    user.updateProfile(change);
+                    user.reload();
                     goToMain();
                 }
             }).addOnFailureListener(new OnFailureListener() {

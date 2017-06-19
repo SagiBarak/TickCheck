@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1061973716226",
+    "firebase_url": "https://tickcheck-2bdf2.firebaseio.com",
+    "project_id": "tickcheck-2bdf2",
+    "storage_bucket": "tickcheck-2bdf2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1061973716226:android:90ce1a9f12825b03",
+        "android_client_info": {
+          "package_name": "sagib.edu.tickcheck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1061973716226-u909mquu0sl17hsqocq559igeudiaurm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sagib.edu.tickcheck",
+            "certificate_hash": "ddd75a478065f2b0d11e66e24992a6c5fe77f5d5"
+          }
+        },
+        {
+          "client_id": "1061973716226-g60kd3k1mfj6r61hi2dauot9mm7q1aur.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFvPkR9dNzdLfOiRlVjj19FVyF-RzloQs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1061973716226-g60kd3k1mfj6r61hi2dauot9mm7q1aur.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

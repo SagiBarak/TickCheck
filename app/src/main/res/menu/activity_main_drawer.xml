@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_shows"
+            android:icon="@drawable/ic_playlist"
+            android:title="רשימת הופעות" />
+        <item
+            android:id="@+id/nav_board"
+            android:icon="@drawable/ic_board"
+            android:title="לוח מכירת כרטיסים" />
+    </group>
+
+    <item android:title="ניהול משתמש">
+        <menu>
+            <item
+                android:id="@+id/nav_signout"
+                android:icon="@drawable/ic_cancel"
+                android:title="התנתקות" />
+        </menu>
+    </item>
+
+</menu>

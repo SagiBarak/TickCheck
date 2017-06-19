@@ -5,30 +5,32 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
-import java.util.ArrayList;
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
-import static android.view.View.GONE;
-
-public class MainActivity extends AppCompatActivity implements ShowDataSource.OnShowArrivedListener {
-    RecyclerView recycler;
-    private ProgressDialog dialog;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean userConnected;
+    FirebaseUser user;
+    TextView tvHeaderContentBar;
+    TextView tvHeaderTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements ShowDataSource.On
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                user = firebaseAuth.getCurrentUser();
                 if (user == null) {
                     userConnected = false;
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -46,27 +48,53 @@ public class MainActivity extends AppCompatActivity implements ShowDataSource.On
                     startActivity(intent);
                 } else {
                     userConnected = true;
-                    dialog = new ProgressDialog(MainActivity.this);
-                    dialog.setMessage("נא להמתין, מרענן רשימת הופעות..." + "\n" + "על מנת לחסוך בשימוש חבילת נתונים," + "\n" + "מומלץ להתחבר לרשת אלחוטית.");
-                    dialog.setCancelable(false);
-                    dialog.setCanceledOnTouchOutside(false);
-                    dialog.show();
                 }
             }
         };
+        user = mAuth.getCurrentUser();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
         fab.setVisibility(View.GONE);
-        recycler = (RecyclerView) findViewById(R.id.recycler);
-        ShowDataSource.getShows(this);
-        recycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        tvHeaderContentBar = (TextView) header.findViewById(R.id.tvHeaderContentBar);
+        tvHeaderTitleBar = (TextView) header.findViewById(R.id.tvHeaderTitleBar);
+        if (user != null) {
+            tvHeaderContentBar.setText(user.getEmail());
+            tvHeaderTitleBar.setText(user.getDisplayName());
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -78,33 +106,31 @@ public class MainActivity extends AppCompatActivity implements ShowDataSource.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_refresh) {
-            dialog.show();
-            ShowDataSource.getShows(this);
-        }
-        if (id == R.id.action_signout){
+        if (id == R.id.action_signout) {
             mAuth.signOut();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public void onShowArrived(final ArrayList<Show> data, final Exception e) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (e == null) {
-                    ShowAdapter adapter = new ShowAdapter(data, MainActivity.this);
-                    recycler.setAdapter(adapter);
-                    if (userConnected)
-                        dialog.dismiss();
-                } else {
-                    Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                    Log.d("Sagi", e.toString());
-                }
-            }
-        });
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_shows) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment()).commit();
+        }else if (id == R.id.nav_board){
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();
+        } else if (id == R.id.nav_signout) {
+            mAuth.signOut();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     @Override
