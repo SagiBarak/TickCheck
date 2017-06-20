@@ -87,6 +87,7 @@ public class BoardFragment extends Fragment {
             super(BoardPost.class, R.layout.board_item, BoardViewHolder.class, ref);
         }
 
+
         @Override
         protected void populateViewHolder(final BoardViewHolder viewHolder, BoardPost post, final int position) {
             viewHolder.tvPostContent.setText(post.getContents());

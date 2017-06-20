@@ -23,8 +23,8 @@
         android:id="@+id/tvHeaderTitleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="start"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:textDirection="locale"
         android:text="Android Studio"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -32,7 +32,7 @@
         android:id="@+id/tvHeaderContentBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textDirection="locale"
-        android:text="android.studio@android.com" />
+        android:text="android.studio@android.com"
+        android:gravity="start"/>
 
 </LinearLayout>
