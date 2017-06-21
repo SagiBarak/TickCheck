@@ -1,11 +1,15 @@
 package sagib.edu.tickcheck;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     FirebaseUser user;
     TextView tvHeaderContentBar;
     TextView tvHeaderTitleBar;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +57,7 @@ public class MainActivity extends AppCompatActivity
             }
         };
         user = mAuth.getCurrentUser();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +99,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        menu.findItem(R.id.action_refresh).setVisible(false);
+        String tag = getSupportFragmentManager().findFragmentById(R.id.frame).getTag();
+        if (tag != null) {
+            menu.findItem(R.id.action_refresh).setVisible(true);
+        }
         return true;
     }
 
@@ -110,6 +120,24 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
+        if (id == R.id.action_refresh) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment()).commit();
+        }
+
+        if (id == R.id.action_about) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("אודות");
+            dialog.setMessage("אפליקציה זו נוצרה ע״י שגיא ברק, עבור הקהל הרחב של שלמה ארצי.\nמכיוון שכרטיס להופעה הפך להיות נדיר (עקב הביקוש הרב), החלטתי להקל על תהליך הבדיקה של זמינות הכרטיסים ולאחד את הפעולה הזו ביחד עם לוח מכירת כרטיסים.\n שימו לב!\nמומלץ להשתמש באפליקציה באמצעות חיבור WiFi על מנת לחסוך בחבילת הגלישה.\n תהנו!");
+            dialog.setCancelable(false);
+            dialog.setNeutralButton("חזרה", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -120,10 +148,15 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_shows) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment()).commit();
-        }else if (id == R.id.nav_board){
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment(), "Shows").commit();
+            this.invalidateOptionsMenu();
+
+        } else if (id == R.id.nav_board) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();
+            this.invalidateOptionsMenu();
+
         } else if (id == R.id.nav_signout) {
+            this.invalidateOptionsMenu();
             mAuth.signOut();
         }
 

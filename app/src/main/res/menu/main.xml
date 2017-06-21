@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="100"
+        android:title="רענן רשימה"
+        android:icon="@drawable/ic_refresh"
+        app:showAsAction="withText" />
+    <item
+        android:id="@+id/action_about"
+        android:orderInCategory="101"
+        android:title="אודות"
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_signout"
-        android:orderInCategory="100"
+        android:orderInCategory="102"
         android:title="התנתקות"
         app:showAsAction="never" />
 </menu>

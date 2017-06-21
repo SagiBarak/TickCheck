@@ -26,6 +26,7 @@ import com.google.firebase.database.Query;
 
 import org.joda.time.LocalDateTime;
 
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -115,6 +116,7 @@ public class BoardFragment extends Fragment {
         protected void populateViewHolder(final BoardViewHolder viewHolder, BoardPost post, final int position) {
             dialog.dismiss();
             viewHolder.ivDelete.setVisibility(View.GONE);
+            viewHolder.ivEdit.setVisibility(View.GONE);
             viewHolder.tvPostContent.setText(post.getContents());
             viewHolder.tvDisplayName.setText(post.getTitle());
             if (user.getDisplayName().equals(post.getTitle()))
@@ -124,9 +126,9 @@ public class BoardFragment extends Fragment {
             String email = post.getEmail();
             if (user.getEmail().equals(email)) {
                 viewHolder.ivDelete.setVisibility(View.VISIBLE);
+                viewHolder.ivEdit.setVisibility(View.VISIBLE);
             }
         }
-
 
         public static class BoardViewHolder extends RecyclerView.ViewHolder {
 
@@ -135,6 +137,7 @@ public class BoardFragment extends Fragment {
             ImageView ivDelete;
             TextView tvDate;
             TextView tvHour;
+            ImageView ivEdit;
 
             public BoardViewHolder(View itemView) {
                 super(itemView);
@@ -143,6 +146,7 @@ public class BoardFragment extends Fragment {
                 tvDate = (TextView) itemView.findViewById(R.id.tvDate);
                 tvHour = (TextView) itemView.findViewById(R.id.tvHour);
                 ivDelete = (ImageView) itemView.findViewById(R.id.ivDelete);
+                ivEdit = (ImageView) itemView.findViewById(R.id.ivEdit);
             }
         }
     }
