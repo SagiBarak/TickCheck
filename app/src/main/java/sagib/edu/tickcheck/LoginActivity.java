@@ -79,12 +79,16 @@ public class LoginActivity extends AppCompatActivity {
     public void onBtnSignInClicked() {
         email = etUserName.getText().toString();
         password = etPassword.getText().toString();
-        dialog = new ProgressDialog(this);
-        dialog.setMessage("מתחבר...");
-        dialog.setCancelable(false);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-        if (!email.isEmpty() && !password.isEmpty()) {
+        if (etUserName.getText().toString().isEmpty() || !etUserName.getText().toString().contains("@"))
+            etUserName.setError("כתובת דואר אלקטרוני לא תקינה.");
+        if (etPassword.getText().toString().isEmpty())
+            etPassword.setError("סיסמא לא תקינה.");
+        if (!email.isEmpty() && !password.isEmpty() && etUserName.getText().toString().contains("@")) {
+            dialog = new ProgressDialog(this);
+            dialog.setMessage("מתחבר...");
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
@@ -125,7 +129,15 @@ public class LoginActivity extends AppCompatActivity {
         password = etPassword.getText().toString();
         firstName = etFirstName.getText().toString();
         lastName = etLastName.getText().toString();
-        if (!email.isEmpty() && !password.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty()) {
+        if (etUserName.getText().toString().isEmpty() || !etUserName.getText().toString().contains("@"))
+            etUserName.setError("כתובת דואר אלקטרוני לא תקינה.");
+        if (etPassword.getText().toString().isEmpty())
+            etPassword.setError("סיסמא לא תקינה.");
+        if (etFirstName.getText().toString().isEmpty())
+            etFirstName.setError("נא לרשום שם פרטי.");
+        if (etLastName.getText().toString().isEmpty())
+            etLastName.setError("נא לרשום שם משפחה.");
+        if (!email.isEmpty() && !password.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty() && etUserName.getText().toString().contains("@")) {
             dialog = new ProgressDialog(this);
             dialog.setMessage("מבצע רישום...");
             dialog.setCancelable(false);

@@ -89,7 +89,7 @@ public class StreamIO {
         URLConnection con = null;
         try {
             con = url.openConnection();
-            con.setRequestProperty("User-Agent","Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1");
+            con.setRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1");
         } catch (IOException e) {
             throw new IOException("Failed at opening the connection", e);
         }
@@ -99,14 +99,14 @@ public class StreamIO {
     }
 
     public static String read(InputStream in) throws IOException {
-        return read(in,"utf-8");
+        return read(in, "utf-8");
     }
 
     public static String read(InputStream in, String charset) throws IOException {
         StringBuilder data = new StringBuilder();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(in,charset));
+            reader = new BufferedReader(new InputStreamReader(in, charset));
             String line;
             while ((line = reader.readLine()) != null) {
                 data.append(line).append(lineSeperator);

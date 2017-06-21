@@ -1,6 +1,8 @@
 package sagib.edu.tickcheck;
 
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -19,12 +21,8 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import org.joda.time.LocalDateTime;
 
@@ -52,6 +50,8 @@ public class BoardFragment extends Fragment {
     @BindView(R.id.recycler)
     RecyclerView recycler;
     Unbinder unbinder;
+    private ProgressDialog dialog;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +59,11 @@ public class BoardFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_board, container, false);
         unbinder = ButterKnife.bind(this, v);
+        dialog = new ProgressDialog(getContext());
+        dialog.setMessage("טוען רשימת הודעות...");
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
         database = FirebaseDatabase.getInstance();
         user = mAuth.getCurrentUser();
         setupRecycler();
@@ -66,7 +71,7 @@ public class BoardFragment extends Fragment {
     }
 
     private void setupRecycler() {
-        adapter = new BoardAdapter(database.getReference("Board"));
+        adapter = new BoardAdapter(database.getReference("Board"), dialog, getContext());
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -95,14 +100,20 @@ public class BoardFragment extends Fragment {
     public static class BoardAdapter extends FirebaseRecyclerAdapter<BoardPost, BoardAdapter.BoardViewHolder> {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Context context;
+        ProgressDialog dialog;
 
-        public BoardAdapter(Query ref) {
+        public BoardAdapter(Query ref, ProgressDialog dialog, Context context) {
             super(BoardPost.class, R.layout.board_item, BoardViewHolder.class, ref);
+            this.context = context;
+            this.dialog = dialog;
+            dialog = new ProgressDialog(context);
         }
 
 
         @Override
         protected void populateViewHolder(final BoardViewHolder viewHolder, BoardPost post, final int position) {
+            dialog.dismiss();
             viewHolder.ivDelete.setVisibility(View.GONE);
             viewHolder.tvPostContent.setText(post.getContents());
             viewHolder.tvDisplayName.setText(post.getTitle());
