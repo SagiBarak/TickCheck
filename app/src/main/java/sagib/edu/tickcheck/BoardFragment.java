@@ -90,9 +90,21 @@ public class BoardFragment extends Fragment {
 
         @Override
         protected void populateViewHolder(final BoardViewHolder viewHolder, BoardPost post, final int position) {
+            viewHolder.ivDelete.setVisibility(View.GONE);
             viewHolder.tvPostContent.setText(post.getContents());
             viewHolder.tvDisplayName.setText(post.getTitle());
+            String email = post.getEmail();
+            if (FirebaseAuth.getInstance().getCurrentUser().getEmail().equals(email)){
+                viewHolder.ivDelete.setVisibility(View.VISIBLE);
+                viewHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+            }
         }
+
 
         public static class BoardViewHolder extends RecyclerView.ViewHolder {
 
