@@ -1,5 +1,6 @@
 package sagib.edu.tickcheck;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,21 +22,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity {
 
+    @BindView(R.id.btnSignInIf)
+    BootstrapButton btnSignInIf;
+    @BindView(R.id.tvIfRegistered)
+    TextView tvIfRegistered;
     private FirebaseAuth mAuth;
     String email;
     String password;
     String firstName;
     String lastName;
 
-    @BindView(R.id.ivLoginLogo)
-    ImageView ivLoginLogo;
+    @BindView(R.id.ivLogo)
+    ImageView ivLogo;
     @BindView(R.id.etUserName)
     EditText etUserName;
     @BindView(R.id.tilUserName)
@@ -60,18 +64,14 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout tilLastName;
     @BindView(R.id.btnFinalRegister)
     BootstrapButton btnFinalRegister;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        tvRegDetailsTitle.setVisibility(View.GONE);
-        etFirstName.setVisibility(View.GONE);
-        tilFirstName.setVisibility(View.GONE);
-        etLastName.setVisibility(View.GONE);
-        tilLastName.setVisibility(View.GONE);
-        btnFinalRegister.setVisibility(View.GONE);
+        hideRegisterItems();
         mAuth = FirebaseAuth.getInstance();
     }
 
@@ -79,17 +79,24 @@ public class LoginActivity extends AppCompatActivity {
     public void onBtnSignInClicked() {
         email = etUserName.getText().toString();
         password = etPassword.getText().toString();
+        dialog = new ProgressDialog(this);
+        dialog.setMessage("מתחבר...");
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
         if (!email.isEmpty() && !password.isEmpty()) {
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
+                            dialog.dismiss();
                             goToMain();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -107,6 +114,8 @@ public class LoginActivity extends AppCompatActivity {
         etLastName.setVisibility(View.VISIBLE);
         tilLastName.setVisibility(View.VISIBLE);
         btnFinalRegister.setVisibility(View.VISIBLE);
+        tvIfRegistered.setVisibility(View.VISIBLE);
+        btnSignInIf.setVisibility(View.VISIBLE);
 
     }
 
@@ -117,6 +126,11 @@ public class LoginActivity extends AppCompatActivity {
         firstName = etFirstName.getText().toString();
         lastName = etLastName.getText().toString();
         if (!email.isEmpty() && !password.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty()) {
+            dialog = new ProgressDialog(this);
+            dialog.setMessage("מבצע רישום...");
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -129,7 +143,14 @@ public class LoginActivity extends AppCompatActivity {
                                 user.reload().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
+                                        dialog.dismiss();
                                         goToMain();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        dialog.dismiss();
+                                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }
@@ -144,5 +165,25 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+    }
+
+    @OnClick(R.id.btnSignInIf)
+    public void onBtnSignInIfClicked() {
+        btnSignIn.animate().alpha(100).rotation(360);
+        btnRegister.setVisibility(View.VISIBLE);
+        btnRegister.animate().alpha(100).rotation(360);
+        btnSignIn.setVisibility(View.VISIBLE);
+        hideRegisterItems();
+    }
+
+    void hideRegisterItems() {
+        tvRegDetailsTitle.setVisibility(View.GONE);
+        etFirstName.setVisibility(View.GONE);
+        tilFirstName.setVisibility(View.GONE);
+        etLastName.setVisibility(View.GONE);
+        tilLastName.setVisibility(View.GONE);
+        btnFinalRegister.setVisibility(View.GONE);
+        tvIfRegistered.setVisibility(View.GONE);
+        btnSignInIf.setVisibility(View.GONE);
     }
 }

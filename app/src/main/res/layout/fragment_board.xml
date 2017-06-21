@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient"
     tools:context="sagib.edu.tickcheck.BoardFragment">
 
 
@@ -23,8 +24,8 @@
             android:id="@+id/etMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="כתוב הודעה..."
-            android:layout_gravity="right" />
+            android:layout_gravity="right"
+            android:hint="כתוב הודעה..." />
     </android.support.design.widget.TextInputLayout>
 
     <com.beardedhen.androidbootstrap.BootstrapButton
@@ -50,6 +51,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/gradient"
         app:layout_constraintBottom_toTopOf="@+id/tilMessage"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

@@ -1,6 +1,7 @@
 package sagib.edu.tickcheck;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -18,8 +19,14 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import org.joda.time.LocalDateTime;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,19 +77,25 @@ public class BoardFragment extends Fragment {
         unbinder.unbind();
     }
 
+
     @OnClick(R.id.btnSend)
     public void onBtnSendClicked() {
         String content = etMessage.getText().toString() + "\n";
         if (TextUtils.isEmpty(content)) return;
         String title = user.getDisplayName();
         String email = user.getEmail();
-        BoardPost post = new BoardPost(title, content, email);
+        String hour = LocalDateTime.now().toString("HH:mm");
+        String date = LocalDateTime.now().toString("dd/MM/yy");
+        BoardPost post = new BoardPost(title, content, email, hour, date);
         database.getReference("Board").push().setValue(post);
         etMessage.setText(null);
 
     }
 
     public static class BoardAdapter extends FirebaseRecyclerAdapter<BoardPost, BoardAdapter.BoardViewHolder> {
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         public BoardAdapter(Query ref) {
             super(BoardPost.class, R.layout.board_item, BoardViewHolder.class, ref);
         }
@@ -93,15 +106,13 @@ public class BoardFragment extends Fragment {
             viewHolder.ivDelete.setVisibility(View.GONE);
             viewHolder.tvPostContent.setText(post.getContents());
             viewHolder.tvDisplayName.setText(post.getTitle());
+            if (user.getDisplayName().equals(post.getTitle()))
+                viewHolder.tvDisplayName.setTextColor(Color.RED);
+            viewHolder.tvHour.setText(post.getHour());
+            viewHolder.tvDate.setText(post.getDate());
             String email = post.getEmail();
-            if (FirebaseAuth.getInstance().getCurrentUser().getEmail().equals(email)){
+            if (user.getEmail().equals(email)) {
                 viewHolder.ivDelete.setVisibility(View.VISIBLE);
-                viewHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
             }
         }
 
@@ -111,11 +122,15 @@ public class BoardFragment extends Fragment {
             TextView tvDisplayName;
             TextView tvPostContent;
             ImageView ivDelete;
+            TextView tvDate;
+            TextView tvHour;
 
             public BoardViewHolder(View itemView) {
                 super(itemView);
                 tvDisplayName = (TextView) itemView.findViewById(R.id.tvDisplayName);
                 tvPostContent = (TextView) itemView.findViewById(R.id.tvPostContent);
+                tvDate = (TextView) itemView.findViewById(R.id.tvDate);
+                tvHour = (TextView) itemView.findViewById(R.id.tvHour);
                 ivDelete = (ImageView) itemView.findViewById(R.id.ivDelete);
             }
         }
