@@ -6,7 +6,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="facebook_application_id" translatable="false">143930629509918</string>
+    <!-- Facebook Application ID, prefixed by 'fb'.  Enables Chrome Custom tabs. -->
+    <string name="facebook_login_protocol_scheme" translatable="false">fb143930629509918</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

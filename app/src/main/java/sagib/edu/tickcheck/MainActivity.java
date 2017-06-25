@@ -22,41 +22,93 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.common.Scopes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private boolean userConnected;
-    FirebaseUser user;
+    private FirebaseDatabase mDatabase;
+    private FirebaseUser user;
+
+    private static final int RC_SIGN_IN = 1;
+
+    FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            user = firebaseAuth.getCurrentUser();
+            if (user == null) {
+                List<AuthUI.IdpConfig> providers = Arrays.asList(
+                        new AuthUI.IdpConfig.
+                                Builder(AuthUI.GOOGLE_PROVIDER).
+                                setPermissions(
+                                        Arrays.asList(Scopes.PROFILE, Scopes.EMAIL)).
+                                build(),
+                        new AuthUI.IdpConfig.
+                                Builder(AuthUI.EMAIL_PROVIDER).
+                                build(),
+                        new AuthUI.IdpConfig.
+                                Builder(AuthUI.FACEBOOK_PROVIDER).
+                                build()
+                );
+                Intent intent = AuthUI.getInstance().
+                        createSignInIntentBuilder().
+                        setLogo(R.drawable.logo_large).
+                        setAvailableProviders(providers).build();
+                startActivityForResult(intent, RC_SIGN_IN);
+            } else {
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                View header = navigationView.getHeaderView(0);
+                user = mAuth.getCurrentUser();
+                tvHeaderContentBar = (TextView) header.findViewById(R.id.tvHeaderContentBar);
+                tvHeaderTitleBar = (TextView) header.findViewById(R.id.tvHeaderTitleBar);
+                if (user != null) {
+                    tvHeaderContentBar.setText(user.getEmail());
+                    tvHeaderTitleBar.setText(user.getDisplayName());
+                }
+            }
+        }
+    };
     TextView tvHeaderContentBar;
     TextView tvHeaderTitleBar;
     Toolbar toolbar;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse idpResponse = IdpResponse.fromResultIntent(data);
+            if (resultCode == RESULT_OK) {
+                //0. create the user
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                //save the user.
+                User user = new User(currentUser);
+                // 1. ref the table.
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+                // 2. push()... setValue.
+                ref.setValue(user);
+
+            }
+            //TODO: else if (idpResponse != null && idpResponse.getError)
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                user = firebaseAuth.getCurrentUser();
-                if (user == null) {
-                    userConnected = false;
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                } else {
-                    userConnected = true;
-                }
-            }
-        };
-        user = mAuth.getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -73,10 +125,11 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MainFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
+        user = mAuth.getCurrentUser();
         tvHeaderContentBar = (TextView) header.findViewById(R.id.tvHeaderContentBar);
         tvHeaderTitleBar = (TextView) header.findViewById(R.id.tvHeaderTitleBar);
         if (user != null) {
@@ -153,6 +206,10 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_board) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();
+            this.invalidateOptionsMenu();
+
+        }else if (id == R.id.nav_myshows) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
             this.invalidateOptionsMenu();
 
         } else if (id == R.id.nav_signout) {

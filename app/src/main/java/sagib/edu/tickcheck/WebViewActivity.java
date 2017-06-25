@@ -2,23 +2,38 @@ package sagib.edu.tickcheck;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class WebViewActivity extends AppCompatActivity {
 
     WebView webview;
     Show show;
-    TextView tvPage;
+    BootstrapButton btnAddToMyShows;
+    TextView tvShowTitle;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +42,10 @@ public class WebViewActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         webview = (WebView) findViewById(R.id.webview);
-        tvPage = (TextView) findViewById(R.id.tvPage);
+        btnAddToMyShows = (BootstrapButton) findViewById(R.id.btnAddToMyShows);
+        tvShowTitle = (TextView) findViewById(R.id.tvShowTitle);
         Intent intent = getIntent();
         show = intent.getParcelableExtra("show");
-        tvPage.setText(String.format("האם נרכשו כרטיסים למופע:\n%s ב%s\nב%s", show.getPerformer(),show.getArena(),show.getDayDateTime()));
         webview.getSettings().setJavaScriptEnabled(true);
         webview.setWebViewClient(new WebViewClient() {
             @Override
@@ -58,22 +73,40 @@ public class WebViewActivity extends AppCompatActivity {
             }
         });
         webview.loadUrl(show.getLink());
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        tvShowTitle.setText(show.getPerformer() + " ב" + show.getArena() + "\nב" + show.getDayDateTime());
+        View.OnClickListener listener = new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, String.format("נרכש כרטיס ל%s ב%s ב%s", show.getPerformer(),show.getArena(),show.getDayDateTime()), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                btnAddToMyShows.setOnClickListener(null);
+                btnAddToMyShows.setBackgroundColor(Color.GRAY);
+                btnAddToMyShows.setText("מעדכן...");
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid());
+                ref.push().setValue(show).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        btnAddToMyShows.setOnClickListener(null);
+                        btnAddToMyShows.setBackgroundColor(Color.GRAY);
+                        btnAddToMyShows.setText("ההופעה נוספה ל״רשימת ההופעות שלי״!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        btnAddToMyShows.setOnClickListener(null);
+                        btnAddToMyShows.setBackgroundColor(Color.RED);
+                        btnAddToMyShows.setText("הפעולה נכשלה, נסה שנית");
+                    }
+                });
             }
-        });
+        };
+        btnAddToMyShows.setOnClickListener(listener);
     }
-    @Override
-    public void onBackPressed() {
-        if (webview.canGoBack()) {
-            webview.goBack();
-        } else {
-            super.onBackPressed();
+        @Override
+        public void onBackPressed () {
+            if (webview.canGoBack()) {
+                webview.goBack();
+            } else {
+                super.onBackPressed();
+            }
         }
-    }
 
-}
+    }

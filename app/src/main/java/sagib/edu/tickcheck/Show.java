@@ -19,6 +19,9 @@ public class Show implements Parcelable {
     private boolean ticketsAvailable;
     private ArrayList<Zone> zones;
 
+    public Show() {
+    }
+
     public Show(String image, String performer, String arena, String day, String dateTime, String link, boolean ticketsAvailable, ArrayList<Zone> zones) {
         this.image = image;
         this.performer = performer;

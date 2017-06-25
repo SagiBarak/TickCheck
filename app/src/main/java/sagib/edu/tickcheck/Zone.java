@@ -18,6 +18,9 @@ public class Zone implements Parcelable {
         this.free = free;
     }
 
+    public Zone() {
+    }
+
     public String getName() {
         return name;
     }

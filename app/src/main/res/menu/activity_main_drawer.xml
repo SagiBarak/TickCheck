@@ -3,6 +3,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_myshows"
+            android:icon="@drawable/ic_myshows"
+            android:title="ההופעות שלי" />
+        <item
             android:id="@+id/nav_shows"
             android:icon="@drawable/ic_playlist"
             android:title="רשימת הופעות" />

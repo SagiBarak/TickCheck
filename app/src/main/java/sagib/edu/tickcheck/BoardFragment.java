@@ -1,5 +1,7 @@
 package sagib.edu.tickcheck;
 
+// TODO: check facebook
+// TODO: refresh isn't showing up in the menu.
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -21,8 +23,11 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.joda.time.LocalDateTime;
 
@@ -67,6 +72,18 @@ public class BoardFragment extends Fragment {
         dialog.show();
         database = FirebaseDatabase.getInstance();
         user = mAuth.getCurrentUser();
+        database.getReference("Board").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists())
+                    dialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         setupRecycler();
         return v;
     }
@@ -76,6 +93,7 @@ public class BoardFragment extends Fragment {
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
+
 
     @Override
     public void onDestroyView() {
@@ -110,7 +128,6 @@ public class BoardFragment extends Fragment {
             this.dialog = dialog;
             dialog = new ProgressDialog(context);
         }
-
 
         @Override
         protected void populateViewHolder(final BoardViewHolder viewHolder, BoardPost post, final int position) {
