@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
                 );
                 Intent intent = AuthUI.getInstance().
                         createSignInIntentBuilder().
-                        setLogo(R.drawable.logo_large).
+                        setLogo(R.drawable.biglogo).
                         setAvailableProviders(providers).build();
                 startActivityForResult(intent, RC_SIGN_IN);
             } else {
@@ -75,6 +75,8 @@ public class MainActivity extends AppCompatActivity
                 if (user != null) {
                     tvHeaderContentBar.setText(user.getEmail());
                     tvHeaderTitleBar.setText(user.getDisplayName());
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
+
                 }
             }
         }
@@ -125,7 +127,7 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MainFragment()).commit();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
@@ -208,7 +210,7 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();
             this.invalidateOptionsMenu();
 
-        }else if (id == R.id.nav_myshows) {
+        } else if (id == R.id.nav_myshows) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
             this.invalidateOptionsMenu();
 

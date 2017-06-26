@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -31,6 +32,7 @@ public class MyShowsListFragment extends Fragment {
     RecyclerView rvMyShows;
     FirebaseUser user;
     TextView tvTitleMyShows;
+    ProgressBar pbLoadingList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +42,7 @@ public class MyShowsListFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         rvMyShows = (RecyclerView) v.findViewById(R.id.rvMyShows);
         tvTitleMyShows = (TextView) v.findViewById(R.id.tvTitleMyShows);
+        pbLoadingList = (ProgressBar) v.findViewById(R.id.pbLoadingList);
         tvTitleMyShows.setText("טוען את ההופעות שלי...");
         MyShowsListAdapter adapter = new MyShowsListAdapter(FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid()), getContext());
         rvMyShows.setAdapter(adapter);
@@ -47,10 +50,13 @@ public class MyShowsListFragment extends Fragment {
         FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.exists())
+                if (!dataSnapshot.exists()) {
                     tvTitleMyShows.setText("אין הופעות ברשימה...");
-                else
+                    pbLoadingList.setVisibility(View.GONE);
+                } else {
                     tvTitleMyShows.setText("ההופעות שלי:");
+                    pbLoadingList.setVisibility(View.GONE);
+                }
             }
 
             @Override

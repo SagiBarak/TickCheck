@@ -1,13 +1,43 @@
-<resources>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">TickCheck</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_web_view">WebViewActivity</string>
     <string name="title_activity_main">MainActivity</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="facebook_application_id" translatable="false">143930629509918</string>
     <!-- Facebook Application ID, prefixed by 'fb'.  Enables Chrome Custom tabs. -->
     <string name="facebook_login_protocol_scheme" translatable="false">fb143930629509918</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_in_with_facebook" translation_description="Sign in button text">התחברות עם Facebook</string>
+    <string name="sign_in_with_google" translation_description="Sign in button text">התחברות עם Google</string>
+    <string name="sign_in_with_email" translation_description="Sign in button text">התחברות עם דוא״ל</string>
+    <string name="progress_dialog_loading" translation_description="Loading text in dialog">טוען...</string>
+    <string name="email_hint" translation_description="Hint in email input field">כתובת דוא״ל</string>
+    <string name="next_default" translation_description="Button text to continue">הבא</string>
+    <string name="missing_email_address" translation_description="Inline error for empty email address in input field">יש למלא את כתובת הדוא״ל על מנת להמשיך</string>
+    <string name="invalid_email_address" translation_description="Inline error for invalid email address">כתובת הדוא״ל אינה תקינה</string>
+    <string name="progress_dialog_checking_accounts" translation_description="Progress dialog text while checking for existing accounts">מחפש משתמשים קיימים...</string>
+    <string name="name_hint" translation_description="Hint for last name input field">שם פרטי ושם משפחה</string>
+    <string name="required_field" translation_description="Inline error for required field">חובה למלא שם פרטי ושם משפחה</string>
+    <string name="password_hint" translation_description="Hint for password input field">סיסמא</string>
+    <plurals name="error_weak_password" translation_description="Inline error for weak password">
+        <item quantity="one" translation_description="Inline error for weak password">הסיסמא לא חזקה מספיק. יש להשתמש ב-%1$d תווים לפחות ובשילוב של אותיות ומספרים</item>
+        <item quantity="other" translation_description="Inline error for weak password">הסיסמא לא חזקה מספיק. יש להשתמש ב-%1$d תווים לפחות ובשילוב של אותיות ומספרים</item>
+    </plurals>
+    <string name="button_text_save" translation_description="Button text to save input form">שמור</string>
+    <string name="title_register_email" translation_description="Title for signup form">הרשמה</string>
+    <string name="sign_in_default" translation_description="Button text to sign in">התחברות</string>
+    <string name="progress_dialog_signing_up" translation_description="Dialog text while waiting for server&apos;s signup response">מבצע רישום...</string>
+    <string name="progress_dialog_signing_in" translation_description="Progress dialog text">מתחבר...</string>
+    <string name="welcome_back_email_header" translation_description="Message for returning users">ברוך שובך!</string>
+    <string name="welcome_back_idp_prompt" translation_description="Message to users that need to signin using existing IDP accounts">
+        כבר השתמשת בעבר בכתובת <ns1:g example="jane.doe@example.com" id="email_addr" translation_description="">%1$s</ns1:g>.
+        התחבר דרך <ns1:g example="Google" id="provider_name" translation_description="">%2$s</ns1:g> כדי להמשיך.
+    </string>
+    <string name="welcome_back_password_prompt_body" translation_description="Message to users that need to signin using existing email accounts">
+        כבר השתמשת בעבר בכתובת <ns1:g example="jane.doe@example.com" id="email_addr" translation_description="">%1$s</ns1:g>
+        כדי להתחבר. יש להזין את הסיסמא על מנת להתחבר.
+    </string>
+
 </resources>
