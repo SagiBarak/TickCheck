@@ -1,8 +1,12 @@
 package sagib.edu.tickcheck;
 
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -76,7 +80,6 @@ public class MainActivity extends AppCompatActivity
                     tvHeaderContentBar.setText(user.getEmail());
                     tvHeaderTitleBar.setText(user.getDisplayName());
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
-
                 }
             }
         }
@@ -203,6 +206,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_shows) {
+            this.invalidateOptionsMenu();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment(), "Shows").commit();
             this.invalidateOptionsMenu();
 
