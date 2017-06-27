@@ -1,5 +1,9 @@
 package sagib.edu.tickcheck;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -34,6 +38,7 @@ public class ShowDataSource {
                 String html = "";
                 try {
                     URL url = new URL("https://www.zappa-club.co.il/%D7%AA%D7%92%D7%99%D7%95%D7%AA/%D7%A9%D7%9C%D7%9E%D7%94-%D7%90%D7%A8%D7%A6%D7%99/");
+//                    URL url = new URL("https://www.zappa-club.co.il/%D7%AA%D7%92%D7%99%D7%95%D7%AA/" + FirebaseDatabase.getInstance().getReference("DefaultPerformer").child(FirebaseAuth.getInstance().getCurrentUser().getUid()) + "/");
                     URLConnection con = url.openConnection();
                     con.setRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1");
                     InputStream in = con.getInputStream();

@@ -3,8 +3,6 @@
     package="sagib.edu.tickcheck">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
 
     <application
         android:allowBackup="true"
@@ -23,11 +21,13 @@
         <activity
             android:name=".WebViewActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

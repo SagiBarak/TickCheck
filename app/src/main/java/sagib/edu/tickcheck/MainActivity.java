@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity
                 if (user != null) {
                     tvHeaderContentBar.setText(user.getEmail());
                     tvHeaderTitleBar.setText(user.getDisplayName());
+                    if (!tvHeaderTitleBar.getText().toString().matches("^[a-zA-Z0-9.]+$"))
+                        tvHeaderTitleBar.setGravity(GravityCompat.END);
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
                 }
             }
@@ -149,7 +151,19 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("יציאה מהאפליקציה").setMessage("האם ברצונך לצאת מהאפליקציה?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                    System.exit(0);
+                }
+            }).setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).setCancelable(false).show();
         }
     }
 

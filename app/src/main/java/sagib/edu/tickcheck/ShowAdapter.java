@@ -53,7 +53,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
         holder.tvPerformer.setText("\n" + show.getPerformer());
         holder.tvArena.setText(show.getArena());
         if (show.isTicketsAvailable()) {
-            holder.tvTicketsAvailable.setText("כרטיסים:" + "\n" + "זמינים");
+            holder.tvTicketsAvailable.setText("כרטיסים" + "\n" + "זמינים");
             holder.tvTicketsAvailable.setTextColor(Color.rgb(0, 190, 0));
             holder.container.setBackgroundColor(Color.argb(35, 0, 190, 0));
             holder.tvTicketsAvailable.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +63,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
                 }
             });
         } else {
-            holder.tvTicketsAvailable.setText("כרטיסים:" + "\n" + "תפוסים");
+            holder.tvTicketsAvailable.setText("כרטיסים" + "\n" + "תפוסים");
             holder.tvTicketsAvailable.setTextColor(Color.RED);
             holder.container.setBackgroundColor(Color.argb(35, 255, 0, 0));
         }
