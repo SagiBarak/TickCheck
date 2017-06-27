@@ -56,7 +56,7 @@ public class ShowsActivity extends AppCompatActivity implements ShowDataSource.O
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
         recycler = (RecyclerView) findViewById(R.id.recycler);
-        ShowDataSource.getShows(this);
+//        ShowDataSource.getShows(this,);
         recycler.setLayoutManager(new LinearLayoutManager(ShowsActivity.this));
     }
 
@@ -77,7 +77,7 @@ public class ShowsActivity extends AppCompatActivity implements ShowDataSource.O
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
             dialog.show();
-            ShowDataSource.getShows(this);
+//            ShowDataSource.getShows(this);
         }
         if (id == R.id.action_signout){
             mAuth.signOut();

@@ -33,7 +33,7 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         recycler = (RecyclerView) v.findViewById(R.id.recycler);
-        ShowDataSource.getShows(this);
+        ShowDataSource.getShows(this, getContext());
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         return v;
     }

@@ -7,15 +7,15 @@
         android:orderInCategory="100"
         android:title="רענן רשימה"
         android:icon="@drawable/ic_refresh"
-        app:showAsAction="withText" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_about"
-        android:orderInCategory="101"
+        android:orderInCategory="102"
         android:title="אודות"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_signout"
-        android:orderInCategory="102"
+        android:orderInCategory="103"
         android:title="התנתקות"
         app:showAsAction="never" />
 </menu>

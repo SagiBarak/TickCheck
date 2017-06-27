@@ -39,5 +39,6 @@
         כבר השתמשת בעבר בכתובת <ns1:g example="jane.doe@example.com" id="email_addr" translation_description="">%1$s</ns1:g>
         כדי להתחבר. יש להזין את הסיסמא על מנת להתחבר.
     </string>
+    <string name="precentage">%20</string>
 
 </resources>

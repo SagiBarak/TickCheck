@@ -1,5 +1,9 @@
 package sagib.edu.tickcheck;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -11,8 +15,11 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,11 +32,13 @@ import java.util.concurrent.Executors;
  */
 
 public class ShowDataSource {
+
+
     public interface OnShowArrivedListener {
         void onShowArrived(ArrayList<Show> data, Exception e);
     }
 
-    public static void getShows(final OnShowArrivedListener listener) {
+    public static void getShows(final OnShowArrivedListener listener, Context context) {
         ExecutorService service = Executors.newSingleThreadExecutor();
         final ArrayList<Show> shows = new ArrayList<>();
         service.execute(new Runnable() {
@@ -38,7 +47,6 @@ public class ShowDataSource {
                 String html = "";
                 try {
                     URL url = new URL("https://www.zappa-club.co.il/%D7%AA%D7%92%D7%99%D7%95%D7%AA/%D7%A9%D7%9C%D7%9E%D7%94-%D7%90%D7%A8%D7%A6%D7%99/");
-//                    URL url = new URL("https://www.zappa-club.co.il/%D7%AA%D7%92%D7%99%D7%95%D7%AA/" + FirebaseDatabase.getInstance().getReference("DefaultPerformer").child(FirebaseAuth.getInstance().getCurrentUser().getUid()) + "/");
                     URLConnection con = url.openConnection();
                     con.setRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1");
                     InputStream in = con.getInputStream();
