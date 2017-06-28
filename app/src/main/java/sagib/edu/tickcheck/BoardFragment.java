@@ -1,14 +1,12 @@
 package sagib.edu.tickcheck;
 
-// TODO: check facebook
-// TODO: refresh isn't showing up in the menu.
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -104,7 +102,7 @@ public class BoardFragment extends Fragment {
 
     @OnClick(R.id.btnSend)
     public void onBtnSendClicked() {
-        String content = etMessage.getText().toString() + "\n";
+        String content = etMessage.getText().toString();
         if (TextUtils.isEmpty(content)) return;
         String hour = LocalDateTime.now().toString("HH:mm");
         String date = LocalDateTime.now().toString("dd/MM/yy");
