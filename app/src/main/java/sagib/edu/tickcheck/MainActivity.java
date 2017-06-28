@@ -97,17 +97,11 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == RC_SIGN_IN) {
             IdpResponse idpResponse = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
-                //0. create the user
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                //save the user.
                 User user = new User(currentUser);
-                // 1. ref the table.
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
-                // 2. push()... setValue.
                 ref.setValue(user);
-
             }
-            //TODO: else if (idpResponse != null && idpResponse.getError)
         }
     }
 
@@ -120,13 +114,6 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         fab.setVisibility(View.GONE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

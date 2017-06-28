@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -57,7 +58,6 @@ public class BoardFragment extends Fragment {
     RecyclerView recycler;
     Unbinder unbinder;
     private ProgressDialog dialog;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,11 +106,12 @@ public class BoardFragment extends Fragment {
     public void onBtnSendClicked() {
         String content = etMessage.getText().toString() + "\n";
         if (TextUtils.isEmpty(content)) return;
-        String title = user.getDisplayName();
-        String email = user.getEmail();
         String hour = LocalDateTime.now().toString("HH:mm");
         String date = LocalDateTime.now().toString("dd/MM/yy");
-        BoardPost post = new BoardPost(title, content, email, hour, date);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Board");
+        DatabaseReference row = ref.push();
+        String postUID = row.getKey();
+        BoardPost post = new BoardPost(content, user.getEmail(), hour, date, postUID, user.getUid(), user.getDisplayName());
         database.getReference("Board").push().setValue(post);
         etMessage.setText(null);
 
@@ -135,8 +136,8 @@ public class BoardFragment extends Fragment {
             viewHolder.ivDelete.setVisibility(View.GONE);
             viewHolder.ivEdit.setVisibility(View.GONE);
             viewHolder.tvPostContent.setText(post.getContents());
-            viewHolder.tvDisplayName.setText(post.getTitle());
-            if (user.getDisplayName().equals(post.getTitle()))
+            viewHolder.tvDisplayName.setText(post.getUserDisplay());
+            if (user.getDisplayName().equals(post.getUserDisplay()))
                 viewHolder.tvDisplayName.setTextColor(Color.RED);
             viewHolder.tvHour.setText(post.getHour());
             viewHolder.tvDate.setText(post.getDate());

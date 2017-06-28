@@ -5,34 +5,50 @@ package sagib.edu.tickcheck;
  */
 
 public class BoardPost {
-    private String title;
     private String contents;
     private String email;
     private String hour;
     private String date;
+    private String postUID;
+    private String userUID;
+    private String userDisplay;
+
 
     public BoardPost() {
     }
 
-    public BoardPost(String title, String contents, String email, String hour, String date) {
-        this.title = title;
+    public BoardPost(String contents, String email, String hour, String date, String postUID, String userUID, String userDisplay) {
         this.contents = contents;
         this.email = email;
         this.hour = hour;
         this.date = date;
+        this.postUID = postUID;
+        this.userUID = userUID;
+        this.userDisplay = userDisplay;
+
+
     }
 
-    public String getTitle() {
-        return title;
+    public String getUserUID() {
+        return userUID;
+    }
+
+    public void setUserUID(String userUID) {
+        this.userUID = userUID;
+    }
+
+    public String getUserDisplay() {
+        return userDisplay;
+    }
+
+    public void setUserDisplay(String userDisplay) {
+        this.userDisplay = userDisplay;
     }
 
     public String getContents() {
         return contents;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public void setContents(String contents) {
         this.contents = contents;
@@ -56,6 +72,14 @@ public class BoardPost {
 
     public String getDate() {
         return date;
+    }
+
+    public String getPostUID() {
+        return postUID;
+    }
+
+    public void setPostUID(String postUID) {
+        this.postUID = postUID;
     }
 
     public void setDate(String date) {
