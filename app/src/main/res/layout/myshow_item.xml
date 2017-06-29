@@ -97,6 +97,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="83dp" />
+
+        <ImageView
+            android:id="@+id/ivNav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvArena"
+            app:layout_constraintRight_toLeftOf="@+id/tvArena"
+            app:layout_constraintTop_toTopOf="@+id/tvArena"
+            app:srcCompat="@drawable/ic_navigation" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

@@ -75,8 +75,9 @@ public class WebViewActivity extends AppCompatActivity {
                 btnAddToMyShows.setOnClickListener(null);
                 btnAddToMyShows.setBackgroundColor(Color.GRAY);
                 btnAddToMyShows.setText("מעדכן...");
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid());
-                ref.push().setValue(show).addOnSuccessListener(new OnSuccessListener<Void>() {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid()).push();
+                MyShow myShow = new MyShow(show.getPerformer(), show.getDayDateTime(), show.getArena(), show.getImage(), ref.getKey());
+                ref.setValue(myShow).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         btnAddToMyShows.setOnClickListener(null);
@@ -95,13 +96,14 @@ public class WebViewActivity extends AppCompatActivity {
         };
         btnAddToMyShows.setOnClickListener(listener);
     }
-        @Override
-        public void onBackPressed () {
-            if (webview.canGoBack()) {
-                webview.goBack();
-            } else {
-                super.onBackPressed();
-            }
-        }
 
+    @Override
+    public void onBackPressed() {
+        if (webview.canGoBack()) {
+            webview.goBack();
+        } else {
+            super.onBackPressed();
+        }
     }
+
+}
