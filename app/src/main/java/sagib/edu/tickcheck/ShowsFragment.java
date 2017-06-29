@@ -2,6 +2,7 @@ package sagib.edu.tickcheck;
 
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -30,11 +31,13 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
     SwipeRefreshLayout swipeRefreshLayout;
     Unbinder unbinder;
     private ProgressDialog dialog;
+    SharedPreferences prefs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_shows, container, false);
+        prefs = getContext().getSharedPreferences("History", getContext().MODE_PRIVATE);
         dialog = new ProgressDialog(getContext());
         dialog.setMessage("נא להמתין,\nמרענן רשימת הופעות..." + "\n" + "מומלץ להתחבר לרשת אלחוטית.");
         dialog.setCancelable(false);

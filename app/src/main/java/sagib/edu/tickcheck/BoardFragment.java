@@ -110,7 +110,7 @@ public class BoardFragment extends Fragment {
         DatabaseReference row = ref.push();
         String postUID = row.getKey();
         BoardPost post = new BoardPost(content, user.getEmail(), hour, date, postUID, user.getUid(), user.getDisplayName());
-        database.getReference("Board").push().setValue(post);
+        row.setValue(post);
         etMessage.setText(null);
 
     }
