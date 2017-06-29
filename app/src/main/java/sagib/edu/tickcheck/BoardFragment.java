@@ -2,23 +2,28 @@ package sagib.edu.tickcheck;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -87,7 +92,7 @@ public class BoardFragment extends Fragment {
     }
 
     private void setupRecycler() {
-        adapter = new BoardAdapter(database.getReference("Board"), dialog, getContext());
+        adapter = new BoardAdapter(database.getReference("Board"), dialog, getContext(), this);
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -120,16 +125,25 @@ public class BoardFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         Context context;
         ProgressDialog dialog;
+        Fragment fragment;
 
-        public BoardAdapter(Query ref, ProgressDialog dialog, Context context) {
+        public BoardAdapter(Query ref, ProgressDialog dialog, Context context, Fragment fragment) {
             super(BoardPost.class, R.layout.board_item, BoardViewHolder.class, ref);
             this.context = context;
             this.dialog = dialog;
+            this.fragment = fragment;
             dialog = new ProgressDialog(context);
         }
 
         @Override
+        public BoardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+            return new BoardViewHolder(view, fragment);
+        }
+
+        @Override
         protected void populateViewHolder(final BoardViewHolder viewHolder, BoardPost post, final int position) {
+            viewHolder.model = post;
             dialog.dismiss();
             viewHolder.ivDelete.setVisibility(View.GONE);
             viewHolder.ivEdit.setVisibility(View.GONE);
@@ -154,15 +168,51 @@ public class BoardFragment extends Fragment {
             TextView tvDate;
             TextView tvHour;
             ImageView ivEdit;
+            Fragment fragment;
+            BoardPost model;
 
-            public BoardViewHolder(View itemView) {
+            public BoardViewHolder(View itemView, final Fragment fragment) {
                 super(itemView);
+                this.fragment = fragment;
                 tvDisplayName = (TextView) itemView.findViewById(R.id.tvDisplayName);
                 tvPostContent = (TextView) itemView.findViewById(R.id.tvPostContent);
                 tvDate = (TextView) itemView.findViewById(R.id.tvDate);
                 tvHour = (TextView) itemView.findViewById(R.id.tvHour);
                 ivDelete = (ImageView) itemView.findViewById(R.id.ivDelete);
                 ivEdit = (ImageView) itemView.findViewById(R.id.ivEdit);
+                ivDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getContext());
+                        builder.setTitle("הסר הודעה").setMessage("האם ברצונך למחוק את ההודעה?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                FirebaseDatabase.getInstance().getReference("Board").child(model.getPostUID()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(fragment.getContext(), "ההודעה נמחקה!", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                dialog.dismiss();
+                            }
+                        }).setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }
+                });
+                ivEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle args = new Bundle();
+                        args.putParcelable("model", model);
+                        EditPostFragment editPostFragment = new EditPostFragment();
+                        editPostFragment.setArguments(args);
+                        editPostFragment.show(fragment.getChildFragmentManager(),"EditPost");
+                    }
+                });
             }
         }
     }

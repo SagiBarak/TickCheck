@@ -13,7 +13,7 @@
         <item
             android:id="@+id/nav_board"
             android:icon="@drawable/ic_board"
-            android:title="לוח מכירת כרטיסים" />
+            android:title="פורום מכירת כרטיסים" />
     </group>
 
     <item android:title="ניהול משתמש">

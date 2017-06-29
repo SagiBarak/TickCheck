@@ -1,10 +1,13 @@
 package sagib.edu.tickcheck;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by sagib on 19/06/2017.
  */
 
-public class BoardPost {
+public class BoardPost implements Parcelable {
     private String contents;
     private String email;
     private String hour;
@@ -85,4 +88,42 @@ public class BoardPost {
     public void setDate(String date) {
         this.date = date;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.contents);
+        dest.writeString(this.email);
+        dest.writeString(this.hour);
+        dest.writeString(this.date);
+        dest.writeString(this.postUID);
+        dest.writeString(this.userUID);
+        dest.writeString(this.userDisplay);
+    }
+
+    protected BoardPost(Parcel in) {
+        this.contents = in.readString();
+        this.email = in.readString();
+        this.hour = in.readString();
+        this.date = in.readString();
+        this.postUID = in.readString();
+        this.userUID = in.readString();
+        this.userDisplay = in.readString();
+    }
+
+    public static final Parcelable.Creator<BoardPost> CREATOR = new Parcelable.Creator<BoardPost>() {
+        @Override
+        public BoardPost createFromParcel(Parcel source) {
+            return new BoardPost(source);
+        }
+
+        @Override
+        public BoardPost[] newArray(int size) {
+            return new BoardPost[size];
+        }
+    };
 }
