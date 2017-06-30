@@ -68,11 +68,12 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
 
     @Override
     public void onShowArrived(final ArrayList<Show> data, final Exception e) {
+        final Fragment fragment = this;
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if (e == null) {
-                    ShowAdapter adapter = new ShowAdapter(data, getContext());
+                    ShowAdapter adapter = new ShowAdapter(data, getContext(), fragment);
                     recycler.setAdapter(adapter);
                     dialog.dismiss();
                     swipeRefreshLayout.setRefreshing(false);

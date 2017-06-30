@@ -2,10 +2,11 @@ package sagib.edu.tickcheck;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -39,11 +40,13 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
     private ArrayList<Show> data;
     private Context context;
     private LayoutInflater inflater;
+    private Fragment fragment;
 
-    public ShowAdapter(ArrayList<Show> data, Context context) {
+    public ShowAdapter(ArrayList<Show> data, Context context, Fragment fragment) {
         this.data = data;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        this.fragment = fragment;
     }
 
     @Override
@@ -66,7 +69,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
             holder.tvTicketsAvailable.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    goToWebView(show);
+                    goToWebView(show, fragment);
                 }
             });
         } else {
@@ -123,7 +126,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
                         builder.setPositiveButton("לרכישה", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                goToWebView(show);
+                                goToWebView(show, fragment);
                             }
                         });
                     }
@@ -197,9 +200,11 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
         }
     }
 
-    public void goToWebView(Show show) {
-        Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra("show", show);
-        context.startActivity(intent);
+    public void goToWebView(Show show, Fragment fragment) {
+        Bundle args = new Bundle();
+        args.putParcelable("show", show);
+        WebViewFragment webViewFragment = new WebViewFragment();
+        webViewFragment.setArguments(args);
+        fragment.getFragmentManager().beginTransaction().replace(R.id.frame, webViewFragment).commit();
     }
 }
