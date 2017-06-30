@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +37,7 @@ import org.joda.time.LocalDateTime;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import butterknife.Unbinder;
 
 
@@ -71,6 +72,8 @@ public class BoardFragment extends Fragment {
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
+        btnSend.setOnClickListener(null);
+        btnSend.setBackgroundColor(Color.GRAY);
         database = FirebaseDatabase.getInstance();
         user = mAuth.getCurrentUser();
         database.getReference("Board").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -95,29 +98,38 @@ public class BoardFragment extends Fragment {
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
+    @OnTextChanged(R.id.etMessage)
+    public void changeButton() {
+        if (etMessage.getText().toString().length() < 1) {
+            btnSend.setOnClickListener(null);
+            btnSend.setBackgroundColor(Color.GRAY);
+        } else {
+            btnSend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String content = etMessage.getText().toString();
+                    if (TextUtils.isEmpty(content)) return;
+                    String hour = LocalDateTime.now().toString("HH:mm");
+                    String date = LocalDateTime.now().toString("dd/MM/yy");
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Board");
+                    DatabaseReference row = ref.push();
+                    String postUID = row.getKey();
+                    BoardPost post = new BoardPost(content, user.getEmail(), hour, date, postUID, user.getUid(), user.getDisplayName());
+                    row.setValue(post);
+                    etMessage.setText(null);
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                }
+            });
+            btnSend.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
+        }
+    }
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-
-    @OnClick(R.id.btnSend)
-    public void onBtnSendClicked() {
-        String content = etMessage.getText().toString();
-        if (TextUtils.isEmpty(content)) return;
-        String hour = LocalDateTime.now().toString("HH:mm");
-        String date = LocalDateTime.now().toString("dd/MM/yy");
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Board");
-        DatabaseReference row = ref.push();
-        String postUID = row.getKey();
-        BoardPost post = new BoardPost(content, user.getEmail(), hour, date, postUID, user.getUid(), user.getDisplayName());
-        row.setValue(post);
-        etMessage.setText(null);
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-
     }
 
     public static class BoardAdapter extends FirebaseRecyclerAdapter<BoardPost, BoardAdapter.BoardViewHolder> {
@@ -210,7 +222,7 @@ public class BoardFragment extends Fragment {
                         args.putParcelable("model", model);
                         EditPostFragment editPostFragment = new EditPostFragment();
                         editPostFragment.setArguments(args);
-                        editPostFragment.show(fragment.getChildFragmentManager(),"EditPost");
+                        editPostFragment.show(fragment.getChildFragmentManager(), "EditPost");
                     }
                 });
             }
