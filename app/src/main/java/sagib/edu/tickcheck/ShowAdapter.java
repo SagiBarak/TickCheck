@@ -59,6 +59,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
         holder.tvPerformer.setText("\n" + show.getPerformer());
         holder.tvArena.setText(show.getArena());
         if (show.isTicketsAvailable()) {
+            holder.ivSoldOut.setVisibility(View.INVISIBLE);
             holder.tvTicketsAvailable.setText("כרטיסים" + "\n" + "זמינים");
             holder.tvTicketsAvailable.setTextColor(Color.rgb(0, 190, 0));
             holder.container.setBackgroundColor(Color.argb(35, 0, 190, 0));
@@ -69,8 +70,10 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
                 }
             });
         } else {
-            holder.tvTicketsAvailable.setText("כרטיסים" + "\n" + "תפוסים");
-            holder.tvTicketsAvailable.setTextColor(Color.RED);
+//            holder.tvTicketsAvailable.setText("הכרטיסים" + "\n" + "אזלו");
+//            holder.tvTicketsAvailable.setTextColor(Color.RED);
+            holder.tvTicketsAvailable.setVisibility(View.INVISIBLE);
+            holder.ivSoldOut.setVisibility(View.VISIBLE);
             holder.container.setBackgroundColor(Color.argb(35, 255, 0, 0));
         }
         holder.tvDayDateTime.setText(show.getDayDateTime() + "\n");
@@ -84,6 +87,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
     class ShowViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivImage;
+        ImageView ivSoldOut;
         TextView tvPerformer;
         TextView tvArena;
         TextView tvTicketsAvailable;
@@ -92,6 +96,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
 
         public ShowViewHolder(View v) {
             super(v);
+            ivSoldOut = (ImageView) v.findViewById(R.id.ivSoldOut);
             ivImage = (ImageView) v.findViewById(R.id.ivImage);
             tvPerformer = (TextView) v.findViewById(R.id.tvPerformer);
             tvArena = (TextView) v.findViewById(R.id.tvArena);

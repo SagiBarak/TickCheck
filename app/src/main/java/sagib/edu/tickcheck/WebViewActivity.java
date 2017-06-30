@@ -84,23 +84,6 @@ public class WebViewActivity extends AppCompatActivity {
                 btnAddToMyShows.setOnClickListener(null);
                 btnAddToMyShows.setBackgroundColor(Color.GRAY);
                 btnAddToMyShows.setText("מעדכן...");
-//                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid()).push();
-//                MyShow myShow = new MyShow(show.getPerformer(), show.getDayDateTime(), show.getArena(), show.getImage(), ref.getKey(), show.getDateTime());
-//                ref.setValue(myShow).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//                        btnAddToMyShows.setOnClickListener(null);
-//                        btnAddToMyShows.setBackgroundColor(Color.GRAY);
-//                        btnAddToMyShows.setText("ההופעה נוספה ל״רשימת ההופעות שלי״!");
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        btnAddToMyShows.setOnClickListener(null);
-//                        btnAddToMyShows.setBackgroundColor(Color.RED);
-//                        btnAddToMyShows.setText("הפעולה נכשלה, נסה שנית");
-//                    }
-//                });
                 final String eventID = show.getLink().replace("https://tickets.zappa-club.co.il/loader.aspx/?target=hall.aspx?", "");
                 final Context context = btnAddToMyShows.getContext();
                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("MyShowsList").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -129,6 +112,7 @@ public class WebViewActivity extends AppCompatActivity {
                                     Toast.makeText(context, "ההופעה נוספה לרשימת ההופעות שלי", Toast.LENGTH_SHORT).show();
                                     btnAddToMyShows.setOnClickListener(null);
                                     btnAddToMyShows.setBackgroundColor(Color.GRAY);
+                                    btnAddToMyShows.setText("ההופעה נוספה לרשימה!");
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
