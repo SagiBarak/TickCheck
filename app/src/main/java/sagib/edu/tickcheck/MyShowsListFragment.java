@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -50,7 +51,8 @@ public class MyShowsListFragment extends Fragment {
         tvTitleMyShows = (TextView) v.findViewById(R.id.tvTitleMyShows);
         pbLoadingList = (ProgressBar) v.findViewById(R.id.pbLoadingList);
         tvTitleMyShows.setText("טוען את ההופעות שלי...");
-        MyShowsListAdapter adapter = new MyShowsListAdapter(FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid()), getContext(), this);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid());
+        MyShowsListAdapter adapter = new MyShowsListAdapter(reference.orderByChild("date"), getContext(), this);
         rvMyShows.setAdapter(adapter);
         rvMyShows.setLayoutManager(new LinearLayoutManager(getContext()));
         FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -144,6 +146,7 @@ public class MyShowsListFragment extends Fragment {
                                 FirebaseDatabase.getInstance().getReference("MyShows").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getMyShowUID()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
+                                        FirebaseDatabase.getInstance().getReference("MyShowsList").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getEventID()).removeValue();
                                         Toast.makeText(fragment.getContext(), "ההופעה נמחקה מהרשימה!", Toast.LENGTH_SHORT).show();
                                     }
                                 });

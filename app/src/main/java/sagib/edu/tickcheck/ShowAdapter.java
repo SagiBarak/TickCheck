@@ -18,11 +18,17 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by sagib on 14/06/2017.
@@ -129,19 +135,47 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
                     builder.setPositiveButton("הוסף", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(final DialogInterface dialog, int which) {
-                            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("MyShows").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push();
-                            MyShow myShow = new MyShow(show.getPerformer(), show.getDayDateTime(), show.getArena(), show.getImage(), ref.getKey());
-                            ref.setValue(myShow).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            final String eventID = show.getLink().replace("https://tickets.zappa-club.co.il/loader.aspx/?target=hall.aspx?", "");
+                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("MyShowsList").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            reference.child(eventID).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
-                                public void onSuccess(Void aVoid) {
-                                    dialog.dismiss();
-                                    Toast.makeText(context, "ההופעה נוספה לרשימת ההופעות שלי", Toast.LENGTH_SHORT).show();
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.getValue() != null) {
+                                        Toast.makeText(context, "ההופעה כבר קיימת ברשימה!", Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss();
+                                    } else {
+                                        FirebaseDatabase.getInstance().getReference("MyShowsList").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(eventID).setValue(eventID);
+                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("MyShows").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).push();
+                                        String date_s = show.getDateTime();
+                                        SimpleDateFormat dt = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                                        Date date = null;
+                                        try {
+                                            date = dt.parse(date_s);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd");
+                                        String finalDate = dt1.format(date);
+                                        MyShow myShow = new MyShow(show.getPerformer(), show.getDayDateTime(), show.getArena(), show.getImage(), ref.getKey(), finalDate, eventID);
+                                        ref.setValue(myShow).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                dialog.dismiss();
+                                                Toast.makeText(context, "ההופעה נוספה לרשימת ההופעות שלי", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                dialog.dismiss();
+                                                Toast.makeText(context, "הפעולה נכשלה, נסה שנית", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
+
                                 @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    dialog.dismiss();
-                                    Toast.makeText(context, "הפעולה נכשלה, נסה שנית", Toast.LENGTH_SHORT).show();
+                                public void onCancelled(DatabaseError databaseError) {
+
                                 }
                             });
 

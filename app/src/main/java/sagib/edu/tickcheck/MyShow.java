@@ -10,16 +10,37 @@ public class MyShow {
     private String arena;
     private String image;
     private String myShowUID;
+    private String date;
+    private String eventID;
 
-    public MyShow(String performer, String dateTime, String arena, String image, String myShowUID) {
+    public MyShow(String performer, String dateTime, String arena, String image, String myShowUID, String date, String eventID) {
         this.performer = performer;
         this.dateTime = dateTime;
         this.arena = arena;
         this.image = image;
         this.myShowUID = myShowUID;
+        this.date = date;
+        this.eventID = eventID;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public MyShow() {
+
     }
 
     public String getPerformer() {

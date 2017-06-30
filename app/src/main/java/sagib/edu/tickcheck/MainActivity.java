@@ -2,21 +2,19 @@ package sagib.edu.tickcheck;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
@@ -74,6 +72,7 @@ public class MainActivity extends AppCompatActivity
                     if (!tvHeaderTitleBar.getText().toString().matches("^[a-zA-Z0-9.]+$"))
                         tvHeaderTitleBar.setGravity(GravityCompat.END);
                     getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
+                    toolbar.setTitle("ההופעות שלי");
                 }
             }
         }
@@ -202,14 +201,17 @@ public class MainActivity extends AppCompatActivity
             this.invalidateOptionsMenu();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment(), "Shows").commit();
             this.invalidateOptionsMenu();
+            toolbar.setTitle("רשימת הופעות");
 
         } else if (id == R.id.nav_board) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();
             this.invalidateOptionsMenu();
+            toolbar.setTitle("פורום מכירת כרטיסים");
 
         } else if (id == R.id.nav_myshows) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
             this.invalidateOptionsMenu();
+            toolbar.setTitle("ההופעות שלי");
 
         } else if (id == R.id.nav_signout) {
             this.invalidateOptionsMenu();
