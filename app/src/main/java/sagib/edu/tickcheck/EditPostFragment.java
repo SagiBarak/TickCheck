@@ -1,12 +1,14 @@
 package sagib.edu.tickcheck;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -56,6 +58,8 @@ public class EditPostFragment extends DialogFragment {
             @Override
             public void onSuccess(Void aVoid) {
                 dismiss();
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
                 Toast.makeText(getContext(), "ההודעה נערכה!", Toast.LENGTH_SHORT).show();
             }
         });

@@ -115,9 +115,7 @@ public class BoardFragment extends Fragment {
         BoardPost post = new BoardPost(content, user.getEmail(), hour, date, postUID, user.getUid(), user.getDisplayName());
         row.setValue(post);
         etMessage.setText(null);
-        //get a system service called imm (input method manager)
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        // 0 == FORCE HIDE... Show params can be anything but 0.
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 
     }
