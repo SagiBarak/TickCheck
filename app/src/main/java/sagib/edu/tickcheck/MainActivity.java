@@ -149,11 +149,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        menu.findItem(R.id.action_refresh).setVisible(false);
-        String tag = getSupportFragmentManager().findFragmentById(R.id.frame).getTag();
-        if (tag != null) {
-            menu.findItem(R.id.action_refresh).setVisible(true);
-        }
         return true;
     }
 
@@ -168,10 +163,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_signout) {
             mAuth.signOut();
             return true;
-        }
-
-        if (id == R.id.action_refresh) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment()).commit();
         }
 
         if (id == R.id.action_about) {
@@ -198,23 +189,18 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_shows) {
-            this.invalidateOptionsMenu();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment(), "Shows").commit();
-            this.invalidateOptionsMenu();
             toolbar.setTitle("רשימת הופעות");
 
         } else if (id == R.id.nav_board) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();
-            this.invalidateOptionsMenu();
             toolbar.setTitle("פורום מכירת כרטיסים");
 
         } else if (id == R.id.nav_myshows) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
-            this.invalidateOptionsMenu();
             toolbar.setTitle("ההופעות שלי");
 
         } else if (id == R.id.nav_signout) {
-            this.invalidateOptionsMenu();
             mAuth.signOut();
         }
 
