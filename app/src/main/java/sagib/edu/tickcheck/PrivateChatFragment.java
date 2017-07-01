@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +47,6 @@ public class PrivateChatFragment extends Fragment {
     FirebaseUser sender;
     String recieverUID;
     String recieverDisplay;
-    Toolbar toolbar;
     Unbinder unbinder;
 
     @Override
