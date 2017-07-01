@@ -14,6 +14,10 @@
             android:id="@+id/nav_board"
             android:icon="@drawable/ic_board"
             android:title="פורום מכירת כרטיסים" />
+        <item
+            android:id="@+id/nav_privatechats"
+            android:icon="@drawable/ic_privatechat"
+            android:title="שיחות פרטיות" />
     </group>
 
     <item android:title="ניהול משתמש">

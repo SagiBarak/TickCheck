@@ -7,7 +7,7 @@ package sagib.edu.tickcheck;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
- * A user model class.
+ * A sender model class.
  * //We have some rules for object.
  * 1. Must have an empty constructor.
  * 2. Must have getter and setter.

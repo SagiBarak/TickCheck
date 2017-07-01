@@ -205,6 +205,6 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
         args.putParcelable("show", show);
         WebViewFragment webViewFragment = new WebViewFragment();
         webViewFragment.setArguments(args);
-        fragment.getFragmentManager().beginTransaction().replace(R.id.frame, webViewFragment).commit();
+        fragment.getFragmentManager().beginTransaction().replace(R.id.frame, webViewFragment).addToBackStack("Buy").commit();
     }
 }

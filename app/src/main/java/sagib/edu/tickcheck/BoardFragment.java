@@ -154,7 +154,7 @@ public class BoardFragment extends Fragment {
         }
 
         @Override
-        protected void populateViewHolder(final BoardViewHolder viewHolder, BoardPost post, final int position) {
+        protected void populateViewHolder(final BoardViewHolder viewHolder, final BoardPost post, final int position) {
             viewHolder.model = post;
             dialog.dismiss();
             viewHolder.ivDelete.setVisibility(View.GONE);
@@ -170,6 +170,19 @@ public class BoardFragment extends Fragment {
                 viewHolder.ivDelete.setVisibility(View.VISIBLE);
                 viewHolder.ivEdit.setVisibility(View.VISIBLE);
             }
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!post.getUserUID().equals(user.getUid())) {
+                        PrivateChatFragment privateChatFragment = new PrivateChatFragment();
+                        Bundle args = new Bundle();
+                        args.putString("recieverUID", post.getUserUID());
+                        args.putString("recieverDisplay", post.getUserDisplay());
+                        privateChatFragment.setArguments(args);
+                        fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).commit();
+                    }
+                }
+            });
         }
 
         public static class BoardViewHolder extends RecyclerView.ViewHolder {
