@@ -128,7 +128,9 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("יציאה מהאפליקציה").setMessage("האם ברצונך לצאת מהאפליקציה?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
                 @Override
@@ -142,6 +144,8 @@ public class MainActivity extends AppCompatActivity
                     dialog.dismiss();
                 }
             }).setCancelable(false).show();
+        } else {
+            getSupportFragmentManager().popBackStack();
         }
     }
 

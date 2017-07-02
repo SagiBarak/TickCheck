@@ -93,7 +93,12 @@ public class BoardFragment extends Fragment {
     }
 
     private void setupRecycler() {
-        adapter = new BoardAdapter(database.getReference("Board"), dialog, getContext(), this);
+        Fragment f = null;
+        if (getParentFragment() != null) {
+            f = getParentFragment();
+        } else
+            f = this;
+        adapter = new BoardAdapter(database.getReference("Board"), dialog, getContext(), f);
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -162,7 +167,7 @@ public class BoardFragment extends Fragment {
             viewHolder.tvPostContent.setText(post.getContents());
             viewHolder.tvDisplayName.setText(post.getUserDisplay());
             if (user.getDisplayName().equals(post.getUserDisplay()))
-                viewHolder.tvDisplayName.setTextColor(Color.RED);
+                viewHolder.tvDisplayName.setTextColor(context.getResources().getColor(R.color.bootstrap_brand_danger));
             viewHolder.tvHour.setText(post.getHour());
             viewHolder.tvDate.setText(post.getDate());
             String email = post.getEmail();
@@ -179,7 +184,7 @@ public class BoardFragment extends Fragment {
                         args.putString("recieverUID", post.getUserUID());
                         args.putString("recieverDisplay", post.getUserDisplay());
                         privateChatFragment.setArguments(args);
-                        fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).commit();
+                        fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).addToBackStack("List").commit();
                     }
                 }
             });

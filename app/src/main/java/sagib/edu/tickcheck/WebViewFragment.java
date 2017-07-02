@@ -41,7 +41,6 @@ public class WebViewFragment extends Fragment {
     WebView webview;
     Show show;
     BootstrapButton btnAddToMyShows;
-    BootstrapButton btnBack;
     TextView tvShowTitle;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -52,7 +51,6 @@ public class WebViewFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_web_view, container, false);
         webview = (WebView) v.findViewById(R.id.webview);
         btnAddToMyShows = (BootstrapButton) v.findViewById(R.id.btnAddToMyShows);
-        btnBack = (BootstrapButton) v.findViewById(R.id.btnBack);
         tvShowTitle = (TextView) v.findViewById(R.id.tvShowTitle);
         show = getArguments().getParcelable("show");
         webview.getSettings().setJavaScriptEnabled(true);
@@ -138,12 +136,6 @@ public class WebViewFragment extends Fragment {
             }
         };
         btnAddToMyShows.setOnClickListener(listener);
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment()).commit();
-            }
-        });
         return v;
     }
 }

@@ -2,6 +2,7 @@ package sagib.edu.tickcheck;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +13,18 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
@@ -29,6 +36,8 @@ public class PrivateChatsListFragment extends Fragment {
     @BindView(R.id.rvChatsList)
     RecyclerView rvChatsList;
     Unbinder unbinder;
+    @BindView(R.id.fabNewChat)
+    FloatingActionButton fabNewChat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +58,11 @@ public class PrivateChatsListFragment extends Fragment {
         unbinder.unbind();
     }
 
+    @OnClick(R.id.fabNewChat)
+    public void onFabNewChatClicked() {
+        getFragmentManager().beginTransaction().replace(R.id.frame, new UsersListFragment()).addToBackStack("UsersList").commit();
+    }
+
     public static class PrivateChatsListAdapter extends FirebaseRecyclerAdapter<PrivateChatListItem, PrivateChatsListAdapter.PrivateChatsListViewHolder> {
 
         Fragment fragment;
@@ -59,8 +73,21 @@ public class PrivateChatsListFragment extends Fragment {
         }
 
         @Override
-        protected void populateViewHolder(PrivateChatsListViewHolder viewHolder, final PrivateChatListItem model, int position) {
+        protected void populateViewHolder(final PrivateChatsListViewHolder viewHolder, final PrivateChatListItem model, int position) {
             viewHolder.tvChatter.setText(model.getOtherUserDisplay());
+            FirebaseDatabase.getInstance().getReference("Users").child(model.getOtherUserUID()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    Picasso.with(viewHolder.itemView.getContext()).load(user.getProfileImage()).into(viewHolder.civProfileImageList);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -69,17 +96,19 @@ public class PrivateChatsListFragment extends Fragment {
                     args.putString("recieverUID", model.getOtherUserUID());
                     args.putString("recieverDisplay", model.getOtherUserDisplay());
                     privateChatFragment.setArguments(args);
-                    fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).commit();
+                    fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).addToBackStack("List").commit();
                 }
             });
         }
 
         public static class PrivateChatsListViewHolder extends RecyclerView.ViewHolder {
             TextView tvChatter;
+            CircularImageView civProfileImageList;
 
             public PrivateChatsListViewHolder(View itemView) {
                 super(itemView);
                 tvChatter = (TextView) itemView.findViewById(R.id.tvChatter);
+                civProfileImageList = (CircularImageView) itemView.findViewById(R.id.civProfileImageList);
             }
         }
     }

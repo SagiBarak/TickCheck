@@ -115,7 +115,7 @@ public class BoardPost implements Parcelable {
         this.userDisplay = in.readString();
     }
 
-    public static final Parcelable.Creator<BoardPost> CREATOR = new Parcelable.Creator<BoardPost>() {
+    public static final Creator<BoardPost> CREATOR = new Creator<BoardPost>() {
         @Override
         public BoardPost createFromParcel(Parcel source) {
             return new BoardPost(source);

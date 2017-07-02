@@ -2,7 +2,6 @@ package sagib.edu.tickcheck;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -98,8 +97,8 @@ public class PrivateChatFragment extends Fragment {
             ref = FirebaseDatabase.getInstance().getReference("PrivateChats").child(sender.getUid() + recieverUID).push();
             PrivateChatListItem sending = new PrivateChatListItem(recieverDisplay, sender.getUid() + recieverUID, recieverUID);
             PrivateChatListItem recieving = new PrivateChatListItem(sender.getDisplayName(), sender.getUid() + recieverUID, sender.getUid());
-            FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(recieverUID).push().setValue(recieving);
-            FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).push().setValue(sending);
+            FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(recieverUID).child(sender.getUid()).setValue(recieving);
+            FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).setValue(sending);
         }
         String prvMessageUID = ref.getKey();
         PrivateMessage privateMessage = new PrivateMessage(sender.getUid(), recieverUID, sender.getDisplayName(), recieverDisplay, LocalDateTime.now().toString("dd/MM/yy"), LocalDateTime.now().toString("HH:mm"), etPrvMessage.getText().toString(), prvMessageUID);
@@ -116,12 +115,25 @@ public class PrivateChatFragment extends Fragment {
 
         @Override
         protected void populateViewHolder(PrivateChatViewHolder viewHolder, PrivateMessage model, int position) {
-            viewHolder.tvDate.setText(model.getDate());
-            viewHolder.tvMessage.setText(model.getMessage());
-            viewHolder.tvSender.setText(model.getSenderDisplayName());
-            viewHolder.tvTime.setText(model.getTime());
-            if (model.getSenderUID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
-                viewHolder.tvSender.setTextColor(Color.RED);
+            if (model.getSenderUID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                viewHolder.tvMyDate.setText(model.getDate());
+                viewHolder.tvMyMessage.setText(model.getMessage());
+                viewHolder.tvMyName.setText(model.getSenderDisplayName());
+                viewHolder.tvMyTime.setText(model.getTime());
+                viewHolder.tvDate.setVisibility(View.GONE);
+                viewHolder.tvMessage.setVisibility(View.GONE);
+                viewHolder.tvSender.setVisibility(View.GONE);
+                viewHolder.tvTime.setVisibility(View.GONE);
+            } else {
+                viewHolder.tvDate.setText(model.getDate());
+                viewHolder.tvMessage.setText(model.getMessage());
+                viewHolder.tvSender.setText(model.getSenderDisplayName());
+                viewHolder.tvTime.setText(model.getTime());
+                viewHolder.tvMyDate.setVisibility(View.GONE);
+                viewHolder.tvMyMessage.setVisibility(View.GONE);
+                viewHolder.tvMyName.setVisibility(View.GONE);
+                viewHolder.tvMyTime.setVisibility(View.GONE);
+            }
         }
 
         public static class PrivateChatViewHolder extends RecyclerView.ViewHolder {
@@ -130,6 +142,10 @@ public class PrivateChatFragment extends Fragment {
             TextView tvSender;
             TextView tvDate;
             TextView tvMessage;
+            TextView tvMyName;
+            TextView tvMyMessage;
+            TextView tvMyTime;
+            TextView tvMyDate;
 
             public PrivateChatViewHolder(View v) {
                 super(v);
@@ -137,8 +153,11 @@ public class PrivateChatFragment extends Fragment {
                 tvSender = (TextView) v.findViewById(R.id.tvSender);
                 tvDate = (TextView) v.findViewById(R.id.tvDate);
                 tvMessage = (TextView) v.findViewById(R.id.tvMessage);
+                tvMyMessage = (TextView) v.findViewById(R.id.tvMyMessage);
+                tvMyName = (TextView) v.findViewById(R.id.tvMyName);
+                tvMyTime = (TextView) v.findViewById(R.id.tvMyTime);
+                tvMyDate = (TextView) v.findViewById(R.id.tvMyDate);
             }
         }
     }
-
 }
