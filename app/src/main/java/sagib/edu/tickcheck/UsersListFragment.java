@@ -3,6 +3,7 @@ package sagib.edu.tickcheck;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ public class UsersListFragment extends Fragment {
         rvUsersList.setAdapter(adapter);
         rvUsersList.setLayoutManager(new LinearLayoutManager(getContext()));
         unbinder = ButterKnife.bind(this, v);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("רשימת משתמשים");
         return v;
     }
 
@@ -48,6 +50,20 @@ public class UsersListFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("רשימת משתמשים");
+    }
+
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            getActivity().setTitle("רשימת משתמשים");
+
+        }
     }
 
     public static class UsersListAdapter extends FirebaseRecyclerAdapter<User, UsersListAdapter.UsersListViewHolder> {

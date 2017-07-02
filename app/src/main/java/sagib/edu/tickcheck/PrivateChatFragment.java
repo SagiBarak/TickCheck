@@ -74,7 +74,6 @@ public class PrivateChatFragment extends Fragment {
         PrivateChatAdapter adapter = new PrivateChatAdapter(ref);
         rvPrvChat.setAdapter(adapter);
         rvPrvChat.setLayoutManager(new LinearLayoutManager(getContext()));
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("שיחה פרטית עם " + recieverDisplay);
         return v;
     }
 
@@ -82,6 +81,12 @@ public class PrivateChatFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("שיחה פרטית עם " + recieverDisplay);
     }
 
     @OnClick(R.id.btnPrvSend)
