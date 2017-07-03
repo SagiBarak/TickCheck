@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.daasuu.bl.BubbleLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -122,13 +123,16 @@ public class PrivateChatFragment extends Fragment {
                     }
                     String prvMessageUID = ref.getKey();
                     PrivateMessage privateMessage = new PrivateMessage(sender.getUid(), recieverUID, sender.getDisplayName(), recieverDisplay, LocalDateTime.now().toString("dd/MM/yy"), LocalDateTime.now().toString("HH:mm"), etPrvMessage.getText().toString(), prvMessageUID);
-                    ref.setValue(privateMessage);
+                    ref.setValue(privateMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            int position = rvPrvChat.getAdapter().getItemCount();
+                            rvPrvChat.getLayoutManager().scrollToPosition(position-1);
+                        }
+                    });
                     etPrvMessage.setText(null);
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    layoutManager.setStackFromEnd(true);
-                    rvPrvChat.setLayoutManager(layoutManager);
 
                 } else if (dataSnapshot.hasChild(recieverUID + sender.getUid())) {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("PrivateChats").child(recieverUID + sender.getUid()).push();
@@ -142,13 +146,16 @@ public class PrivateChatFragment extends Fragment {
                     }
                     String prvMessageUID = ref.getKey();
                     PrivateMessage privateMessage = new PrivateMessage(sender.getUid(), recieverUID, sender.getDisplayName(), recieverDisplay, LocalDateTime.now().toString("dd/MM/yy"), LocalDateTime.now().toString("HH:mm"), etPrvMessage.getText().toString(), prvMessageUID);
-                    ref.setValue(privateMessage);
+                    ref.setValue(privateMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            int position = rvPrvChat.getAdapter().getItemCount();
+                            rvPrvChat.getLayoutManager().scrollToPosition(position-1);
+                        }
+                    });
                     etPrvMessage.setText(null);
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    layoutManager.setStackFromEnd(true);
-                    rvPrvChat.setLayoutManager(layoutManager);
 
                 } else if (!dataSnapshot.hasChild(recieverUID + sender.getUid()) && !dataSnapshot.hasChild(sender.getUid() + recieverUID)) {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("PrivateChats").child(sender.getUid() + recieverUID).push();
@@ -162,13 +169,16 @@ public class PrivateChatFragment extends Fragment {
                     }
                     String prvMessageUID = ref.getKey();
                     PrivateMessage privateMessage = new PrivateMessage(sender.getUid(), recieverUID, sender.getDisplayName(), recieverDisplay, LocalDateTime.now().toString("dd/MM/yy"), LocalDateTime.now().toString("HH:mm"), etPrvMessage.getText().toString(), prvMessageUID);
-                    ref.setValue(privateMessage);
+                    ref.setValue(privateMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            int position = rvPrvChat.getAdapter().getItemCount();
+                            rvPrvChat.getLayoutManager().scrollToPosition(position-1);
+                        }
+                    });
                     etPrvMessage.setText(null);
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    layoutManager.setStackFromEnd(true);
-                    rvPrvChat.setLayoutManager(layoutManager);
                 }
             }
 
@@ -177,7 +187,6 @@ public class PrivateChatFragment extends Fragment {
 
             }
         });
-
 
     }
 
