@@ -1,9 +1,5 @@
 package sagib.edu.tickcheck;
 
-/**
- * Created by sagib on 30/06/2017.
- */
-
 public class MyShow {
     private String performer;
     private String dateTime;

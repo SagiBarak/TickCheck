@@ -5,10 +5,6 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-/**
- * Created by sagib on 14/06/2017.
- */
-
 public class Show implements Parcelable {
     private String image;
     private String performer;

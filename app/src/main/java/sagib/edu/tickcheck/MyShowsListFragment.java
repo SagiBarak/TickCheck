@@ -30,10 +30,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MyShowsListFragment extends Fragment {
 
     RecyclerView rvMyShows;
@@ -44,7 +40,6 @@ public class MyShowsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_my_shows_list, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
         rvMyShows = (RecyclerView) v.findViewById(R.id.rvMyShows);

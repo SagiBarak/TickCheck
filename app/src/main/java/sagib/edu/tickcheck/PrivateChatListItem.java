@@ -1,9 +1,5 @@
 package sagib.edu.tickcheck;
 
-/**
- * Created by sagib on 01/07/2017.
- */
-
 public class PrivateChatListItem {
     String otherUserDisplay;
     String privateChatUID;

@@ -41,10 +41,6 @@ import butterknife.ButterKnife;
 import butterknife.OnTextChanged;
 import butterknife.Unbinder;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class BoardFragment extends Fragment {
 
     FirebaseUser user;
@@ -65,7 +61,6 @@ public class BoardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_board, container, false);
         unbinder = ButterKnife.bind(this, v);
         dialog = new ProgressDialog(getContext());

@@ -1,6 +1,5 @@
 package sagib.edu.tickcheck;
 
-
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,10 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArrivedListener {
     RecyclerView recycler;
     @BindView(R.id.swipeRefreshLayout)

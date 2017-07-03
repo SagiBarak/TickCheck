@@ -1,28 +1,14 @@
 package sagib.edu.tickcheck;
 
-/**
- * Created by sagib on 20/06/2017.
- */
-
 import com.google.firebase.auth.FirebaseUser;
-
-/**
- * A sender model class.
- * //We have some rules for object.
- * 1. Must have an empty constructor.
- * 2. Must have getter and setter.
- * 3. the getValue (User.class) requires it.
- */
-
 
 public class User {
 
     private String displayName;
-    private String profileImage = "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_1280.png"; //Not all users have profile images...
+    private String profileImage = "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_1280.png";
     private String uid;
     private String email;
 
-    // Empty Constructor:
     public User() {
     }
 

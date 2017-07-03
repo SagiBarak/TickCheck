@@ -1,6 +1,5 @@
 package sagib.edu.tickcheck;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,9 +31,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class PrivateChatFragment extends Fragment {
 
 
@@ -52,7 +48,6 @@ public class PrivateChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_private_chat, container, false);
         unbinder = ButterKnife.bind(this, v);
         recieverUID = getArguments().getString("recieverUID");

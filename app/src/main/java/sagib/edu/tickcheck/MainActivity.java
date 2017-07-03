@@ -18,7 +18,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.common.Scopes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -84,14 +83,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse idpResponse = IdpResponse.fromResultIntent(data);
-            if (resultCode == RESULT_OK) {
-                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                User user = new User(currentUser);
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
-                ref.setValue(user);
-            }
+        if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK) {
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            User user = new User(currentUser);
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+            ref.setValue(user);
         }
     }
 

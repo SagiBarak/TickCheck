@@ -31,10 +31,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-/**
- * Created by sagib on 14/06/2017.
- */
-
 public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder> {
 
     private ArrayList<Show> data;

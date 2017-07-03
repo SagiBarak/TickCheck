@@ -18,10 +18,6 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- * Created by sagib on 14/06/2017.
- */
-
 public class ShowDataSource {
 
 

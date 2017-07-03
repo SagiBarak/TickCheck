@@ -3,10 +3,6 @@ package sagib.edu.tickcheck;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by sagib on 19/06/2017.
- */
-
 public class BoardPost implements Parcelable {
     private String contents;
     private String email;

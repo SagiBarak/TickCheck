@@ -3,10 +3,6 @@ package sagib.edu.tickcheck;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by sagib on 01/07/2017.
- */
-
 public class PrivateMessage implements Parcelable {
     String senderUID;
     String recieverUID;

@@ -15,9 +15,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
-/**
- * Created by sagib on 12/05/2017.
- */
 public class StreamIO {
 
     private static final String lineSeperator = "\n";

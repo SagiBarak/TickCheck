@@ -3,10 +3,6 @@ package sagib.edu.tickcheck;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by sagib on 14/06/2017.
- */
-
 public class Zone implements Parcelable {
     private String name;
     private int capacity;
@@ -47,9 +43,7 @@ public class Zone implements Parcelable {
 
     @Override
     public String toString() {
-//        return name + " - מקומות: " + capacity + " פנויים: " + free + "\n";
-        String string = String.format("%s - מקומות פנויים: %d\n",name,free);
-        return string;
+        return String.format("%s - מקומות פנויים: %d\n",name,free);
     }
 
     @Override
