@@ -88,6 +88,7 @@ public class PrivateChatFragment extends Fragment {
 
             }
         });
+
         return v;
     }
 
@@ -125,6 +126,9 @@ public class PrivateChatFragment extends Fragment {
                     etPrvMessage.setText(null);
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    layoutManager.setStackFromEnd(true);
+                    rvPrvChat.setLayoutManager(layoutManager);
 
                 } else if (dataSnapshot.hasChild(recieverUID + sender.getUid())) {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("PrivateChats").child(recieverUID + sender.getUid()).push();
@@ -142,6 +146,9 @@ public class PrivateChatFragment extends Fragment {
                     etPrvMessage.setText(null);
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    layoutManager.setStackFromEnd(true);
+                    rvPrvChat.setLayoutManager(layoutManager);
 
                 } else if (!dataSnapshot.hasChild(recieverUID + sender.getUid()) && !dataSnapshot.hasChild(sender.getUid() + recieverUID)) {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("PrivateChats").child(sender.getUid() + recieverUID).push();
@@ -159,6 +166,9 @@ public class PrivateChatFragment extends Fragment {
                     etPrvMessage.setText(null);
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    layoutManager.setStackFromEnd(true);
+                    rvPrvChat.setLayoutManager(layoutManager);
                 }
             }
 
@@ -179,16 +189,6 @@ public class PrivateChatFragment extends Fragment {
         @Override
         protected void populateViewHolder(PrivateChatViewHolder viewHolder, PrivateMessage model, int position) {
             if (model.getSenderUID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                viewHolder.tvMyDate.setText(model.getDate());
-                viewHolder.tvMyMessage.setText(model.getMessage());
-                viewHolder.tvMyName.setText(model.getSenderDisplayName());
-                viewHolder.tvMyTime.setText(model.getTime());
-                viewHolder.tvDate.setVisibility(View.GONE);
-                viewHolder.tvMessage.setVisibility(View.GONE);
-                viewHolder.tvSender.setVisibility(View.GONE);
-                viewHolder.tvTime.setVisibility(View.GONE);
-                viewHolder.blOther.setVisibility(View.GONE);
-            } else {
                 viewHolder.tvDate.setText(model.getDate());
                 viewHolder.tvMessage.setText(model.getMessage());
                 viewHolder.tvSender.setText(model.getSenderDisplayName());
@@ -198,6 +198,16 @@ public class PrivateChatFragment extends Fragment {
                 viewHolder.tvMyName.setVisibility(View.GONE);
                 viewHolder.tvMyTime.setVisibility(View.GONE);
                 viewHolder.blMe.setVisibility(View.GONE);
+            } else {
+                viewHolder.tvMyDate.setText(model.getDate());
+                viewHolder.tvMyMessage.setText(model.getMessage());
+                viewHolder.tvMyName.setText(model.getSenderDisplayName());
+                viewHolder.tvMyTime.setText(model.getTime());
+                viewHolder.tvDate.setVisibility(View.GONE);
+                viewHolder.tvMessage.setVisibility(View.GONE);
+                viewHolder.tvSender.setVisibility(View.GONE);
+                viewHolder.tvTime.setVisibility(View.GONE);
+                viewHolder.blOther.setVisibility(View.GONE);
             }
         }
 
