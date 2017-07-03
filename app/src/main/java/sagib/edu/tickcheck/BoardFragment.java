@@ -182,14 +182,25 @@ public class BoardFragment extends Fragment {
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!post.getUserUID().equals(user.getUid())) {
-                        PrivateChatFragment privateChatFragment = new PrivateChatFragment();
-                        Bundle args = new Bundle();
-                        args.putString("recieverUID", post.getUserUID());
-                        args.putString("recieverDisplay", post.getUserDisplay());
-                        privateChatFragment.setArguments(args);
-                        fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).addToBackStack("List").commit();
-                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("הודעה פרטית").setMessage("האם ברצונך לשלוח הודעה פרטית ל-" + post.getUserDisplay() + "?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (!post.getUserUID().equals(user.getUid())) {
+                                PrivateChatFragment privateChatFragment = new PrivateChatFragment();
+                                Bundle args = new Bundle();
+                                args.putString("recieverUID", post.getUserUID());
+                                args.putString("recieverDisplay", post.getUserDisplay());
+                                privateChatFragment.setArguments(args);
+                                fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).addToBackStack("List").commit();
+                            }
+                        }
+                    }).setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
                 }
             });
         }
