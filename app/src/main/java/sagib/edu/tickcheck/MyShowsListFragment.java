@@ -110,6 +110,7 @@ public class MyShowsListFragment extends Fragment {
             ImageView ivNav;
             MyShow model;
             Fragment fragment;
+            TextView tvNav;
 
             public MyShowsListViewHolder(final View itemView, final Fragment fragment) {
                 super(itemView);
@@ -119,7 +120,8 @@ public class MyShowsListFragment extends Fragment {
                 tvArena = (TextView) itemView.findViewById(R.id.tvArena);
                 tvDayDateTime = (TextView) itemView.findViewById(R.id.tvDayDateTime);
                 ivNav = (ImageView) itemView.findViewById(R.id.ivNav);
-                ivNav.setOnClickListener(new View.OnClickListener() {
+                tvNav = (TextView) itemView.findViewById(R.id.tvNav);
+                View.OnClickListener onClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String uri = "";
@@ -132,10 +134,12 @@ public class MyShowsListFragment extends Fragment {
                         } else if (tvArena.getText().toString().contains("לייב פארק")) {
                             uri = "geo: 31.976074, 34.741294&navigate=yes";
                         }
-                        ivNav.getContext().startActivity(new Intent(android.content.Intent.ACTION_VIEW,
+                        v.getContext().startActivity(new Intent(android.content.Intent.ACTION_VIEW,
                                 Uri.parse(uri)));
                     }
-                });
+                };
+                ivNav.setOnClickListener(onClickListener);
+                tvNav.setOnClickListener(onClickListener);
                 itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
