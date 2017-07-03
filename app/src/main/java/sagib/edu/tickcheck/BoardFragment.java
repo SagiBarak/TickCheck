@@ -179,14 +179,14 @@ public class BoardFragment extends Fragment {
                 viewHolder.ivDelete.setVisibility(View.VISIBLE);
                 viewHolder.ivEdit.setVisibility(View.VISIBLE);
             }
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("הודעה פרטית").setMessage("האם ברצונך לשלוח הודעה פרטית ל-" + post.getUserDisplay() + "?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (!post.getUserUID().equals(user.getUid())) {
+            if (!post.getUserUID().equals(user.getUid())) {
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("הודעה פרטית").setMessage("האם ברצונך לשלוח הודעה פרטית ל-" + post.getUserDisplay() + "?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
                                 PrivateChatFragment privateChatFragment = new PrivateChatFragment();
                                 Bundle args = new Bundle();
                                 args.putString("recieverUID", post.getUserUID());
@@ -194,15 +194,15 @@ public class BoardFragment extends Fragment {
                                 privateChatFragment.setArguments(args);
                                 fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).addToBackStack("List").commit();
                             }
-                        }
-                    }).setNegativeButton("לא", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
-                }
-            });
+                        }).setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }
+                });
+            }
         }
 
         public static class BoardViewHolder extends RecyclerView.ViewHolder {

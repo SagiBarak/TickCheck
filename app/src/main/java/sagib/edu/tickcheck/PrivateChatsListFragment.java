@@ -107,7 +107,7 @@ public class PrivateChatsListFragment extends Fragment {
                 @Override
                 public boolean onLongClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(viewHolder.itemView.getContext());
-                    builder.setTitle("מחיקת שיחה").setMessage("האם ברצונך למחוק את השיחה עם " + model.getOtherUserDisplay() + " מהרשימה?\nהערה: השיחה עדיין תופיע ברשימה של " + model.getOtherUserDisplay()).setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                    builder.setTitle("מחיקת שיחה").setMessage("האם ברצונך למחוק את השיחה עם " + model.getOtherUserDisplay() + " מהרשימה?\nהערה: השיחה עדיין תופיע ברשימה של " + model.getOtherUserDisplay() + ".").setNegativeButton("לא", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

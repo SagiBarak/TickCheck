@@ -19,9 +19,12 @@ import com.daasuu.bl.BubbleLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.joda.time.LocalDateTime;
 
@@ -138,6 +141,19 @@ public class PrivateChatFragment extends Fragment {
         etPrvMessage.setText(null);
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                layoutManager.setStackFromEnd(true);
+                rvPrvChat.setLayoutManager(layoutManager);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public static class PrivateChatAdapter extends FirebaseRecyclerAdapter<PrivateMessage, PrivateChatAdapter.PrivateChatViewHolder> {
