@@ -1,9 +1,11 @@
 package sagib.edu.tickcheck;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -99,6 +101,25 @@ public class PrivateChatsListFragment extends Fragment {
                     args.putString("recieverDisplay", model.getOtherUserDisplay());
                     privateChatFragment.setArguments(args);
                     fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).addToBackStack("List").commit();
+                }
+            });
+            viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(viewHolder.itemView.getContext());
+                    builder.setTitle("מחיקת שיחה").setMessage("האם ברצונך למחוק את השיחה עם " + model.getOtherUserDisplay() + " מהרשימה?\nהערה: השיחה עדיין תופיע ברשימה של " + model.getOtherUserDisplay()).setNegativeButton("לא", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getOtherUserUID()).removeValue();
+                            dialog.dismiss();
+                        }
+                    }).show();
+                    return false;
                 }
             });
         }
