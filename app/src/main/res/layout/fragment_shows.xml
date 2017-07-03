@@ -12,8 +12,6 @@
     android:background="@drawable/gradient"
     tools:context="sagib.edu.tickcheck.ShowsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
