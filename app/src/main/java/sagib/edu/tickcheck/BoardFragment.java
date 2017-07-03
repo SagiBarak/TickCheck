@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -92,6 +93,12 @@ public class BoardFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("פורום מכירת כרטיסים");
+    }
+
     private void setupRecycler() {
         Fragment f = null;
         if (getParentFragment() != null) {
@@ -100,7 +107,9 @@ public class BoardFragment extends Fragment {
             f = this;
         adapter = new BoardAdapter(database.getReference("Board"), dialog, getContext(), f);
         recycler.setAdapter(adapter);
-        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setStackFromEnd(true);
+        recycler.setLayoutManager(layoutManager);
     }
 
     @OnTextChanged(R.id.etMessage)

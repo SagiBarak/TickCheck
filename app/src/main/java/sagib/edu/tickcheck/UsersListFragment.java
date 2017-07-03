@@ -55,15 +55,7 @@ public class UsersListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("רשימת משתמשים");
-    }
-
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            getActivity().setTitle("רשימת משתמשים");
-
-        }
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("רשימת משתמשים");
     }
 
     public static class UsersListAdapter extends FirebaseRecyclerAdapter<User, UsersListAdapter.UsersListViewHolder> {

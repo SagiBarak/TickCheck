@@ -3,16 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="10dp"
-    android:padding="8dp">
+    android:layout_height="wrap_content">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="#f5f5f5">
 
 
         <TextView
@@ -55,6 +53,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.daasuu.bl.BubbleLayout
+            android:id="@+id/blOther"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -62,11 +61,11 @@
             android:layout_marginTop="6dp"
             android:padding="8dp"
             app:bl_arrowDirection="top"
-            app:bl_arrowHeight="8dp"
+            app:bl_arrowHeight="0dp"
             app:bl_arrowPosition="80dp"
             app:bl_arrowWidth="8dp"
             app:bl_bubbleColor="@color/bootstrap_brand_success"
-            app:bl_cornersRadius="6dp"
+            app:bl_cornersRadius="8dp"
             app:bl_strokeWidth="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="@+id/tvSender"
@@ -122,18 +121,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.daasuu.bl.BubbleLayout
+            android:id="@+id/blMe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="6dp"
             android:padding="8dp"
-            app:bl_arrowDirection="top"
-            app:bl_arrowHeight="8dp"
-            app:bl_arrowPosition="80dp"
-            app:bl_arrowWidth="8dp"
+            app:bl_arrowHeight="0dp"
             app:bl_bubbleColor="@color/bootstrap_brand_info"
-            app:bl_cornersRadius="6dp"
+            app:bl_cornersRadius="8dp"
             app:bl_strokeWidth="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="@+id/tvMyName"

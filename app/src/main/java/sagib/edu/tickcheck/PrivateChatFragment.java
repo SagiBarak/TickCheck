@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.daasuu.bl.BubbleLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -73,7 +74,10 @@ public class PrivateChatFragment extends Fragment {
 
         PrivateChatAdapter adapter = new PrivateChatAdapter(ref);
         rvPrvChat.setAdapter(adapter);
-        rvPrvChat.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setStackFromEnd(true);
+        rvPrvChat.setLayoutManager(layoutManager);
+
         return v;
     }
 
@@ -94,16 +98,44 @@ public class PrivateChatFragment extends Fragment {
         DatabaseReference ref = null;
         if (FirebaseDatabase.getInstance().getReference("PrivateChats").child(sender.getUid() + recieverUID).toString().isEmpty() && FirebaseDatabase.getInstance().getReference("PrivateChats").child(recieverUID + sender.getUid()).toString().isEmpty()) {
             ref = FirebaseDatabase.getInstance().getReference("PrivateChats").child(sender.getUid() + recieverUID).push();
+            PrivateChatListItem sending = new PrivateChatListItem(recieverDisplay, sender.getUid() + recieverUID, recieverUID);
+            PrivateChatListItem recieving = new PrivateChatListItem(sender.getDisplayName(), sender.getUid() + recieverUID, sender.getUid());
+            if (!FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(recieverUID).child(sender.getUid()).toString().contains("otherUserUID: " + sender.getUid())) {
+                FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(recieverUID).child(sender.getUid()).setValue(recieving);
+            }
+            if (!FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).toString().contains("otherUserUID: " + recieverUID)) {
+                FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).setValue(sending);
+            }
         } else if (FirebaseDatabase.getInstance().getReference("PrivateChats").child(sender.getUid() + recieverUID).toString().isEmpty()) {
             ref = FirebaseDatabase.getInstance().getReference("PrivateChats").child(recieverUID + sender.getUid()).push();
+            PrivateChatListItem sending = new PrivateChatListItem(recieverDisplay, recieverUID + sender.getUid(), recieverUID);
+            PrivateChatListItem recieving = new PrivateChatListItem(sender.getDisplayName(), recieverUID + sender.getUid(), sender.getUid());
+            if (!FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(recieverUID).child(sender.getUid()).toString().contains("otherUserUID: " + sender.getUid())) {
+                FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(recieverUID).child(sender.getUid()).setValue(recieving);
+            }
+            if (!FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).toString().contains("otherUserUID: " + recieverUID)) {
+                FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).setValue(sending);
+            }
         } else if (FirebaseDatabase.getInstance().getReference("PrivateChats").child(recieverUID + sender.getUid()).toString().isEmpty()) {
             ref = FirebaseDatabase.getInstance().getReference("PrivateChats").child(sender.getUid() + recieverUID).push();
+            PrivateChatListItem sending = new PrivateChatListItem(recieverDisplay, sender.getUid() + recieverUID, recieverUID);
+            PrivateChatListItem recieving = new PrivateChatListItem(sender.getDisplayName(), sender.getUid() + recieverUID, sender.getUid());
+            if (!FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(recieverUID).child(sender.getUid()).toString().contains("otherUserUID: " + sender.getUid())) {
+                FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(recieverUID).child(sender.getUid()).setValue(recieving);
+            }
+            if (!FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).toString().contains("otherUserUID: " + recieverUID)) {
+                FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).setValue(sending);
+            }
         } else {
             ref = FirebaseDatabase.getInstance().getReference("PrivateChats").child(sender.getUid() + recieverUID).push();
             PrivateChatListItem sending = new PrivateChatListItem(recieverDisplay, sender.getUid() + recieverUID, recieverUID);
             PrivateChatListItem recieving = new PrivateChatListItem(sender.getDisplayName(), sender.getUid() + recieverUID, sender.getUid());
-            FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(recieverUID).child(sender.getUid()).setValue(recieving);
-            FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).setValue(sending);
+            if (!FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(recieverUID).child(sender.getUid()).toString().contains("otherUserUID: " + sender.getUid())) {
+                FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(recieverUID).child(sender.getUid()).setValue(recieving);
+            }
+            if (!FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).toString().contains("otherUserUID: " + recieverUID)) {
+                FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).setValue(sending);
+            }
         }
         String prvMessageUID = ref.getKey();
         PrivateMessage privateMessage = new PrivateMessage(sender.getUid(), recieverUID, sender.getDisplayName(), recieverDisplay, LocalDateTime.now().toString("dd/MM/yy"), LocalDateTime.now().toString("HH:mm"), etPrvMessage.getText().toString(), prvMessageUID);
@@ -129,6 +161,7 @@ public class PrivateChatFragment extends Fragment {
                 viewHolder.tvMessage.setVisibility(View.GONE);
                 viewHolder.tvSender.setVisibility(View.GONE);
                 viewHolder.tvTime.setVisibility(View.GONE);
+                viewHolder.blOther.setVisibility(View.GONE);
             } else {
                 viewHolder.tvDate.setText(model.getDate());
                 viewHolder.tvMessage.setText(model.getMessage());
@@ -138,6 +171,7 @@ public class PrivateChatFragment extends Fragment {
                 viewHolder.tvMyMessage.setVisibility(View.GONE);
                 viewHolder.tvMyName.setVisibility(View.GONE);
                 viewHolder.tvMyTime.setVisibility(View.GONE);
+                viewHolder.blMe.setVisibility(View.GONE);
             }
         }
 
@@ -151,6 +185,8 @@ public class PrivateChatFragment extends Fragment {
             TextView tvMyMessage;
             TextView tvMyTime;
             TextView tvMyDate;
+            BubbleLayout blOther;
+            BubbleLayout blMe;
 
             public PrivateChatViewHolder(View v) {
                 super(v);
@@ -162,6 +198,8 @@ public class PrivateChatFragment extends Fragment {
                 tvMyName = (TextView) v.findViewById(R.id.tvMyName);
                 tvMyTime = (TextView) v.findViewById(R.id.tvMyTime);
                 tvMyDate = (TextView) v.findViewById(R.id.tvMyDate);
+                blOther = (BubbleLayout) v.findViewById(R.id.blOther);
+                blMe = (BubbleLayout) v.findViewById(R.id.blMe);
             }
         }
     }
