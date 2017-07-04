@@ -26,7 +26,6 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         app:civ_border_color="#EEEEEE"
         app:civ_border_width="2dp"
@@ -34,7 +33,16 @@
         app:civ_shadow_color="#8BC34A"
         app:civ_shadow_radius="2"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_profile" />
+        app:srcCompat="@drawable/ic_profile"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline5" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/guideline5"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.25547445" />
 </android.support.constraint.ConstraintLayout>
