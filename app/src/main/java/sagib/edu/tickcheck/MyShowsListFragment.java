@@ -4,6 +4,9 @@ package sagib.edu.tickcheck;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +32,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+import java.util.Date;
 
 public class MyShowsListFragment extends Fragment {
 
@@ -94,6 +103,24 @@ public class MyShowsListFragment extends Fragment {
             viewHolder.tvArena.setText(show.getArena());
             viewHolder.tvPerformer.setText(show.getPerformer());
             viewHolder.tvDayDateTime.setText(show.getDateTime());
+            DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+            Date date = LocalDate.parse(show.getDate(),formatter).toDate();
+            if (date.before(LocalDate.now().toDate())){
+                ColorMatrix matrix = new ColorMatrix();
+                matrix.setSaturation(0);
+                ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+                viewHolder.ivImage.setColorFilter(filter);
+                viewHolder.ivNav.setColorFilter(filter);
+                viewHolder.tvNav.setTextColor(Color.rgb(80,80,80));
+                viewHolder.ivNav.setOnClickListener(null);
+                viewHolder.tvNav.setOnClickListener(null);
+                viewHolder.ivImage.setAlpha(0.5f);
+                viewHolder.ivNav.setAlpha(0.5f);
+                viewHolder.tvNav.setAlpha(0.5f);
+                viewHolder.tvArena.setAlpha(0.5f);
+                viewHolder.tvPerformer.setAlpha(0.5f);
+                viewHolder.tvDayDateTime.setAlpha(0.5f);
+            }
         }
 
         public static class MyShowsListViewHolder extends RecyclerView.ViewHolder {
