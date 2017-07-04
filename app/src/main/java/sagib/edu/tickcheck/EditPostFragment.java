@@ -48,14 +48,18 @@ public class EditPostFragment extends DialogFragment {
     @OnClick(R.id.btnEditPost)
     public void onViewClicked() {
         model.setContents(etEditPost.getText().toString());
-        FirebaseDatabase.getInstance().getReference("Board").child(model.getPostUID()).setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                dismiss();
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-                Toast.makeText(getContext(), "ההודעה נערכה!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (etEditPost.getText().length() < 7) {
+            etEditPost.setError("נא לרשום מודעה...");
+        } else {
+            FirebaseDatabase.getInstance().getReference("Board").child(model.getPostUID()).setValue(model).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    dismiss();
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                    Toast.makeText(getContext(), "ההודעה נערכה!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
