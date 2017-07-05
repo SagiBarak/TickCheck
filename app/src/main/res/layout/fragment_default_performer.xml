@@ -18,11 +18,12 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/etPerformer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:dropDownWidth="wrap_content"
         android:inputType="textPersonName"
         android:hint="שם האמן..."
         android:layout_marginRight="16dp"
@@ -37,13 +38,11 @@
         android:id="@+id/btnChoose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
         android:layout_marginTop="16dp"
         android:text="בחר"
         app:bootstrapBrand="primary"
         app:bootstrapSize="lg"
         app:buttonMode="regular"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:roundedCorners="true"
         app:showOutline="false"
         app:layout_constraintTop_toBottomOf="@+id/etPerformer"
@@ -51,4 +50,17 @@
         app:layout_constraintRight_toRightOf="@+id/etPerformer"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="@+id/etPerformer" />
+
+    <TextView
+        android:id="@+id/tvDeleteHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginTop="24dp"
+        android:textColor="@color/com_facebook_button_background_color"
+        android:text="מחק היסטוריה"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/btnChoose"
+        app:layout_constraintRight_toRightOf="@+id/btnChoose"
+        app:layout_constraintTop_toBottomOf="@+id/btnChoose" />
 </android.support.constraint.ConstraintLayout>
