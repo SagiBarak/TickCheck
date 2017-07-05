@@ -1,6 +1,8 @@
 package sagib.edu.tickcheck;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,14 +28,18 @@ public class ShowDataSource {
     }
 
     public static void getShows(final OnShowArrivedListener listener, Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("DefaultPerformer", Context.MODE_PRIVATE);
+        final String performer = prefs.getString("PerformerName", "%D7%A9%D7%9C%D7%9E%D7%94-%D7%90%D7%A8%D7%A6%D7%99");
         ExecutorService service = Executors.newSingleThreadExecutor();
+        Log.d("SagiB", performer);
         final ArrayList<Show> shows = new ArrayList<>();
         service.execute(new Runnable() {
             @Override
             public void run() {
                 String html = "";
                 try {
-                    URL url = new URL("https://www.zappa-club.co.il/%D7%AA%D7%92%D7%99%D7%95%D7%AA/%D7%A9%D7%9C%D7%9E%D7%94-%D7%90%D7%A8%D7%A6%D7%99/");
+                    URL url = new URL("https://www.zappa-club.co.il/%D7%AA%D7%92%D7%99%D7%95%D7%AA/" + performer + "/");
+//                    URL url = new URL("https://www.zappa-club.co.il/%D7%AA%D7%92%D7%99%D7%95%D7%AA/%D7%A9%D7%9C%D7%9E%D7%94-%D7%90%D7%A8%D7%A6%D7%99/");
                     URLConnection con = url.openConnection();
                     con.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; U; Android 2.2.1; en-ca; LG-P505R Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
                     InputStream in = con.getInputStream();
@@ -61,7 +67,7 @@ public class ShowDataSource {
                         e.printStackTrace();
                         listener.onShowArrived(null, e);
                     }
-                    String link = elementLink.toString().replace("<a class=\"buyTicket\" href=\"", "").replace("\">לרכישת כרטיסים ← </a>", "").replace("\">לפרטים ורכישה ← </a>", "");
+                    String link = elementLink.toString().replace("<a class=\"buyTicket\" href=\"", "").replace("\">לרכישת כרטיסים ← </a>", "").replace("\">לפרטים ורכישה ← </a>", "").replace("\">הזמנת כרטיסים ← </a>", "");
                     String parsedlink = "";
                     try {
                         URL url = new URL(StreamIO.encodeZappaFromEncode(link));

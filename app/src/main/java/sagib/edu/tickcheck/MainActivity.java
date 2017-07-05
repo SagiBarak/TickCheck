@@ -158,6 +158,11 @@ public class MainActivity extends AppCompatActivity
             mAuth.signOut();
             return true;
         }
+        if (id == R.id.action_default) {
+            DefaultPerformerFragment defaultPerformerFragment = new DefaultPerformerFragment();
+            defaultPerformerFragment.show(getSupportFragmentManager(),"Choose");
+            return true;
+        }
 
         if (id == R.id.action_about) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
