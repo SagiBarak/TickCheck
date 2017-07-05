@@ -3,6 +3,7 @@ package sagib.edu.tickcheck;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -12,9 +13,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,11 +52,7 @@ public class DefaultPerformerFragment extends DialogFragment {
     public void onViewClicked() {
         String performer = etPerformer.getText().toString();
         performer = performer.replace(" ", "-");
-        try {
-            URLEncoder.encode(performer, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        performer = Uri.encode(performer);
         prefs.edit().putString("PerformerName", performer).commit();
         dismiss();
     }
