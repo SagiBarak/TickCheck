@@ -64,7 +64,7 @@ public class BoardFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_board, container, false);
         unbinder = ButterKnife.bind(this, v);
         dialog = new ProgressDialog(getContext());
-        dialog.setMessage("טוען רשימת הודעות...");
+        dialog.setMessage("טוען רשימת מודעות...");
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();

@@ -14,12 +14,16 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +44,7 @@ public class DefaultPerformerFragment extends DialogFragment {
     Unbinder unbinder;
     @BindView(R.id.tvDeleteHistory)
     TextView tvDeleteHistory;
+    boolean dropdownShowing = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +54,12 @@ public class DefaultPerformerFragment extends DialogFragment {
         prefs = getContext().getSharedPreferences("DefaultPerformer", Context.MODE_PRIVATE);
         String performers = prefs.getString("RecentPerformers", "");
         String[] split = performers.split("\\r?\\n");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, split);
+        List<String> performersList = new ArrayList<>();
+        for (String s : split) {
+            if (!s.isEmpty())
+                performersList.add(s);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, performersList);
         etPerformer.setAdapter(adapter);
         etPerformer.setDropDownAnchor(R.id.etPerformer);
         etPerformer.addTextChangedListener(new TextWatcher() {
@@ -67,6 +77,23 @@ public class DefaultPerformerFragment extends DialogFragment {
 
             }
         });
+        etPerformer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etPerformer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (dropdownShowing) {
+                            etPerformer.dismissDropDown();
+                            dropdownShowing = false;
+                        } else {
+                            etPerformer.showDropDown();
+                            dropdownShowing = true;
+                        }
+                    }
+                });
+            }
+        });
 
         return v;
     }
@@ -79,14 +106,19 @@ public class DefaultPerformerFragment extends DialogFragment {
 
     @OnClick(R.id.btnChoose)
     public void onBtnChooseClicked() {
-        String performer = etPerformer.getText().toString();
-        String values = prefs.getString("RecentPerformers", "");
-        prefs.edit().putString("RecentPerformers", values + "\n" + performer).commit();
-        performer = performer.replace(" ", "-");
-        performer = Uri.encode(performer);
-        prefs.edit().putString("PerformerName", performer).commit();
-
-        dismiss();
+        if (etPerformer.getText().toString().length() < 1) {
+            etPerformer.setError("יש לרשום את שם האמן...");
+        } else {
+            String performer = etPerformer.getText().toString();
+            String values = prefs.getString("RecentPerformers", "");
+            prefs.edit().putString("RecentPerformers", values + "\n" + performer).commit();
+            performer = performer.replace(" ", "-");
+            performer = Uri.encode(performer);
+            prefs.edit().putString("PerformerName", performer).commit();
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+            dismiss();
+        }
     }
 
     @OnClick(R.id.tvDeleteHistory)
