@@ -62,6 +62,10 @@ public class MyShowsListFragment extends Fragment {
         FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() == 0) {
+                    tvTitleMyShows.setText("אין הופעות ברשימה...");
+                    pbLoadingList.setVisibility(View.GONE);
+                }
                 if (!dataSnapshot.exists()) {
                     tvTitleMyShows.setText("אין הופעות ברשימה...");
                     pbLoadingList.setVisibility(View.GONE);
@@ -84,6 +88,7 @@ public class MyShowsListFragment extends Fragment {
 
         Context context;
         Fragment fragment;
+        String uri;
 
         public MyShowsListAdapter(Query query, Context context, Fragment fragment) {
             super(MyShow.class, R.layout.myshow_item, MyShowsListViewHolder.class, query);
@@ -98,7 +103,7 @@ public class MyShowsListFragment extends Fragment {
         }
 
         @Override
-        protected void populateViewHolder(MyShowsListViewHolder viewHolder, MyShow show, int position) {
+        protected void populateViewHolder(final MyShowsListViewHolder viewHolder, MyShow show, int position) {
             viewHolder.model = show;
             Picasso.with(context).load(show.getImage()).into(viewHolder.ivImage);
             viewHolder.tvArena.setText(show.getArena());
@@ -106,6 +111,17 @@ public class MyShowsListFragment extends Fragment {
             viewHolder.tvDayDateTime.setText(show.getDateTime());
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
             Date date = LocalDate.parse(show.getDate(), formatter).toDate();
+            uri = "";
+            getLocationOfArena(viewHolder);
+            View.OnClickListener onClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.getContext().startActivity(new Intent(android.content.Intent.ACTION_VIEW,
+                            Uri.parse(uri)));
+                }
+            };
+            viewHolder.ivNav.setOnClickListener(onClickListener);
+            viewHolder.tvNav.setOnClickListener(onClickListener);
             if (date.before(LocalDate.now().toDate())) {
                 ColorMatrix matrix = new ColorMatrix();
                 matrix.setSaturation(0);
@@ -121,6 +137,31 @@ public class MyShowsListFragment extends Fragment {
                 viewHolder.tvArena.setAlpha(0.5f);
                 viewHolder.tvPerformer.setAlpha(0.5f);
                 viewHolder.tvDayDateTime.setAlpha(0.5f);
+            }
+        }
+
+        private void getLocationOfArena(MyShowsListViewHolder viewHolder) {
+            if (viewHolder.tvArena.getText().toString().contains("זאפה אמפי שוני")) {
+                uri = "geo: 32.534777, 34.948529&navigate=yes";
+            } else if (viewHolder.tvArena.getText().toString().contains("פארק ענבה מודיעין")) {
+                uri = "geo: 31.898358, 35.004058&navigate=yes";
+            } else if (viewHolder.tvArena.getText().toString().contains("אמפי קיסריה (הגן הלאומי)")) {
+                uri = "geo: 32.495838, 34.891096&navigate=yes";
+            } else if (viewHolder.tvArena.getText().toString().contains("זאפה הרצליה")) {
+                uri = "geo: 32.166939, 34.810675&navigate=yes";
+            } else if (viewHolder.tvArena.getText().toString().contains("זאפה ירושלים")) {
+                uri = "geo: 31.7670034,35.2275566&navigate=yes";
+            } else if (viewHolder.tvArena.getText().toString().contains("זאפה חיפה")) {
+                uri = "geo: 32.7896917,34.9657941&navigate=yes";
+            } else if (viewHolder.tvArena.getText().toString().contains("אמפי פארק מיני ישראל")) {
+                uri = "geo: 31.8421649,34.9712045&navigate=yes";
+            } else if (viewHolder.tvArena.getText().toString().contains("זאפה תל אביב")) {
+                uri = "geo: 32.1112442,34.8414371&navigate=yes";
+            } else {
+                viewHolder.ivNav.setVisibility(View.INVISIBLE);
+                viewHolder.tvNav.setVisibility(View.INVISIBLE);
+                viewHolder.ivNav.setOnClickListener(null);
+                viewHolder.tvNav.setOnClickListener(null);
             }
         }
 
@@ -144,25 +185,6 @@ public class MyShowsListFragment extends Fragment {
                 tvDayDateTime = (TextView) itemView.findViewById(R.id.tvDayDateTime);
                 ivNav = (ImageView) itemView.findViewById(R.id.ivNav);
                 tvNav = (TextView) itemView.findViewById(R.id.tvNav);
-                View.OnClickListener onClickListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String uri = "";
-                        if (tvArena.getText().toString().contains("זאפה אמפי שוני")) {
-                            uri = "geo: 32.534777, 34.948529&navigate=yes";
-                        } else if (tvArena.getText().toString().contains("פארק ענבה מודיעין")) {
-                            uri = "geo: 31.898358, 35.004058&navigate=yes";
-                        } else if (tvArena.getText().toString().contains("אמפי קיסריה (הגן הלאומי)")) {
-                            uri = "geo: 32.495838, 34.891096&navigate=yes";
-                        } else if (tvArena.getText().toString().contains("לייב פארק")) {
-                            uri = "geo: 31.976074, 34.741294&navigate=yes";
-                        }
-                        v.getContext().startActivity(new Intent(android.content.Intent.ACTION_VIEW,
-                                Uri.parse(uri)));
-                    }
-                };
-                ivNav.setOnClickListener(onClickListener);
-                tvNav.setOnClickListener(onClickListener);
                 itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
