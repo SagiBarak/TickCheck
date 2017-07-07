@@ -56,7 +56,7 @@ public class MyShowsListFragment extends Fragment {
         pbLoadingList = (ProgressBar) v.findViewById(R.id.pbLoadingList);
         tvTitleMyShows.setText("טוען את ההופעות שלי...");
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid());
-        MyShowsListAdapter adapter = new MyShowsListAdapter(reference.orderByChild("date"), getContext(), this);
+        final MyShowsListAdapter adapter = new MyShowsListAdapter(reference.orderByChild("date"), getContext(), this);
         rvMyShows.setAdapter(adapter);
         rvMyShows.setLayoutManager(new LinearLayoutManager(getContext()));
         FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -76,6 +76,7 @@ public class MyShowsListFragment extends Fragment {
 
             }
         });
+
         return v;
     }
 
@@ -104,14 +105,14 @@ public class MyShowsListFragment extends Fragment {
             viewHolder.tvPerformer.setText(show.getPerformer());
             viewHolder.tvDayDateTime.setText(show.getDateTime());
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-            Date date = LocalDate.parse(show.getDate(),formatter).toDate();
-            if (date.before(LocalDate.now().toDate())){
+            Date date = LocalDate.parse(show.getDate(), formatter).toDate();
+            if (date.before(LocalDate.now().toDate())) {
                 ColorMatrix matrix = new ColorMatrix();
                 matrix.setSaturation(0);
                 ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
                 viewHolder.ivImage.setColorFilter(filter);
                 viewHolder.ivNav.setColorFilter(filter);
-                viewHolder.tvNav.setTextColor(Color.rgb(80,80,80));
+                viewHolder.tvNav.setTextColor(Color.rgb(80, 80, 80));
                 viewHolder.ivNav.setOnClickListener(null);
                 viewHolder.tvNav.setOnClickListener(null);
                 viewHolder.ivImage.setAlpha(0.5f);

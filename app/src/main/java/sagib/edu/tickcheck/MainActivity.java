@@ -1,7 +1,9 @@
 package sagib.edu.tickcheck;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -33,6 +35,9 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private FirebaseDatabase mDatabase;
     private FirebaseUser user;
+    SharedPreferences prefs;
+    String performer = "";
+
 
     private static final int RC_SIGN_IN = 1;
 
@@ -101,6 +106,8 @@ public class MainActivity extends AppCompatActivity
         mDatabase = FirebaseDatabase.getInstance();
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        prefs = getSharedPreferences("DefaultPerformer", Context.MODE_PRIVATE);
+        performer = prefs.getString("PerformerTitle", "שלמה ארצי");
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -160,7 +167,7 @@ public class MainActivity extends AppCompatActivity
         }
         if (id == R.id.action_default) {
             DefaultPerformerFragment defaultPerformerFragment = new DefaultPerformerFragment();
-            defaultPerformerFragment.show(getSupportFragmentManager(),"Choose");
+            defaultPerformerFragment.show(getSupportFragmentManager(), "Choose");
             return true;
         }
 
@@ -186,7 +193,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_shows) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment(), "Shows").commit();
-            toolbar.setTitle("רשימת הופעות");
+            toolbar.setTitle("רשימת הופעות של " + performer);
         } else if (id == R.id.nav_board) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();
             toolbar.setTitle("פורום מכירת כרטיסים");

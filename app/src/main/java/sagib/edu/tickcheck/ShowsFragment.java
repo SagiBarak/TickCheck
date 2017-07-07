@@ -1,6 +1,7 @@
 package sagib.edu.tickcheck;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,12 +29,14 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
     Unbinder unbinder;
     private ProgressDialog dialog;
     SharedPreferences prefs;
+    String performer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_shows, container, false);
-        prefs = getContext().getSharedPreferences("History", getContext().MODE_PRIVATE);
+        prefs = getContext().getSharedPreferences("DefaultPerformer", Context.MODE_PRIVATE);
+        performer = prefs.getString("PerformerTitle", "שלמה ארצי");
         dialog = new ProgressDialog(getContext());
         dialog.setMessage("נא להמתין,\nמרענן רשימת הופעות..." + "\n" + "מומלץ להתחבר לרשת אלחוטית.");
         dialog.setCancelable(false);
@@ -45,6 +48,9 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
             public void onRefresh() {
                 dialog.show();
                 ShowDataSource.getShows(ShowsFragment.this, getContext());
+                performer = prefs.getString("PerformerTitle", "שלמה ארצי");
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("רשימת הופעות של " + performer);
+
             }
         });
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -65,7 +71,7 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("רשימת הופעות");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("רשימת הופעות של " + performer);
     }
 
     @Override

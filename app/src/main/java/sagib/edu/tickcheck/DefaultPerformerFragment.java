@@ -112,6 +112,7 @@ public class DefaultPerformerFragment extends DialogFragment {
             String performer = etPerformer.getText().toString();
             String values = prefs.getString("RecentPerformers", "");
             prefs.edit().putString("RecentPerformers", values + "\n" + performer).commit();
+            prefs.edit().putString("PerformerTitle", performer).commit();
             performer = performer.replace(" ", "-");
             performer = Uri.encode(performer);
             prefs.edit().putString("PerformerName", performer).commit();
