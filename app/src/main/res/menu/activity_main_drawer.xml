@@ -23,6 +23,10 @@
     <item android:title="ניהול משתמש">
         <menu>
             <item
+                android:id="@+id/nav_chooseperformer"
+                android:icon="@drawable/ic_performer"
+                android:title="בחר אמן לרשימה" />
+            <item
                 android:id="@+id/nav_signout"
                 android:icon="@drawable/ic_cancel"
                 android:title="התנתקות" />

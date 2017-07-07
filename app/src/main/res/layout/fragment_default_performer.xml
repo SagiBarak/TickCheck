@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:ems="13"
         android:dropDownWidth="wrap_content"
+        android:dropDownHeight="wrap_content"
         android:inputType="textPersonName"
         android:hint="שם האמן..."
         android:layout_marginRight="16dp"

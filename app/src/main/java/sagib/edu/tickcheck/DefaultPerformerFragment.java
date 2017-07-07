@@ -8,9 +8,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +25,9 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,22 +63,30 @@ public class DefaultPerformerFragment extends DialogFragment {
             if (!s.isEmpty())
                 performersList.add(s);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, performersList);
+        Set<String> hs = new HashSet<>();
+        hs.addAll(performersList);
+        performersList.clear();
+        performersList.addAll(hs);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.dropdownitem, performersList);
         etPerformer.setAdapter(adapter);
         etPerformer.setDropDownAnchor(R.id.etPerformer);
         etPerformer.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                etPerformer.setDropDownHeight(ActionBar.LayoutParams.WRAP_CONTENT);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                etPerformer.setDropDownHeight(ActionBar.LayoutParams.WRAP_CONTENT);
                 etPerformer.showDropDown();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (etPerformer.getAdapter().getCount() > 2)
+                    etPerformer.setDropDownHeight(300);
+                Log.d("SagiB", String.valueOf(etPerformer.getAdapter().getCount()));
             }
         });
         etPerformer.setOnClickListener(new View.OnClickListener() {
@@ -84,9 +96,17 @@ public class DefaultPerformerFragment extends DialogFragment {
                     @Override
                     public void onClick(View v) {
                         if (dropdownShowing) {
+                            if (etPerformer.getAdapter().getCount() > 2)
+                                etPerformer.setDropDownHeight(300);
+                            else
+                                etPerformer.setDropDownHeight(ActionBar.LayoutParams.WRAP_CONTENT);
                             etPerformer.dismissDropDown();
                             dropdownShowing = false;
                         } else {
+                            if (etPerformer.getAdapter().getCount() > 2)
+                                etPerformer.setDropDownHeight(300);
+                            else
+                                etPerformer.setDropDownHeight(ActionBar.LayoutParams.WRAP_CONTENT);
                             etPerformer.showDropDown();
                             dropdownShowing = true;
                         }
@@ -110,6 +130,7 @@ public class DefaultPerformerFragment extends DialogFragment {
             etPerformer.setError("יש לרשום את שם האמן...");
         } else {
             String performer = etPerformer.getText().toString();
+            String title = etPerformer.getText().toString();
             String values = prefs.getString("RecentPerformers", "");
             prefs.edit().putString("RecentPerformers", values + "\n" + performer).commit();
             prefs.edit().putString("PerformerTitle", performer).commit();
@@ -119,6 +140,7 @@ public class DefaultPerformerFragment extends DialogFragment {
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
             dismiss();
+            Toast.makeText(getContext(), "רשימת ההופעות עודכנה לרשימה של:" + "\n" + title, Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -203,6 +203,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_privatechats) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new PrivateChatsListFragment()).commit();
             toolbar.setTitle("שיחות פרטיות");
+        } else if (id == R.id.nav_chooseperformer) {
+            DefaultPerformerFragment defaultPerformerFragment = new DefaultPerformerFragment();
+            defaultPerformerFragment.show(getSupportFragmentManager(), "Choose");
         } else if (id == R.id.nav_signout) {
             mAuth.signOut();
         }
