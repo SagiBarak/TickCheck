@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -192,6 +193,10 @@ public class BoardFragment extends Fragment {
                                 args.putString("recieverUID", post.getUserUID());
                                 args.putString("recieverDisplay", post.getUserDisplay());
                                 privateChatFragment.setArguments(args);
+                                FragmentManager fm = fragment.getFragmentManager();
+                                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                                    fm.popBackStack();
+                                }
                                 fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).addToBackStack("List").commit();
                             }
                         }).setNegativeButton("לא", new DialogInterface.OnClickListener() {

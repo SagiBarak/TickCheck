@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,6 +65,10 @@ public class PrivateChatsListFragment extends Fragment {
 
     @OnClick(R.id.fabNewChat)
     public void onFabNewChatClicked() {
+        FragmentManager fm = getFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
         getFragmentManager().beginTransaction().replace(R.id.frame, new UsersListFragment()).addToBackStack("UsersList").commit();
     }
 
@@ -100,6 +105,10 @@ public class PrivateChatsListFragment extends Fragment {
                     args.putString("recieverUID", model.getOtherUserUID());
                     args.putString("recieverDisplay", model.getOtherUserDisplay());
                     privateChatFragment.setArguments(args);
+                    FragmentManager fm = fragment.getFragmentManager();
+                    for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                        fm.popBackStack();
+                    }
                     fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).addToBackStack("List").commit();
                 }
             });

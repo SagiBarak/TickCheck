@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -201,6 +202,10 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
         args.putParcelable("show", show);
         WebViewFragment webViewFragment = new WebViewFragment();
         webViewFragment.setArguments(args);
+        FragmentManager fm = fragment.getFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
         fragment.getFragmentManager().beginTransaction().replace(R.id.frame, webViewFragment).addToBackStack("Buy").commit();
     }
 }
