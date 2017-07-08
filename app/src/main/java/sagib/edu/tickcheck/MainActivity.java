@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.common.Scopes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MobileAds.initialize(this, "ca-app-pub-7962012481002515~8641009187");
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.GONE);
         mAuth = FirebaseAuth.getInstance();
@@ -146,7 +148,7 @@ public class MainActivity extends AppCompatActivity
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
-            }).setCancelable(false).show();
+            }).setCancelable(true).show();
         } else {
             getSupportFragmentManager().popBackStack();
         }

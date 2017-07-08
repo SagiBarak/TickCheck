@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,11 +47,15 @@ public class MyShowsListFragment extends Fragment {
     FirebaseUser user;
     TextView tvTitleMyShows;
     ProgressBar pbLoadingList;
+    private AdView mAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_shows_list, container, false);
+        mAdView = (AdView) v.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         user = FirebaseAuth.getInstance().getCurrentUser();
         rvMyShows = (RecyclerView) v.findViewById(R.id.rvMyShows);
         tvTitleMyShows = (TextView) v.findViewById(R.id.tvTitleMyShows);

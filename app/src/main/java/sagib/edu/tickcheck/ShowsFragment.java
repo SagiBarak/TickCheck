@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -30,11 +33,16 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
     private ProgressDialog dialog;
     SharedPreferences prefs;
     String performer;
+    private AdView mAdView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_shows, container, false);
+        mAdView = (AdView) v.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         prefs = getContext().getSharedPreferences("DefaultPerformer", Context.MODE_PRIVATE);
         performer = prefs.getString("PerformerTitle", "שלמה ארצי");
         dialog = new ProgressDialog(getContext());
