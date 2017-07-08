@@ -1,6 +1,9 @@
 package sagib.edu.tickcheck;
 
-public class MyShow {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class MyShow implements Parcelable {
     private String performer;
     private String dateTime;
     private String arena;
@@ -78,4 +81,42 @@ public class MyShow {
     public void setMyShowUID(String myShowUID) {
         this.myShowUID = myShowUID;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.performer);
+        dest.writeString(this.dateTime);
+        dest.writeString(this.arena);
+        dest.writeString(this.image);
+        dest.writeString(this.myShowUID);
+        dest.writeString(this.date);
+        dest.writeString(this.eventID);
+    }
+
+    protected MyShow(Parcel in) {
+        this.performer = in.readString();
+        this.dateTime = in.readString();
+        this.arena = in.readString();
+        this.image = in.readString();
+        this.myShowUID = in.readString();
+        this.date = in.readString();
+        this.eventID = in.readString();
+    }
+
+    public static final Parcelable.Creator<MyShow> CREATOR = new Parcelable.Creator<MyShow>() {
+        @Override
+        public MyShow createFromParcel(Parcel source) {
+            return new MyShow(source);
+        }
+
+        @Override
+        public MyShow[] newArray(int size) {
+            return new MyShow[size];
+        }
+    };
 }

@@ -109,7 +109,7 @@ public class MyShowsListFragment extends Fragment {
         }
 
         @Override
-        protected void populateViewHolder(final MyShowsListViewHolder viewHolder, MyShow show, int position) {
+        protected void populateViewHolder(final MyShowsListViewHolder viewHolder, final MyShow show, int position) {
             viewHolder.model = show;
             Picasso.with(context).load(show.getImage()).into(viewHolder.ivImage);
             viewHolder.tvArena.setText(show.getArena());
@@ -128,6 +128,16 @@ public class MyShowsListFragment extends Fragment {
             };
             viewHolder.ivNav.setOnClickListener(onClickListener);
             viewHolder.tvNav.setOnClickListener(onClickListener);
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyShowOptionsFragment myShowOptionsFragment = new MyShowOptionsFragment();
+                    Bundle args = new Bundle();
+                    args.putParcelable("myShow", show);
+                    myShowOptionsFragment.setArguments(args);
+                    myShowOptionsFragment.show(fragment.getChildFragmentManager(),"myShowOptionsFragment");
+                }
+            });
             if (date.before(LocalDate.now().toDate())) {
                 ColorMatrix matrix = new ColorMatrix();
                 matrix.setSaturation(0);
