@@ -134,13 +134,13 @@ public class DefaultPerformerFragment extends DialogFragment {
             String values = prefs.getString("RecentPerformers", "");
             prefs.edit().putString("RecentPerformers", values + "\n" + performer).commit();
             prefs.edit().putString("PerformerTitle", performer).commit();
-            performer = performer.replace(" ", "-");
+            performer = performer.replace(" ", "-").replace("׳","");
             performer = Uri.encode(performer);
             prefs.edit().putString("PerformerName", performer).commit();
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
             dismiss();
-            Toast.makeText(getContext(), "רשימת ההופעות עודכנה לרשימה של:" + "\n" + title, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "רשימת ההופעות עודכנה לרשימה של: " + title, Toast.LENGTH_SHORT).show();
         }
     }
 

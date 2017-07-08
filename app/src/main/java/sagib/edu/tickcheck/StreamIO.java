@@ -98,7 +98,7 @@ public class StreamIO {
     }
 
     public static String read(InputStream in) throws IOException {
-        return read(in, "utf-8");
+        return read(in, "UTF-8");
     }
 
     public static String read(InputStream in, String charset) throws IOException {
@@ -106,7 +106,7 @@ public class StreamIO {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(in, charset));
-            String line;
+            String line = "";
             while ((line = reader.readLine()) != null) {
                 data.append(line).append(lineSeperator);
             }

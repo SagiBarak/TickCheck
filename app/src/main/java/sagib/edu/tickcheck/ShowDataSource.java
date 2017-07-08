@@ -32,6 +32,7 @@ public class ShowDataSource {
         final String performer = prefs.getString("PerformerName", "%D7%A9%D7%9C%D7%9E%D7%94-%D7%90%D7%A8%D7%A6%D7%99");
         ExecutorService service = Executors.newSingleThreadExecutor();
         final ArrayList<Show> shows = new ArrayList<>();
+        Log.d("SagiB Performer", performer);
         service.execute(new Runnable() {
             @Override
             public void run() {
@@ -39,7 +40,10 @@ public class ShowDataSource {
                 try {
                     URL url = new URL("https://www.zappa-club.co.il/%D7%AA%D7%92%D7%99%D7%95%D7%AA/" + performer + "/");
                     URLConnection con = url.openConnection();
+
                     con.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; U; Android 2.2.1; en-ca; LG-P505R Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
+                    con.setRequestProperty("Content-Type", "text/plain; charset=utf-8");
+                    con.setRequestProperty("Connection", "Keep-Alive");
                     InputStream in = con.getInputStream();
                     html = StreamIO.read(in);
                 } catch (IOException e) {
@@ -67,19 +71,20 @@ public class ShowDataSource {
                         continue;
                     }
                     String link = elementLink.toString().replace("<a class=\"buyTicket\" href=\"", "").replace("\">לרכישת כרטיסים ← </a>", "").replace("\">לפרטים ורכישה ← </a>", "").replace("\">הזמנת כרטיסים ← </a>", "");
-                    String parsedlink = "";
+                    String parsedlinkfirst = "";
                     try {
                         URL url = new URL(StreamIO.encodeZappaFromEncode(link));
                         link = url.toString();
                         URLConnection con = url.openConnection();
                         con.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; U; Android 2.2.1; en-ca; LG-P505R Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
                         InputStream in = con.getInputStream();
-                        parsedlink = StreamIO.read(in);
+                        parsedlinkfirst = StreamIO.read(in);
                     } catch (IOException e) {
                         Log.d("SagiB", e.toString());
                         listener.onShowArrived(null, e);
                         continue;
                     }
+                    String parsedlink = parsedlinkfirst.replace("&#039;", "׳");
                     String image = elementImage.absUrl("src");
                     String performer = elementPerformer.toString().replace("<h2 itemprop=\"name\">", "").replace("</h2>", "");
                     String arena = elementArena.attr("content");
@@ -95,7 +100,7 @@ public class ShowDataSource {
                     int idx1 = parsedlink.indexOf("areas': [");
                     String subs = parsedlink.substring(idx1 + 9);
                     int idx2 = subs.lastIndexOf(", \"soldOut");
-                    String substring = subs.substring(0, idx2);
+                    String substring = subs.substring(0, idx2 + 2);
                     int sectors = substring.split("name").length - 1;
                     for (int j = 0; j < sectors; j++) {
                         int index = StreamIO.ordinalIndexOf(substring, "\"name\":\"", j + 1);
