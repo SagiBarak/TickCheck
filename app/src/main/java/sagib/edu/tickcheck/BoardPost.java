@@ -21,7 +21,7 @@ public class BoardPost implements Parcelable {
     public BoardPost() {
     }
 
-    public BoardPost(String contents, String email, String hour, String date, String postUID, String userUID, String userDisplay) {
+    public BoardPost(String contents, String email, String hour, String date, String postUID, String userUID, String userDisplay, String ticketsNumber, String showTitle, String showDate, String showArena, String showPrice) {
         this.contents = contents;
         this.email = email;
         this.hour = hour;
@@ -29,8 +29,53 @@ public class BoardPost implements Parcelable {
         this.postUID = postUID;
         this.userUID = userUID;
         this.userDisplay = userDisplay;
+        this.ticketsNumber = ticketsNumber;
+        this.showTitle = showTitle;
+        this.showDate = showDate;
+        this.showArena = showArena;
+        this.showPrice = showPrice;
 
 
+    }
+
+    public String getTicketsNumber() {
+        return ticketsNumber;
+    }
+
+    public void setTicketsNumber(String ticketsNumber) {
+        this.ticketsNumber = ticketsNumber;
+    }
+
+    public String getShowTitle() {
+        return showTitle;
+    }
+
+    public void setShowTitle(String showTitle) {
+        this.showTitle = showTitle;
+    }
+
+    public String getShowDate() {
+        return showDate;
+    }
+
+    public void setShowDate(String showDate) {
+        this.showDate = showDate;
+    }
+
+    public String getShowArena() {
+        return showArena;
+    }
+
+    public void setShowArena(String showArena) {
+        this.showArena = showArena;
+    }
+
+    public String getShowPrice() {
+        return showPrice;
+    }
+
+    public void setShowPrice(String showPrice) {
+        this.showPrice = showPrice;
     }
 
     public String getUserUID() {

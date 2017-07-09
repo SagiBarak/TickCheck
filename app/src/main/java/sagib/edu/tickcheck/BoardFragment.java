@@ -3,43 +3,33 @@ package sagib.edu.tickcheck;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
-import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import org.joda.time.LocalDateTime;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnTextChanged;
 import butterknife.Unbinder;
 
 public class BoardFragment extends Fragment {
@@ -48,10 +38,6 @@ public class BoardFragment extends Fragment {
     FirebaseDatabase database;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     BoardAdapter adapter;
-    @BindView(R.id.etMessage)
-    EditText etMessage;
-    @BindView(R.id.tilMessage)
-    TextInputLayout tilMessage;
     @BindView(R.id.btnSend)
     BootstrapButton btnSend;
     @BindView(R.id.recycler)
@@ -69,8 +55,13 @@ public class BoardFragment extends Fragment {
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        btnSend.setOnClickListener(null);
-        btnSend.setBackgroundColor(Color.GRAY);
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewPostFragment newPostFragment = new NewPostFragment();
+                newPostFragment.show(getChildFragmentManager(), "NewPost");
+            }
+        });
         database = FirebaseDatabase.getInstance();
         user = mAuth.getCurrentUser();
         database.getReference("Board").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -108,33 +99,6 @@ public class BoardFragment extends Fragment {
         recycler.setLayoutManager(layoutManager);
     }
 
-    @OnTextChanged(R.id.etMessage)
-    public void changeButton() {
-        if (etMessage.getText().toString().length() < 1) {
-            btnSend.setOnClickListener(null);
-            btnSend.setBackgroundColor(Color.GRAY);
-        } else {
-            btnSend.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String content = etMessage.getText().toString();
-                    if (TextUtils.isEmpty(content)) return;
-                    String hour = LocalDateTime.now().toString("HH:mm");
-                    String date = LocalDateTime.now().toString("dd/MM/yy");
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Board");
-                    DatabaseReference row = ref.push();
-                    String postUID = row.getKey();
-                    BoardPost post = new BoardPost(content, user.getEmail(), hour, date, postUID, user.getUid(), user.getDisplayName());
-                    row.setValue(post);
-                    etMessage.setText(null);
-                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-                }
-            });
-            btnSend.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
-        }
-    }
-
 
     @Override
     public void onDestroyView() {
@@ -169,8 +133,13 @@ public class BoardFragment extends Fragment {
             dialog.dismiss();
             viewHolder.ivDelete.setVisibility(View.GONE);
             viewHolder.ivEdit.setVisibility(View.GONE);
-            viewHolder.tvPostContent.setText(post.getContents());
+            viewHolder.tvPostContent.setText("הערות: " + post.getContents());
             viewHolder.tvDisplayName.setText(post.getUserDisplay());
+            viewHolder.tvShowTitle.setText("מופע: " + post.getShowTitle());
+            viewHolder.tvShowArena.setText("מיקום: " + post.getShowArena());
+            viewHolder.tvShowDate.setText("תאריך: " + post.getShowDate());
+            viewHolder.tvTicketsNumber.setText("כמות: " + post.getTicketsNumber());
+            viewHolder.tvShowPrice.setText("מחיר לכרטיס: " + post.getShowPrice());
             if (user.getDisplayName().equals(post.getUserDisplay()))
                 viewHolder.tvDisplayName.setTextColor(context.getResources().getColor(R.color.bootstrap_brand_danger));
             viewHolder.tvHour.setText(post.getHour());
@@ -213,6 +182,11 @@ public class BoardFragment extends Fragment {
         public static class BoardViewHolder extends RecyclerView.ViewHolder {
 
             TextView tvDisplayName;
+            TextView tvShowTitle;
+            TextView tvShowArena;
+            TextView tvShowDate;
+            TextView tvTicketsNumber;
+            TextView tvShowPrice;
             TextView tvPostContent;
             ImageView ivDelete;
             TextView tvDate;
@@ -226,6 +200,11 @@ public class BoardFragment extends Fragment {
                 this.fragment = fragment;
                 tvDisplayName = (TextView) itemView.findViewById(R.id.tvDisplayName);
                 tvPostContent = (TextView) itemView.findViewById(R.id.tvPostContent);
+                tvShowTitle = (TextView) itemView.findViewById(R.id.tvShowTitle);
+                tvShowArena = (TextView) itemView.findViewById(R.id.tvShowArena);
+                tvShowDate = (TextView) itemView.findViewById(R.id.tvShowDate);
+                tvTicketsNumber = (TextView) itemView.findViewById(R.id.tvTicketsNumber);
+                tvShowPrice = (TextView) itemView.findViewById(R.id.tvShowPrice);
                 tvDate = (TextView) itemView.findViewById(R.id.tvDate);
                 tvHour = (TextView) itemView.findViewById(R.id.tvHour);
                 ivDelete = (ImageView) itemView.findViewById(R.id.ivDelete);
@@ -258,9 +237,9 @@ public class BoardFragment extends Fragment {
                     public void onClick(View v) {
                         Bundle args = new Bundle();
                         args.putParcelable("model", model);
-                        EditPostFragment editPostFragment = new EditPostFragment();
-                        editPostFragment.setArguments(args);
-                        editPostFragment.show(fragment.getChildFragmentManager(), "EditPost");
+                        EditFullPostFragment editFullPostFragment = new EditFullPostFragment();
+                        editFullPostFragment.setArguments(args);
+                        editFullPostFragment.show(fragment.getChildFragmentManager(), "EditFullPost");
                     }
                 });
             }
