@@ -58,59 +58,79 @@
         app:layout_constraintTop_toBottomOf="@+id/tvArena" />
 
     <com.beardedhen.androidbootstrap.BootstrapButton
-        android:id="@+id/btnNavigate"
+        android:id="@+id/btnTicketsStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
+        android:text="יש כרטיסים זמינים"
+        android:clickable="false"
         android:ems="9"
-        android:text="ניווט להופעה"
-        app:bootstrapBrand="primary"
+        app:bootstrapBrand="success"
         app:bootstrapSize="lg"
         app:buttonMode="regular"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDayDateTime"
         app:roundedCorners="true"
-        app:showOutline="true" />
+        app:showOutline="false" />
 
     <com.beardedhen.androidbootstrap.BootstrapButton
-        android:id="@+id/btnAddToCalendar"
+        android:id="@+id/btnAddToMyShows"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="16dp"
-        android:ems="9"
-        android:text="הוספה ללוח שנה"
+        android:text="הוספה לרשימת ההופעות שלי"
+        android:ems="15"
         app:bootstrapBrand="primary"
         app:bootstrapSize="lg"
         app:buttonMode="regular"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnNavigate"
         app:roundedCorners="true"
-        app:showOutline="true" />
+        app:showOutline="true"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnBuyTickets" />
 
     <com.beardedhen.androidbootstrap.BootstrapButton
-        android:id="@+id/btnRemoveFromList"
+        android:id="@+id/btnShowZones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
-        android:ems="9"
-        android:text="הסרה מהרשימה"
-        app:bootstrapBrand="danger"
+        android:text="הצגת אזורי כרטיסים"
+        android:ems="15"
+        app:bootstrapBrand="primary"
         app:bootstrapSize="lg"
         app:buttonMode="regular"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAddToCalendar"
         app:roundedCorners="true"
-        app:showOutline="true" />
+        app:showOutline="true"
+        app:layout_constraintTop_toBottomOf="@+id/btnAddToMyShows"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btnBuyTickets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="רכישת כרטיסים"
+        android:ems="15"
+        app:bootstrapBrand="primary"
+        app:bootstrapSize="lg"
+        app:buttonMode="regular"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:roundedCorners="true"
+        app:showOutline="true"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnTicketsStatus" />
 
 </android.support.constraint.ConstraintLayout>
