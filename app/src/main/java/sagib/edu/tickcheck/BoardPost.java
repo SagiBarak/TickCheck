@@ -11,6 +11,11 @@ public class BoardPost implements Parcelable {
     private String postUID;
     private String userUID;
     private String userDisplay;
+    private String ticketsNumber;
+    private String showTitle;
+    private String showDate;
+    private String showArena;
+    private String showPrice;
 
 
     public BoardPost() {
