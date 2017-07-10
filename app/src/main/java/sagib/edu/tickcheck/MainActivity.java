@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -194,21 +195,27 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_shows) {
+            clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment(), "Shows").commit();
             toolbar.setTitle("רשימת הופעות של " + performer);
         } else if (id == R.id.nav_board) {
+            clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();
             toolbar.setTitle("פורום מכירת כרטיסים");
         } else if (id == R.id.nav_myshows) {
+            clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
             toolbar.setTitle("ההופעות שלי");
         } else if (id == R.id.nav_privatechats) {
+            clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new PrivateChatsListFragment()).commit();
             toolbar.setTitle("שיחות פרטיות");
         } else if (id == R.id.nav_chooseperformer) {
+            clearBackStack();
             DefaultPerformerFragment defaultPerformerFragment = new DefaultPerformerFragment();
             defaultPerformerFragment.show(getSupportFragmentManager(), "Choose");
         } else if (id == R.id.nav_signout) {
+            clearBackStack();
             mAuth.signOut();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -227,6 +234,13 @@ public class MainActivity extends AppCompatActivity
         super.onStop();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+
+    private void clearBackStack() {
+        FragmentManager fm = getSupportFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
         }
     }
 }
