@@ -22,7 +22,8 @@
             android:id="@+id/etShowTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="שם ההופעה..." />
+            android:hint="שם ההופעה..."
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -42,7 +43,8 @@
             android:id="@+id/etShowArena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="מיקום ההופעה..." />
+            android:hint="מיקום ההופעה..."
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -63,7 +65,9 @@
             android:id="@+id/etShowDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="תאריך ההופעה..." />
+            android:hint="תאריך ההופעה..."
+            android:inputType="date"
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -83,7 +87,9 @@
             android:id="@+id/etTicketsNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="כמות כרטיסים..." />
+            android:hint="כמות כרטיסים..."
+            android:inputType="number"
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -103,7 +109,9 @@
             android:id="@+id/etShowPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="מחיר לכרטיס..." />
+            android:hint="מחיר לכרטיס..."
+            android:inputType="number"
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -121,14 +129,15 @@
             android:id="@+id/etPostContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="הערות..." />
+            android:hint="הערות..."
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/btnAddNewPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="16dp"
         android:text="פרסום מודעה"
         app:bootstrapBrand="primary"
         android:ems="14"
@@ -142,7 +151,9 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </android.support.constraint.ConstraintLayout>

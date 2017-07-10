@@ -151,8 +151,8 @@ public class BoardFragment extends Fragment {
             viewHolder.tvShowTitle.setText("מופע: " + post.getShowTitle());
             viewHolder.tvShowArena.setText("מיקום: " + post.getShowArena());
             viewHolder.tvShowDate.setText("תאריך: " + post.getShowDate());
-            viewHolder.tvTicketsNumber.setText("כמות: " + post.getTicketsNumber());
-            viewHolder.tvShowPrice.setText("מחיר לכרטיס: " + post.getShowPrice());
+            viewHolder.tvTicketsNumber.setText("כמות כרטיסים: " + post.getTicketsNumber());
+            viewHolder.tvShowPrice.setText("עלות לכרטיס: " + post.getShowPrice());
             if (user.getDisplayName().equals(post.getUserDisplay()))
                 viewHolder.tvDisplayName.setTextColor(context.getResources().getColor(R.color.bootstrap_brand_danger));
             viewHolder.tvHour.setText(post.getHour());
