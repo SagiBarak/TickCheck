@@ -76,6 +76,19 @@ public class BoardFragment extends Fragment {
 
             }
         });
+        database.getReference("Board").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                linearLayoutManager.setStackFromEnd(true);
+                recycler.setLayoutManager(linearLayoutManager);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         setupRecycler();
         return v;
     }

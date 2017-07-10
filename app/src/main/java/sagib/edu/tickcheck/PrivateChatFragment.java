@@ -67,6 +67,19 @@ public class PrivateChatFragment extends Fragment {
                 if (dataSnapshot.hasChild(sender.getUid() + recieverUID)) {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("PrivateChats").child(sender.getUid() + recieverUID);
                     PrivateChatAdapter adapter = new PrivateChatAdapter(ref);
+                    ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                            linearLayoutManager.setStackFromEnd(true);
+                            rvPrvChat.setLayoutManager(linearLayoutManager);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                     rvPrvChat.setAdapter(adapter);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                     layoutManager.setStackFromEnd(true);
@@ -74,6 +87,19 @@ public class PrivateChatFragment extends Fragment {
                 } else if (dataSnapshot.hasChild(recieverUID + sender.getUid())) {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("PrivateChats").child(recieverUID + sender.getUid());
                     PrivateChatAdapter adapter = new PrivateChatAdapter(ref);
+                    ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                            linearLayoutManager.setStackFromEnd(true);
+                            rvPrvChat.setLayoutManager(linearLayoutManager);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                     rvPrvChat.setAdapter(adapter);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                     layoutManager.setStackFromEnd(true);
@@ -81,6 +107,19 @@ public class PrivateChatFragment extends Fragment {
                 } else if (!dataSnapshot.hasChild(recieverUID + sender.getUid()) && !dataSnapshot.hasChild(sender.getUid() + recieverUID)) {
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("PrivateChats").child(sender.getUid() + recieverUID);
                     PrivateChatAdapter adapter = new PrivateChatAdapter(ref);
+                    ref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                            linearLayoutManager.setStackFromEnd(true);
+                            rvPrvChat.setLayoutManager(linearLayoutManager);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                     rvPrvChat.setAdapter(adapter);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
                     layoutManager.setStackFromEnd(true);
