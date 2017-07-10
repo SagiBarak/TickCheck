@@ -22,7 +22,7 @@
             android:id="@+id/etShowTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="שם ההופעה..."
+            android:hint="שם המופע / אמן..."
             android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
@@ -43,7 +43,7 @@
             android:id="@+id/etShowArena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="מיקום ההופעה..."
+            android:hint="מיקום המופע..."
             android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
@@ -65,7 +65,7 @@
             android:id="@+id/etShowDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="תאריך ההופעה..."
+            android:hint="תאריך המופע..."
             android:inputType="date"
             android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
