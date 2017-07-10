@@ -9,101 +9,109 @@
         android:id="@+id/tilShowTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/etShowTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="שם ההופעה..." />
+            android:hint="שם ההופעה..."
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/tilShowArena"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilShowTitle"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp">
+        app:layout_constraintTop_toBottomOf="@+id/tilShowTitle">
 
         <EditText
             android:id="@+id/etShowArena"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="מיקום ההופעה..." />
+            android:hint="מיקום ההופעה..."
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/tilShowDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilShowArena"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp">
+        app:layout_constraintTop_toBottomOf="@+id/tilShowArena">
 
         <EditText
             android:id="@+id/etShowDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="תאריך ההופעה..." />
+            android:hint="תאריך ההופעה..."
+            android:inputType="date"
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/tilTicketsNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/tilShowDate"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:id="@+id/tilTicketsNumber">
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilShowDate">
 
         <EditText
             android:id="@+id/etTicketsNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="כמות כרטיסים..." />
+            android:hint="כמות כרטיסים..."
+            android:inputType="number"
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/tilShowPrice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilTicketsNumber"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp">
+        app:layout_constraintTop_toBottomOf="@+id/tilTicketsNumber">
 
         <EditText
             android:id="@+id/etShowPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="מחיר לכרטיס..." />
+            android:hint="מחיר לכרטיס..."
+            android:inputType="number"
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -121,28 +129,29 @@
             android:id="@+id/etPostContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="הערות..." />
+            android:hint="הערות..."
+            android:singleLine="true" />
     </android.support.design.widget.TextInputLayout>
 
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/btnEditThisPost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="9dp"
+        android:ems="14"
         android:text="עריכת מודעה"
         app:bootstrapBrand="primary"
-        android:ems="14"
         app:bootstrapSize="lg"
         app:buttonMode="regular"
-        app:roundedCorners="true"
-        app:showOutline="false"
-        app:layout_constraintTop_toBottomOf="@+id/tilPostContent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tilPostContent"
+        app:roundedCorners="true"
+        app:showOutline="false" />
 
 
 </android.support.constraint.ConstraintLayout>

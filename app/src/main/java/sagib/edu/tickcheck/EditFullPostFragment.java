@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -70,6 +71,7 @@ public class EditFullPostFragment extends DialogFragment {
         etShowPrice.setText(model.getShowPrice());
         etShowTitle.setText(model.getShowTitle());
         etTicketsNumber.setText(model.getTicketsNumber());
+        this.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         return v;
     }
 

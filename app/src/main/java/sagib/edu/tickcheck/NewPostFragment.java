@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -68,6 +69,7 @@ public class NewPostFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.fragment_new_post, container, false);
         unbinder = ButterKnife.bind(this, v);
         user = FirebaseAuth.getInstance().getCurrentUser();
+        this.getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         return v;
     }
 
