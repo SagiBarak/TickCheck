@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.provider.Settings;
 
 import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
@@ -48,8 +49,20 @@ public class WelcomeSplash extends AwesomeSplash {
                 public void onClick(DialogInterface dialog, int which) {
                     animationsFinished();
                 }
+            }).setNeutralButton("הגדרות רשת", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                    startActivityForResult(intent, 10);
+                }
             }).show();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        animationsFinished();
     }
 
     private boolean isNetworkConnected() {
