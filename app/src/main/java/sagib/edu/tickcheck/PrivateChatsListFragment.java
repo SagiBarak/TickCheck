@@ -45,9 +45,12 @@ public class PrivateChatsListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_private_chats_list, container, false);
         unbinder = ButterKnife.bind(this, v);
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        PrivateChatsListAdapter adapter = new PrivateChatsListAdapter(ref, this);
+        PrivateChatsListAdapter adapter = new PrivateChatsListAdapter(ref.orderByChild("date"), this);
         rvChatsList.setAdapter(adapter);
-        rvChatsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setReverseLayout(true);
+        rvChatsList.setLayoutManager(linearLayoutManager);
         return v;
     }
 
@@ -84,6 +87,25 @@ public class PrivateChatsListFragment extends Fragment {
         @Override
         protected void populateViewHolder(final PrivateChatsListViewHolder viewHolder, final PrivateChatListItem model, int position) {
             viewHolder.tvChatter.setText(model.getOtherUserDisplay());
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            final DatabaseReference messages = database.getReference("PrivateChats").child(model.getPrivateChatUID());
+            messages.limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        DataSnapshot messageSnapShot = dataSnapshot.getChildren().iterator().next();
+                        PrivateMessage value = messageSnapShot.getValue(PrivateMessage.class);
+                        viewHolder.tvLastMessage.setText(value.getMessage());
+                        viewHolder.tvLastHour.setText(value.getTime());
+                        viewHolder.tvLastDate.setText(value.getDate());
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
             FirebaseDatabase.getInstance().getReference("Users").child(model.getOtherUserUID()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -135,11 +157,17 @@ public class PrivateChatsListFragment extends Fragment {
 
         public static class PrivateChatsListViewHolder extends RecyclerView.ViewHolder {
             TextView tvChatter;
+            TextView tvLastMessage;
+            TextView tvLastHour;
+            TextView tvLastDate;
             CircularImageView civProfileImageList;
 
             public PrivateChatsListViewHolder(View itemView) {
                 super(itemView);
                 tvChatter = (TextView) itemView.findViewById(R.id.tvChatter);
+                tvLastMessage = (TextView) itemView.findViewById(R.id.tvLastMessage);
+                tvLastDate = (TextView) itemView.findViewById(R.id.tvLastDate);
+                tvLastHour = (TextView) itemView.findViewById(R.id.tvLastHour);
                 civProfileImageList = (CircularImageView) itemView.findViewById(R.id.civProfileImageList);
             }
         }

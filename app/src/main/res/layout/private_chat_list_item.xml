@@ -46,14 +46,37 @@ android:layout_marginTop="4dp"
             app:srcCompat="@drawable/ic_profile"
             app:layout_constraintVertical_bias="0.0"
             android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="@+id/guideline5" />
+            app:layout_constraintLeft_toLeftOf="parent" />
 
-        <android.support.constraint.Guideline
+        <TextView
+            android:id="@+id/tvLastMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/guideline5"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.25" />
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:ems="12"
+            android:maxLines="1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvLastDate" />
+
+        <TextView
+            android:id="@+id/tvLastHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvLastDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintRight_toLeftOf="@+id/tvLastHour"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

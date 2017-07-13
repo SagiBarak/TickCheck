@@ -4,15 +4,26 @@ public class PrivateChatListItem {
     String otherUserDisplay;
     String privateChatUID;
     String otherUserUID;
+    String date;
 
-    public PrivateChatListItem(String otherUserDisplay, String privateChatUID, String otherUserUID) {
+    public PrivateChatListItem(String otherUserDisplay, String privateChatUID, String otherUserUID, String date) {
         this.otherUserDisplay = otherUserDisplay;
         this.privateChatUID = privateChatUID;
         this.otherUserUID = otherUserUID;
+        this.date = date;
+
 
     }
 
     public PrivateChatListItem() {
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getOtherUserDisplay() {

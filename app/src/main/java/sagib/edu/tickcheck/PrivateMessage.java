@@ -24,6 +24,8 @@ public class PrivateMessage implements Parcelable {
         this.prvMessageUID = prvMessageUID;
     }
 
+
+
     public PrivateMessage() {
     }
 
@@ -130,4 +132,18 @@ public class PrivateMessage implements Parcelable {
             return new PrivateMessage[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "PrivateMessage{" +
+                "senderUID='" + senderUID + '\'' +
+                ", recieverUID='" + recieverUID + '\'' +
+                ", senderDisplayName='" + senderDisplayName + '\'' +
+                ", recieverDisplayName='" + recieverDisplayName + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", message='" + message + '\'' +
+                ", prvMessageUID='" + prvMessageUID + '\'' +
+                '}';
+    }
 }
