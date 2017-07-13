@@ -2,6 +2,7 @@ package sagib.edu.tickcheck;
 
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -98,6 +99,15 @@ public class PrivateChatsListFragment extends Fragment {
                         viewHolder.tvLastMessage.setText(value.getMessage());
                         viewHolder.tvLastHour.setText(value.getTime());
                         viewHolder.tvLastDate.setText(value.getDate());
+                        if (value.getSenderUID().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                            viewHolder.tvLastMessage.setTextColor(Color.rgb(92, 184, 92));
+                            viewHolder.tvLastDate.setTextColor(Color.rgb(92, 184, 92));
+                            viewHolder.tvLastHour.setTextColor(Color.rgb(92, 184, 92));
+                        } else {
+                            viewHolder.tvLastMessage.setTextColor(Color.rgb(91, 192, 222));
+                            viewHolder.tvLastDate.setTextColor(Color.rgb(91, 192, 222));
+                            viewHolder.tvLastHour.setTextColor(Color.rgb(91, 192, 222));
+                        }
                     }
                 }
 

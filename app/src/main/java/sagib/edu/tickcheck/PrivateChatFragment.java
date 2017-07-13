@@ -70,8 +70,10 @@ public class PrivateChatFragment extends Fragment {
                     ref.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            int position = rvPrvChat.getAdapter().getItemCount();
-                            rvPrvChat.getLayoutManager().scrollToPosition(position - 1);
+                            if (rvPrvChat != null) {
+                                int position = rvPrvChat.getAdapter().getItemCount();
+                                rvPrvChat.getLayoutManager().scrollToPosition(position - 1);
+                            }
                         }
 
                         @Override
@@ -89,8 +91,10 @@ public class PrivateChatFragment extends Fragment {
                     ref.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            int position = rvPrvChat.getAdapter().getItemCount();
-                            rvPrvChat.getLayoutManager().scrollToPosition(position - 1);
+                            if (rvPrvChat != null) {
+                                int position = rvPrvChat.getAdapter().getItemCount();
+                                rvPrvChat.getLayoutManager().scrollToPosition(position - 1);
+                            }
                         }
 
                         @Override
@@ -108,8 +112,10 @@ public class PrivateChatFragment extends Fragment {
                     ref.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            int position = rvPrvChat.getAdapter().getItemCount();
-                            rvPrvChat.getLayoutManager().scrollToPosition(position - 1);
+                            if (rvPrvChat != null) {
+                                int position = rvPrvChat.getAdapter().getItemCount();
+                                rvPrvChat.getLayoutManager().scrollToPosition(position - 1);
+                            }
                         }
 
                         @Override
