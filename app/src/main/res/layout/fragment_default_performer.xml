@@ -27,7 +27,7 @@
         android:layout_marginTop="16dp"
         android:dropDownHeight="wrap_content"
         android:dropDownWidth="wrap_content"
-        android:digits="אבגדהוזחטיכלמנסעפצקרשת ,.׳-"
+        android:digits="אבגדהוזחטיכלמנסעפצקרשתףםןץך ,.׳-"
         android:ems="13"
         android:hint="שם האמן... (עברית בלבד)"
         android:inputType="textPersonName"

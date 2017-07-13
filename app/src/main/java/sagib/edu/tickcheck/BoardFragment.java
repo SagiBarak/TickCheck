@@ -79,9 +79,12 @@ public class BoardFragment extends Fragment {
         database.getReference("Board").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                linearLayoutManager.setStackFromEnd(true);
-                recycler.setLayoutManager(linearLayoutManager);
+                if (dataSnapshot.exists() && recycler != null) {
+                    final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+                    linearLayoutManager.setStackFromEnd(true);
+                    recycler.setLayoutManager(linearLayoutManager);
+                } else
+                    dialog.dismiss();
             }
 
             @Override
