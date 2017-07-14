@@ -143,7 +143,8 @@ public class MyShowOptionsFragment extends BottomSheetDialogFragment {
 
     }
 
-    private void getLocationOfArena(MyShow mShow) {
+    private void getLocationOfArena(MyShow mShow)  {
+        Log.d("SagiB", mShow.getArena());
         switch (mShow.getArena()) {
             case "זאפה אמפי שוני":
                 uri = "geo: 32.534777, 34.948529&navigate=yes";
@@ -169,8 +170,13 @@ public class MyShowOptionsFragment extends BottomSheetDialogFragment {
             case "זאפה תל אביב":
                 uri = "geo: 32.1112442,34.8414371&navigate=yes";
                 break;
+            case "לייב פארק":
+                uri = "geo: 31.9764793,34.7439862&navigate=yes";
+                break;
             default:
                 btnNavigate.setVisibility(View.GONE);
         }
     }
+
+
 }
