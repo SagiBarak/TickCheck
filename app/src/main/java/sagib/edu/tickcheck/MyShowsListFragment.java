@@ -77,7 +77,7 @@ public class MyShowsListFragment extends Fragment {
                     tvTitleMyShows.setText("אין הופעות ברשימה...");
                     pbLoadingList.setVisibility(View.GONE);
                 } else {
-                    tvTitleMyShows.setText("ההופעות שלי:");
+                    tvTitleMyShows.setText("ההופעות שלי");
                     pbLoadingList.setVisibility(View.GONE);
                 }
             }

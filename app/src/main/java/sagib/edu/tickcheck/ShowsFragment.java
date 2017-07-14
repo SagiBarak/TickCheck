@@ -14,6 +14,7 @@ import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -30,6 +31,8 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     Unbinder unbinder;
+    @BindView(R.id.tvTitleShows)
+    TextView tvTitleShows;
     private ProgressDialog dialog;
     SharedPreferences prefs;
     String performer;
@@ -57,7 +60,7 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
                 dialog.show();
                 ShowDataSource.getShows(ShowsFragment.this, getContext());
                 performer = prefs.getString("PerformerTitle", "שלמה ארצי");
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("רשימת הופעות של " + performer);
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(performer);
 
             }
         });
@@ -79,7 +82,7 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("רשימת הופעות של " + performer);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(performer);
     }
 
     @Override
@@ -91,6 +94,11 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
                 if (e == null) {
                     ShowAdapter adapter = new ShowAdapter(data, getContext(), fragment);
                     recycler.setAdapter(adapter);
+                    if (data.size() <= 0) {
+                        tvTitleShows.setText("אין הופעות ברשימה");
+                    } else if (data.size() > 0){
+                        tvTitleShows.setText("רשימת הופעות");
+                    }
                     dialog.dismiss();
                     swipeRefreshLayout.setRefreshing(false);
                 } else {

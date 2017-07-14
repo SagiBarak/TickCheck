@@ -70,8 +70,6 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
                 }
             });
         } else {
-//            holder.tvTicketsAvailable.setText("הכרטיסים" + "\n" + "אזלו");
-//            holder.tvTicketsAvailable.setTextColor(Color.RED);
             holder.tvTicketsAvailable.setVisibility(View.INVISIBLE);
             holder.ivSoldOut.setVisibility(View.VISIBLE);
             holder.container.setBackgroundColor(Color.argb(35, 255, 0, 0));
@@ -111,40 +109,11 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
                     final Show show = data.get(getAdapterPosition());
                     ShowOptionsFragment showOptionsFragment = new ShowOptionsFragment();
                     Bundle args = new Bundle();
-                    args.putParcelable("show",show);
+                    args.putParcelable("show", show);
                     showOptionsFragment.setArguments(args);
-                    showOptionsFragment.show(fragment.getChildFragmentManager(),"ShowOptions");
+                    showOptionsFragment.show(fragment.getChildFragmentManager(), "ShowOptions");
                 }
             });
-
-
-//            v.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int position = getAdapterPosition();
-//                    final Show show = data.get(position);
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//                    builder.setTitle("איזורים ב" + show.getArena()).
-//                            setMessage(" " + show.getZones().
-//                                    toString().replace("[", "").replace("]", "").replace(",", "")).
-//                            setCancelable(true).
-//                            setNegativeButton("חזרה", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                }
-//                            });
-//                    if (show.getFreeFromShow() > 0) {
-//                        builder.setPositiveButton("לרכישה", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                goToWebView(show, fragment);
-//                            }
-//                        });
-//                    }
-//                    builder.show();
-//                }
-//            });
             v.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {

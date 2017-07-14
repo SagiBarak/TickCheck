@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardElevation="4dp"
     android:layout_marginBottom="3dp"
     android:layout_marginTop="4dp"
-    >
+    app:cardElevation="4dp">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -37,8 +36,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="0dp"
             android:layout_marginTop="0dp"
-            android:text="Performer"
             android:ems="11"
+            android:gravity="center"
+            android:text="Performer"
             android:textSize="15sp"
             app:layout_constraintRight_toLeftOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="parent" />
@@ -49,6 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="0dp"
             android:layout_marginTop="8dp"
+            android:ems="10"
+            android:gravity="center"
             android:text="Arena"
             android:textSize="15sp"
             app:layout_constraintRight_toLeftOf="@+id/guideline2"
@@ -76,15 +78,15 @@
             android:id="@+id/tvTicketsAvailable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
             android:layout_marginLeft="12dp"
+            android:layout_marginTop="0dp"
             android:gravity="center"
             android:text="Tickets Available"
             android:textSize="16sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ivImage"
-            android:layout_marginTop="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/ivImage"
-            android:layout_marginBottom="0dp" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ivImage" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline2"
