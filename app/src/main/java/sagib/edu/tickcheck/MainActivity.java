@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,8 +41,7 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences prefs;
     String performer = "";
 
-
-    private static final int RC_SIGN_IN = 1;
+    private static final int RC_SIGN_IN = 0;
 
     FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
         @Override
@@ -77,8 +77,6 @@ public class MainActivity extends AppCompatActivity
                     tvHeaderTitleBar.setText(user.getDisplayName());
                     if (!tvHeaderTitleBar.getText().toString().matches("^[a-zA-Z0-9.]+$"))
                         tvHeaderTitleBar.setGravity(GravityCompat.END);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
-                    toolbar.setTitle("ההופעות שלי");
                 }
             }
         }
@@ -89,12 +87,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK) {
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
             User user = new User(currentUser);
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
             ref.setValue(user);
+        }
+        if (requestCode != RC_SIGN_IN) {
+            super.onActivityResult(requestCode, resultCode, data);
+            Log.d("SagiB", "here");
         }
     }
 
@@ -126,6 +127,11 @@ public class MainActivity extends AppCompatActivity
         if (user != null) {
             tvHeaderContentBar.setText(user.getEmail());
             tvHeaderTitleBar.setText(user.getDisplayName());
+            if (getFragmentManager().findFragmentById(R.id.frame) == null) {
+                clearBackStack();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
+                toolbar.setTitle("ההופעות שלי");
+            }
         }
     }
 
@@ -214,6 +220,10 @@ public class MainActivity extends AppCompatActivity
             clearBackStack();
             DefaultPerformerFragment defaultPerformerFragment = new DefaultPerformerFragment();
             defaultPerformerFragment.show(getSupportFragmentManager(), "Choose");
+        } else if (id == R.id.nav_editprofile) {
+            clearBackStack();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new UserProfileEditFragment(), "EditProfile").commit();
+            toolbar.setTitle("עריכת משתמש");
         } else if (id == R.id.nav_signout) {
             clearBackStack();
             mAuth.signOut();

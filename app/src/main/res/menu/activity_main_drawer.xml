@@ -27,6 +27,10 @@
                 android:icon="@drawable/ic_performer"
                 android:title="בחר אמן לרשימה" />
             <item
+                android:id="@+id/nav_editprofile"
+                android:icon="@drawable/ic_edituser"
+                android:title="עריכת משתמש" />
+            <item
                 android:id="@+id/nav_signout"
                 android:icon="@drawable/ic_cancel"
                 android:title="התנתקות" />

@@ -14,7 +14,7 @@
         android:background="@drawable/gradient_item">
 
         <TextView
-            android:id="@+id/tvDisplayName"
+            android:id="@+id/tvDisplayNameTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
@@ -42,9 +42,9 @@
             android:layout_marginRight="8dp"
             android:text="hour"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tvDisplayName"
-            app:layout_constraintRight_toLeftOf="@+id/tvDisplayName"
-            app:layout_constraintTop_toTopOf="@+id/tvDisplayName" />
+            app:layout_constraintBottom_toBottomOf="@+id/tvDisplayNameTitle"
+            app:layout_constraintRight_toLeftOf="@+id/tvDisplayNameTitle"
+            app:layout_constraintTop_toTopOf="@+id/tvDisplayNameTitle" />
 
         <TextView
             android:id="@+id/tvDate"
@@ -90,7 +90,7 @@
             android:layout_marginTop="8dp"
             android:text="TextView"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDisplayName" />
+            app:layout_constraintTop_toBottomOf="@+id/tvDisplayNameTitle" />
 
         <TextView
             android:id="@+id/tvShowArena"
