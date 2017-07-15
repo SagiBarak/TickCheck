@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity
             User user = new User(currentUser);
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
             ref.setValue(user);
+            runMyShows();
         }
         if (requestCode != RC_SIGN_IN) {
             super.onActivityResult(requestCode, resultCode, data);
@@ -124,11 +125,15 @@ public class MainActivity extends AppCompatActivity
         if (user != null) {
             tvHeaderContentBar.setText(user.getEmail());
             tvHeaderTitleBar.setText(user.getDisplayName());
-            if (getFragmentManager().findFragmentById(R.id.frame) == null) {
-                clearBackStack();
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
-                toolbar.setTitle("ההופעות שלי");
-            }
+            runMyShows();
+        }
+    }
+
+    private void runMyShows() {
+        if (getFragmentManager().findFragmentById(R.id.frame) == null) {
+            clearBackStack();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
+            toolbar.setTitle("ההופעות שלי");
         }
     }
 
