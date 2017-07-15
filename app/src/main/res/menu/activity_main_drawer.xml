@@ -29,6 +29,7 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/nav_editprofile"
+                    android:checkable="true"
                     android:icon="@drawable/ic_edituser"
                     android:title="עריכת משתמש" />
             </group>

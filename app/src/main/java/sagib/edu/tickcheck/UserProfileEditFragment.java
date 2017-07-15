@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
@@ -45,8 +44,6 @@ public class UserProfileEditFragment extends Fragment {
 
 
     private static final int RC_WRITE = 1;
-    @BindView(R.id.tvDisplayNameTitle)
-    TextView tvDisplayNameTitle;
     @BindView(R.id.etDisplayName)
     EditText etDisplayName;
     @BindView(R.id.tilDisplayName)

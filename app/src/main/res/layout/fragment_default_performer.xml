@@ -25,7 +25,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
-        android:digits="אבגדהוזחטיכלמנסעפצקרשתףםןץך ,.׳-"
+        android:digits="אבגדהוזחטיכלמנסעפצקרשתףםןץך ,.׳-'"
         android:dropDownHeight="wrap_content"
         android:dropDownWidth="wrap_content"
         android:ems="13"
