@@ -150,7 +150,6 @@ public class PrivateChatFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     DatabaseReference reference = FirebaseDatabase.getInstance().getReference("PrivateChats");
-//                    DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm'");
                     final String date = LocalDateTime.now().toString();
                     reference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
