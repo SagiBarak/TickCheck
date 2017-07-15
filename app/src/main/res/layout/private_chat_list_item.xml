@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-app:cardElevation="4dp"
-android:layout_marginBottom="3dp"
-android:layout_marginTop="4dp"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
+    android:layout_marginTop="4dp"
+    app:cardElevation="4dp">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,20 +19,20 @@ android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
             android:text="TextView"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.466"
             app:layout_constraintLeft_toRightOf="@+id/civProfileImageList"
-            android:layout_marginLeft="16dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/civProfileImageList"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             app:civ_border_color="#EEEEEE"
             app:civ_border_width="2dp"
@@ -42,11 +40,9 @@ android:layout_marginTop="4dp"
             app:civ_shadow_color="#8BC34A"
             app:civ_shadow_radius="2"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_profile"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:srcCompat="@drawable/ic_profile" />
 
         <TextView
             android:id="@+id/tvLastMessage"
@@ -55,8 +51,8 @@ android:layout_marginTop="4dp"
             android:layout_marginRight="12dp"
             android:layout_marginTop="4dp"
             android:ellipsize="end"
-            android:gravity="right"
             android:ems="12"
+            android:gravity="right"
             android:maxLines="1"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvLastDate" />

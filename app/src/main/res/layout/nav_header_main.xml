@@ -31,7 +31,7 @@
         android:id="@+id/tvHeaderContentBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="android.studio@android.com"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="android.studio@android.com" />
 
 </LinearLayout>
