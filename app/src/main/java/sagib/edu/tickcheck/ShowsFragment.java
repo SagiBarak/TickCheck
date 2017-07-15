@@ -58,6 +58,7 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
             @Override
             public void onRefresh() {
                 dialog.show();
+                tvTitleShows.setText("טוען רשימת הופעות...");
                 ShowDataSource.getShows(ShowsFragment.this, getContext());
                 performer = prefs.getString("PerformerTitle", "שלמה ארצי");
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(performer);
