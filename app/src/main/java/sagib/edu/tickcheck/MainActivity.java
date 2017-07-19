@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -25,6 +26,7 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.common.Scopes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -89,6 +91,14 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == RC_SIGN_IN && resultCode == RESULT_OK) {
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
             User user = new User(currentUser);
+            if (currentUser != null) {
+                if (currentUser.getPhotoUrl() == null) {
+                    UserProfileChangeRequest.Builder request = new UserProfileChangeRequest.Builder();
+                    Uri uri = Uri.parse("https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_1280.png");
+                    request.setPhotoUri(uri);
+                    currentUser.updateProfile(request.build());
+                }
+            }
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
             ref.setValue(user);
             runMyShows();
@@ -106,6 +116,14 @@ public class MainActivity extends AppCompatActivity
         MobileAds.initialize(this, "ca-app-pub-7962012481002515~8641009187");
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            if (mAuth.getCurrentUser().getPhotoUrl() == null) {
+                UserProfileChangeRequest.Builder request = new UserProfileChangeRequest.Builder();
+                Uri uri = Uri.parse("https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_1280.png");
+                request.setPhotoUri(uri);
+                mAuth.getCurrentUser().updateProfile(request.build());
+            }
+        }
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         prefs = getSharedPreferences("DefaultPerformer", Context.MODE_PRIVATE);
