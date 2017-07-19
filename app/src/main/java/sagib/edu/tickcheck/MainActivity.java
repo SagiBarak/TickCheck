@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity
             if (currentUser != null) {
                 if (currentUser.getPhotoUrl() == null) {
                     UserProfileChangeRequest.Builder request = new UserProfileChangeRequest.Builder();
-                    Uri uri = Uri.parse("https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_1280.png");
+                    Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/tickcheck-2bdf2.appspot.com/o/ProfilePictures%2Fdefault_profile.jpg?alt=media&token=72b274a4-8a84-446f-ade4-dfafb3c8c06c");
                     request.setPhotoUri(uri);
                     currentUser.updateProfile(request.build());
                 }
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity
         if (mAuth.getCurrentUser() != null) {
             if (mAuth.getCurrentUser().getPhotoUrl() == null) {
                 UserProfileChangeRequest.Builder request = new UserProfileChangeRequest.Builder();
-                Uri uri = Uri.parse("https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_1280.png");
+                Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/tickcheck-2bdf2.appspot.com/o/ProfilePictures%2Fdefault_profile.jpg?alt=media&token=72b274a4-8a84-446f-ade4-dfafb3c8c06c");
                 request.setPhotoUri(uri);
                 mAuth.getCurrentUser().updateProfile(request.build());
             }
