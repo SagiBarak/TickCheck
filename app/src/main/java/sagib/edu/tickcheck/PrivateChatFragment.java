@@ -288,6 +288,8 @@ public class PrivateChatFragment extends Fragment {
                 viewHolder.tvTime.setVisibility(View.GONE);
                 viewHolder.blOther.setVisibility(View.GONE);
             }
+            DatabaseReference privatechatRef = FirebaseDatabase.getInstance().getReference("PrivateChats").child(model.getPrvMessageUID());
+            privatechatRef.keepSynced(true);
         }
 
         public static class PrivateChatViewHolder extends RecyclerView.ViewHolder {
