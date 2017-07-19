@@ -119,9 +119,9 @@ public class MainActivity extends AppCompatActivity
         DatabaseReference boardRef = FirebaseDatabase.getInstance().getReference("Board");
         boardRef.keepSynced(true);
         if (mAuth.getCurrentUser() != null) {
-            DatabaseReference myshowsRef = FirebaseDatabase.getInstance().getReference("MyShowsList").child(user.getUid());
+            DatabaseReference myshowsRef = FirebaseDatabase.getInstance().getReference("MyShowsList").child(mAuth.getCurrentUser().getUid());
             myshowsRef.keepSynced(true);
-            DatabaseReference privatechatsListRef = FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(user.getUid());
+            DatabaseReference privatechatsListRef = FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(mAuth.getCurrentUser().getUid());
             privatechatsListRef.keepSynced(true);
         }
         MobileAds.initialize(this, "ca-app-pub-7962012481002515~8641009187");

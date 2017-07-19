@@ -1,8 +1,11 @@
 package sagib.edu.tickcheck;
 
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,11 +14,13 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
@@ -36,6 +41,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import pl.aprilapps.easyphotopicker.EasyImage;
@@ -56,22 +62,30 @@ public class UserProfileEditFragment extends Fragment {
     BootstrapButton btnKeepChanges;
     Unbinder unbinder;
     Uri path;
+    SharedPreferences prefs;
     String stringPath;
     String fileName;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     Uri photoUrl;
     File file;
+    boolean isLimited;
     boolean photoChanged = false;
+    @BindView(R.id.sBand)
+    Switch sBand;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_user_profile_edit, container, false);
         unbinder = ButterKnife.bind(this, v);
+        Picasso.with(getContext()).load(user.getPhotoUrl()).into(ivProfilePhoto);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         etDisplayName.setText(user.getDisplayName());
-        Picasso.with(getContext()).load(user.getPhotoUrl()).into(ivProfilePhoto);
+        prefs = getContext().getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE);
+        isLimited = prefs.getBoolean("islimited", true);
+        sBand.setChecked(isLimited);
+        Log.d("SagiB", String.valueOf(isLimited));
         return v;
     }
 
@@ -133,10 +147,10 @@ public class UserProfileEditFragment extends Fragment {
     }
 
     private boolean checkStoragePermission() {
-        int resultcode = ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int resultcode = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
         boolean granted = resultcode == PackageManager.PERMISSION_GRANTED;
         if (!granted) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, RC_WRITE);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RC_WRITE);
         }
         return granted;
     }
@@ -174,5 +188,12 @@ public class UserProfileEditFragment extends Fragment {
                 }
             });
         }
+    }
+
+    @OnCheckedChanged(R.id.sBand)
+    public void onCheckSBandChanged() {
+        boolean currentStatus = sBand.isChecked();
+        prefs.edit().putBoolean("islimited", currentStatus).commit();
+        Log.d("SagiB", String.valueOf(prefs.getBoolean("islimited", true)));
     }
 }

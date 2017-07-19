@@ -43,6 +43,7 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_shows, container, false);
+        tvTitleShows = (TextView) v.findViewById(R.id.tvTitleShows);
         mAdView = (AdView) v.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
