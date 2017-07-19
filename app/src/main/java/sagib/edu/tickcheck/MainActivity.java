@@ -113,16 +113,18 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         DatabaseReference boardRef = FirebaseDatabase.getInstance().getReference("Board");
         boardRef.keepSynced(true);
-        DatabaseReference myshowsRef = FirebaseDatabase.getInstance().getReference("MyShowsList").child(user.getUid());
-        myshowsRef.keepSynced(true);
-        DatabaseReference privatechatsListRef = FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(user.getUid());
-        privatechatsListRef.keepSynced(true);
+        if (mAuth.getCurrentUser() != null) {
+            DatabaseReference myshowsRef = FirebaseDatabase.getInstance().getReference("MyShowsList").child(user.getUid());
+            myshowsRef.keepSynced(true);
+            DatabaseReference privatechatsListRef = FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(user.getUid());
+            privatechatsListRef.keepSynced(true);
+        }
         MobileAds.initialize(this, "ca-app-pub-7962012481002515~8641009187");
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
         if (mAuth.getCurrentUser() != null) {
             if (mAuth.getCurrentUser().getPhotoUrl() == null) {
                 UserProfileChangeRequest.Builder request = new UserProfileChangeRequest.Builder();
