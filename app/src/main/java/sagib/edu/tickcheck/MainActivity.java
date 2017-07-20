@@ -29,6 +29,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mikhaellopez.circularimageview.CircularImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.Arrays;
 import java.util.List;
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity
     };
     TextView tvHeaderContentBar;
     TextView tvHeaderTitleBar;
+    CircularImageView civProfileImage;
     Toolbar toolbar;
 
     @Override
@@ -149,9 +152,11 @@ public class MainActivity extends AppCompatActivity
         user = mAuth.getCurrentUser();
         tvHeaderContentBar = (TextView) header.findViewById(R.id.tvHeaderContentBar);
         tvHeaderTitleBar = (TextView) header.findViewById(R.id.tvHeaderTitleBar);
+        civProfileImage = (CircularImageView) header.findViewById(R.id.civProfileImage);
         if (user != null) {
             tvHeaderContentBar.setText(user.getEmail());
             tvHeaderTitleBar.setText(user.getDisplayName());
+            Picasso.with(this).load(user.getPhotoUrl()).into(civProfileImage);
             runMyShows();
         }
     }

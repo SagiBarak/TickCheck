@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -132,6 +133,24 @@ public class WebViewFragment extends Fragment {
             }
         };
         btnAddToMyShows.setOnClickListener(listener);
+        final String eventID = show.getLink().replace("https://tickets.zappa-club.co.il/loader.aspx/?target=hall.aspx?", "");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("MyShowsList").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        reference.child(eventID).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    btnAddToMyShows.setText("ההופעה קיימת ברשימת ההופעות שלי");
+                    btnAddToMyShows.setOnClickListener(null);
+                    btnAddToMyShows.setBootstrapBrand(DefaultBootstrapBrand.REGULAR);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         return v;
     }
 
