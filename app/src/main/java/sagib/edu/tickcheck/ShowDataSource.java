@@ -48,11 +48,13 @@ public class ShowDataSource {
         if (isLimited) {
             String showslistperformer = prefsShows.getString("showslistperformer", "");
             String lastTime = prefsShows.getString("showslisttime", "");
+            int limitMinutes = prefsBoolean.getInt("Minutes", 5);
             if (!performer.equals(showslistperformer)) showLastList = false;
             else {
-                if (now.minusMinutes(5).isBefore(LocalDateTime.parse(lastTime)))
+                if (now.minusMinutes(limitMinutes).isBefore(LocalDateTime.parse(lastTime)))
                     showLastList = true;
-                if (now.minusMinutes(5).isEqual(LocalDateTime.parse(lastTime))) showLastList = true;
+                if (now.minusMinutes(limitMinutes).isEqual(LocalDateTime.parse(lastTime)))
+                    showLastList = true;
             }
         } else
             showLastList = false;

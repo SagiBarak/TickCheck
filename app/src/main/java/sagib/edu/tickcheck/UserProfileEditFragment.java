@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
@@ -73,6 +75,16 @@ public class UserProfileEditFragment extends Fragment {
     boolean photoChanged = false;
     @BindView(R.id.sBand)
     Switch sBand;
+    @BindView(R.id.tvTimeLimitTitle)
+    TextView tvTimeLimitTitle;
+    @BindView(R.id.tvTimeMinutes)
+    TextView tvTimeMinutes;
+    @BindView(R.id.btnMinus)
+    ImageView btnMinus;
+    @BindView(R.id.btnPlus)
+    ImageView btnPlus;
+    @BindView(R.id.btnRestore)
+    TextView btnRestore;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,6 +96,16 @@ public class UserProfileEditFragment extends Fragment {
         etDisplayName.setText(user.getDisplayName());
         prefs = getContext().getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE);
         isLimited = prefs.getBoolean("islimited", true);
+        int limitMinutes = prefs.getInt("Minutes", 5);
+        if (!isLimited) {
+            tvTimeLimitTitle.setVisibility(View.GONE);
+            tvTimeMinutes.setVisibility(View.GONE);
+            btnMinus.setVisibility(View.GONE);
+            btnPlus.setVisibility(View.GONE);
+            btnRestore.setVisibility(View.GONE);
+        } else {
+            tvTimeMinutes.setText(String.valueOf(limitMinutes));
+        }
         sBand.setChecked(isLimited);
         Log.d("SagiB", String.valueOf(isLimited));
         return v;
@@ -194,6 +216,50 @@ public class UserProfileEditFragment extends Fragment {
     public void onCheckSBandChanged() {
         boolean currentStatus = sBand.isChecked();
         prefs.edit().putBoolean("islimited", currentStatus).commit();
+        if (!currentStatus) {
+            tvTimeLimitTitle.setVisibility(View.GONE);
+            tvTimeMinutes.setVisibility(View.GONE);
+            btnMinus.setVisibility(View.GONE);
+            btnPlus.setVisibility(View.GONE);
+            btnRestore.setVisibility(View.GONE);
+        } else {
+            tvTimeLimitTitle.setVisibility(View.VISIBLE);
+            tvTimeMinutes.setVisibility(View.VISIBLE);
+            btnMinus.setVisibility(View.VISIBLE);
+            btnPlus.setVisibility(View.VISIBLE);
+            btnRestore.setVisibility(View.VISIBLE);
+            int limitMinutes = prefs.getInt("Minutes", 5);
+            tvTimeMinutes.setText(String.valueOf(limitMinutes));
+        }
         Log.d("SagiB", String.valueOf(prefs.getBoolean("islimited", true)));
+    }
+
+    @OnClick(R.id.btnMinus)
+    public void onBtnMinusClicked() {
+        int minutes = Integer.valueOf(tvTimeMinutes.getText().toString()) - 1;
+        if (minutes > 0) {
+            tvTimeMinutes.setText(String.valueOf(minutes));
+            prefs.edit().putInt("Minutes", Integer.valueOf(tvTimeMinutes.getText().toString())).commit();
+        }
+        if (minutes - 2 < 0) {
+            btnMinus.setColorFilter(Color.GRAY);
+        }
+    }
+
+    @OnClick(R.id.btnPlus)
+    public void onBtnPlusClicked() {
+        int minutes = Integer.valueOf(tvTimeMinutes.getText().toString()) + 1;
+        tvTimeMinutes.setText(String.valueOf(minutes));
+        prefs.edit().putInt("Minutes", Integer.valueOf(tvTimeMinutes.getText().toString())).commit();
+        if (minutes - 1 > 0) {
+            btnMinus.setColorFilter(Color.rgb(15, 89, 228));
+        }
+    }
+
+    @OnClick(R.id.btnRestore)
+    public void onBtnRestoreClicked() {
+        tvTimeMinutes.setText(String.valueOf(1));
+        prefs.edit().putInt("Minutes", Integer.valueOf(tvTimeMinutes.getText().toString())).commit();
+        btnMinus.setColorFilter(Color.GRAY);
     }
 }

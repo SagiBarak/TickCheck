@@ -93,13 +93,13 @@
         android:id="@+id/tvSband"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:text="בקרת רענון רשימת הופעות"
-        app:layout_constraintBottom_toTopOf="@+id/tvSwitchDesc"
         app:layout_constraintLeft_toRightOf="@+id/sBand"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvTimeLimitTitle" />
 
     <TextView
         android:id="@+id/tvSwitchDesc"
@@ -116,6 +116,72 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTimeLimitTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="זמן הגבלה בדקות:"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/btnPlus"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvSwitchDesc"
+        android:layout_marginLeft="8dp" />
+
+    <TextView
+        android:id="@+id/tvTimeMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100"
+        android:ems="2"
+        android:gravity="center"
+        app:layout_constraintRight_toLeftOf="@+id/btnPlus"
+        app:layout_constraintLeft_toRightOf="@+id/btnMinus"
+        app:layout_constraintTop_toTopOf="@+id/tvTimeLimitTitle"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTimeLimitTitle"
+        android:layout_marginBottom="0dp" />
+
+    <ImageView
+        android:id="@+id/btnMinus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_remove"
+        app:layout_constraintRight_toLeftOf="@+id/tvTimeMinutes"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:layout_marginRight="0dp"
+        app:layout_constraintTop_toTopOf="@+id/tvTimeLimitTitle"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTimeLimitTitle"
+        android:layout_marginBottom="0dp" />
+
+    <ImageView
+        android:id="@+id/btnPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_add"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintRight_toLeftOf="@+id/tvTimeLimitTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvTimeLimitTitle"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTimeLimitTitle"
+        app:layout_constraintLeft_toRightOf="@+id/tvTimeMinutes"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintVertical_bias="0.571" />
+
+    <TextView
+        android:id="@+id/btnRestore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="0dp"
+        android:text="איפוס"
+        android:textColor="@color/bootstrap_brand_primary"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTimeLimitTitle"
+        app:layout_constraintRight_toLeftOf="@+id/btnMinus"
+        app:layout_constraintTop_toTopOf="@+id/tvTimeLimitTitle" />
 
 
 </android.support.constraint.ConstraintLayout>
