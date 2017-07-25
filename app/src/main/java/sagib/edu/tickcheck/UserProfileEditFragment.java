@@ -93,10 +93,14 @@ public class UserProfileEditFragment extends Fragment {
         unbinder = ButterKnife.bind(this, v);
         Picasso.with(getContext()).load(user.getPhotoUrl()).into(ivProfilePhoto);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        etDisplayName.setText(user.getDisplayName());
+        if (user != null)
+            etDisplayName.setText(user.getDisplayName());
         prefs = getContext().getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE);
         isLimited = prefs.getBoolean("islimited", true);
         int limitMinutes = prefs.getInt("Minutes", 5);
+        if (limitMinutes == 1) {
+            btnMinus.setColorFilter(Color.rgb(15, 89, 228));
+        }
         if (!isLimited) {
             tvTimeLimitTitle.setVisibility(View.GONE);
             tvTimeMinutes.setVisibility(View.GONE);
@@ -107,7 +111,6 @@ public class UserProfileEditFragment extends Fragment {
             tvTimeMinutes.setText(String.valueOf(limitMinutes));
         }
         sBand.setChecked(isLimited);
-        Log.d("SagiB", String.valueOf(isLimited));
         return v;
     }
 
