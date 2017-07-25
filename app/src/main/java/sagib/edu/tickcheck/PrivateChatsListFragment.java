@@ -3,6 +3,7 @@ package sagib.edu.tickcheck;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -120,8 +121,12 @@ public class PrivateChatsListFragment extends Fragment {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
-                    if (user != null)
+                    if (user != null) {
                         Picasso.with(viewHolder.itemView.getContext()).load(user.getProfileImage()).into(viewHolder.civProfileImageList);
+                    } else {
+                        Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/tickcheck-2bdf2.appspot.com/o/ProfilePictures%2Fdefault_profile.jpg?alt=media&token=72b274a4-8a84-446f-ade4-dfafb3c8c06c");
+                        Picasso.with(viewHolder.itemView.getContext()).load(uri).into(viewHolder.civProfileImageList);
+                    }
                 }
 
                 @Override
