@@ -98,9 +98,6 @@ public class NewPostFragment extends DialogFragment {
     }
 
     public boolean isFilled() {
-        if (etPostContent.getText().toString().length() < 1) {
-            etPostContent.setError("אין להשאיר שדה ריק!");
-        }
         if (etShowArena.getText().toString().length() < 1) {
             etShowArena.setError("אין להשאיר שדה ריק!");
         }
@@ -116,7 +113,7 @@ public class NewPostFragment extends DialogFragment {
         if (etTicketsNumber.getText().toString().length() < 1) {
             etTicketsNumber.setError("אין להשאיר שדה ריק!");
         }
-        if (etPostContent.getText().toString().length() >= 1 && etShowArena.getText().toString().length() >= 1 && etShowDate.getText().toString().length() >= 1 && etShowPrice.getText().toString().length() >= 1 && etShowTitle.getText().toString().length() >= 1 && etTicketsNumber.getText().toString().length() >= 1) {
+        if (etShowArena.getText().toString().length() >= 1 && etShowDate.getText().toString().length() >= 1 && etShowPrice.getText().toString().length() >= 1 && etShowTitle.getText().toString().length() >= 1 && etTicketsNumber.getText().toString().length() >= 1) {
             return true;
         }
         return false;
