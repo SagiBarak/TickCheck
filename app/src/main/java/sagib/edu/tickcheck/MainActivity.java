@@ -235,9 +235,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_shows) {
-            clearBackStack();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment(), "Shows").commit();
-            toolbar.setTitle("רשימת הופעות של " + performer);
+            if (!toolbar.getTitle().toString().equals("רכישת כרטיסים")) {
+                clearBackStack();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment(), "Shows").commit();
+                toolbar.setTitle("רשימת הופעות של " + performer);
+            } else {
+                onBackPressed();
+            }
         } else if (id == R.id.nav_board) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();

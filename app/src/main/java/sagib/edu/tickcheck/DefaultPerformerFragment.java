@@ -7,8 +7,10 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -124,18 +126,29 @@ public class DefaultPerformerFragment extends DialogFragment {
         if (etPerformer.getText().toString().length() < 1) {
             etPerformer.setError("יש לרשום את שם האמן...");
         } else {
+            String lastPerformer = prefs.getString("PerformerTitle", "שלמה ארצי");
             String performer = etPerformer.getText().toString();
             String title = etPerformer.getText().toString();
+            String performerName = etPerformer.getText().toString();
             String values = prefs.getString("RecentPerformers", "");
             prefs.edit().putString("RecentPerformers", values + "\n" + performer).commit();
             prefs.edit().putString("PerformerTitle", performer).commit();
-            performer = performer.replace(" ", "-").replace("׳","");
+            performer = performer.replace(" ", "-").replace("׳", "");
             performer = Uri.encode(performer);
             prefs.edit().putString("PerformerName", performer).commit();
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
             dismiss();
             Toast.makeText(getContext(), "רשימת ההופעות עודכנה לרשימה של: " + title, Toast.LENGTH_SHORT).show();
+            String toolbarTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle().toString();
+            if (toolbarTitle.equals(lastPerformer)) {
+                FragmentManager fm = getFragmentManager();
+                for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+                    fm.popBackStack();
+                }
+                getFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment(), "Shows").commit();
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("רשימת הופעות של " + performerName);
+            }
         }
     }
 

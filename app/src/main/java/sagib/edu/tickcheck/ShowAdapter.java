@@ -190,6 +190,6 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
         for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
             fm.popBackStack();
         }
-        fragment.getFragmentManager().beginTransaction().replace(R.id.frame, webViewFragment).addToBackStack("Buy").commit();
+        fragment.getFragmentManager().beginTransaction().replace(R.id.frame, webViewFragment, "Buy").addToBackStack("Buy").commit();
     }
 }
