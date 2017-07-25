@@ -111,7 +111,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:gravity="center"
-        android:text="כאשר מופעל:\nלא ניתן לרענן את רשימת ההופעות יותר מפעם אחת ב-5 דקות."
+        android:text="כאשר מופעל:\nלא ניתן לרענן את רשימת ההופעות יותר מפעם אחת בזמן הנבחר."
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
