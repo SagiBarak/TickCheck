@@ -98,7 +98,7 @@
         android:text="בקרת רענון רשימת הופעות"
         app:layout_constraintLeft_toRightOf="@+id/sBand"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toTopOf="@+id/tvTimeLimitTitle" />
 
     <TextView
@@ -111,7 +111,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:gravity="center"
-        android:text="כאשר מופעל:\nלא ניתן לרענן את רשימת ההופעות יותר מפעם אחת בזמן הנבחר."
+        android:text="כאשר מופעל:\nלא ניתן לרענן את רשימת ההופעות יותר מפעם אחת בזמן הנבחר.\nניתן ללחוץ על מספר הדקות על מנת לערוך ידנית את הזמן."
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -133,7 +133,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="100"
-        android:ems="2"
+        android:ems="3"
         android:gravity="center"
         app:layout_constraintRight_toLeftOf="@+id/btnPlus"
         app:layout_constraintLeft_toRightOf="@+id/btnMinus"

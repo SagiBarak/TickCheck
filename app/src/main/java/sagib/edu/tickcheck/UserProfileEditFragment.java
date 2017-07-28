@@ -3,8 +3,10 @@ package sagib.edu.tickcheck;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -14,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,6 +94,21 @@ public class UserProfileEditFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_user_profile_edit, container, false);
         unbinder = ButterKnife.bind(this, v);
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int minutes = intent.getIntExtra("minutes", 5);
+                if (minutes > 60) {
+                    tvTimeMinutes.setText("מותאם\nאישית");
+                    btnMinus.setColorFilter(Color.GRAY);
+                    btnPlus.setColorFilter(Color.GRAY);
+                } else
+                    tvTimeMinutes.setText(String.valueOf(minutes));
+            }
+        };
+        LocalBroadcastManager mgr = LocalBroadcastManager.getInstance(getContext());
+        IntentFilter custom = new IntentFilter("CustomTime");
+        mgr.registerReceiver(receiver, custom);
         Picasso.with(getContext()).load(user.getPhotoUrl()).into(ivProfilePhoto);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null)
@@ -108,9 +126,22 @@ public class UserProfileEditFragment extends Fragment {
             btnPlus.setVisibility(View.GONE);
             btnRestore.setVisibility(View.GONE);
         } else {
-            tvTimeMinutes.setText(String.valueOf(limitMinutes));
+            if (limitMinutes > 60) {
+                tvTimeMinutes.setText("מותאם\nאישית");
+                btnMinus.setColorFilter(Color.GRAY);
+                btnPlus.setColorFilter(Color.GRAY);
+            } else
+                tvTimeMinutes.setText(String.valueOf(limitMinutes));
         }
         sBand.setChecked(isLimited);
+        tvTimeMinutes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomTimeLimit customTimeLimit = new CustomTimeLimit();
+                customTimeLimit.show(getChildFragmentManager(), "CustomTimeLimit");
+            }
+        });
+
         return v;
     }
 
@@ -232,30 +263,48 @@ public class UserProfileEditFragment extends Fragment {
             btnPlus.setVisibility(View.VISIBLE);
             btnRestore.setVisibility(View.VISIBLE);
             int limitMinutes = prefs.getInt("Minutes", 5);
-            tvTimeMinutes.setText(String.valueOf(limitMinutes));
+            if (limitMinutes > 60) {
+                tvTimeMinutes.setText("מותאם\nאישית");
+            } else {
+                tvTimeMinutes.setText(String.valueOf(limitMinutes));
+                int minutes = Integer.valueOf(tvTimeMinutes.getText().toString()) - 1;
+                if (minutes - 2 < 0) {
+                    btnMinus.setColorFilter(Color.GRAY);
+                }
+            }
         }
         Log.d("SagiB", String.valueOf(prefs.getBoolean("islimited", true)));
     }
 
     @OnClick(R.id.btnMinus)
     public void onBtnMinusClicked() {
-        int minutes = Integer.valueOf(tvTimeMinutes.getText().toString()) - 1;
-        if (minutes > 0) {
-            tvTimeMinutes.setText(String.valueOf(minutes));
-            prefs.edit().putInt("Minutes", Integer.valueOf(tvTimeMinutes.getText().toString())).commit();
-        }
-        if (minutes - 2 < 0) {
-            btnMinus.setColorFilter(Color.GRAY);
+        if (tvTimeMinutes.getText().equals("מותאם\nאישית")) {
+            onBtnRestoreClicked();
+            btnPlus.setColorFilter(Color.rgb(15, 89, 228));
+        } else {
+            int minutes = Integer.valueOf(tvTimeMinutes.getText().toString()) - 1;
+            if (minutes > 0) {
+                tvTimeMinutes.setText(String.valueOf(minutes));
+                prefs.edit().putInt("Minutes", Integer.valueOf(tvTimeMinutes.getText().toString())).commit();
+            }
+            if (minutes - 2 < 0) {
+                btnMinus.setColorFilter(Color.GRAY);
+            }
         }
     }
 
     @OnClick(R.id.btnPlus)
     public void onBtnPlusClicked() {
-        int minutes = Integer.valueOf(tvTimeMinutes.getText().toString()) + 1;
-        tvTimeMinutes.setText(String.valueOf(minutes));
-        prefs.edit().putInt("Minutes", Integer.valueOf(tvTimeMinutes.getText().toString())).commit();
-        if (minutes - 1 > 0) {
-            btnMinus.setColorFilter(Color.rgb(15, 89, 228));
+        if (tvTimeMinutes.getText().equals("מותאם\nאישית")) {
+            onBtnRestoreClicked();
+            btnPlus.setColorFilter(Color.rgb(15, 89, 228));
+        } else {
+            int minutes = Integer.valueOf(tvTimeMinutes.getText().toString()) + 1;
+            tvTimeMinutes.setText(String.valueOf(minutes));
+            prefs.edit().putInt("Minutes", Integer.valueOf(tvTimeMinutes.getText().toString())).commit();
+            if (minutes - 1 > 0) {
+                btnMinus.setColorFilter(Color.rgb(15, 89, 228));
+            }
         }
     }
 
@@ -264,5 +313,6 @@ public class UserProfileEditFragment extends Fragment {
         tvTimeMinutes.setText(String.valueOf(1));
         prefs.edit().putInt("Minutes", Integer.valueOf(tvTimeMinutes.getText().toString())).commit();
         btnMinus.setColorFilter(Color.GRAY);
+        btnPlus.setColorFilter(Color.rgb(15, 89, 228));
     }
 }

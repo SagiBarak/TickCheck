@@ -24,7 +24,6 @@ public class WelcomeSplash extends AwesomeSplash {
         configSplash.setTitleTextSize(14F);
         configSplash.setTitleTextColor(R.color.colorPrimaryDark);
         configSplash.setAnimTitleDuration(2000);
-
     }
 
     @Override

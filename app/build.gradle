@@ -47,11 +47,12 @@ dependencies {
     compile 'com.squareup.okio:okio:1.13.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.github.ViksaaSkool:AwesomeSplash:v1.0.0'
-    testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     compile 'com.github.jkwiecien:EasyImage:2.0.2'
     compile 'com.google.code.gson:gson:2.8.1'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 }
+
 
 
 

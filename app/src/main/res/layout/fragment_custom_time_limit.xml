@@ -1,0 +1,99 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="sagib.edu.tickcheck.CustomTimeLimit">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/tvDays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="ימים"
+        android:textSize="18dp"
+        app:layout_constraintLeft_toRightOf="@+id/tvHours"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="שעות"
+        android:textSize="18dp"
+        app:layout_constraintLeft_toRightOf="@+id/tvMinutes"
+        app:layout_constraintRight_toLeftOf="@+id/tvDays"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="דקות"
+        android:textSize="18dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tvHours"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="2"
+        android:gravity="center"
+        android:maxLines="1"
+        android:inputType="number"
+        app:layout_constraintLeft_toLeftOf="@+id/tvMinutes"
+        app:layout_constraintRight_toRightOf="@+id/tvMinutes"
+        app:layout_constraintTop_toBottomOf="@+id/tvMinutes" />
+
+    <EditText
+        android:id="@+id/etHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="2"
+        android:maxLines="1"
+        android:gravity="center"
+        android:inputType="number"
+        app:layout_constraintLeft_toLeftOf="@+id/tvHours"
+        app:layout_constraintRight_toRightOf="@+id/tvHours"
+        app:layout_constraintTop_toBottomOf="@+id/tvHours" />
+
+    <EditText
+        android:id="@+id/etDays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="2"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLines="1"
+        app:layout_constraintLeft_toLeftOf="@+id/tvDays"
+        app:layout_constraintRight_toRightOf="@+id/tvDays"
+        app:layout_constraintTop_toBottomOf="@+id/tvDays" />
+
+    <com.beardedhen.androidbootstrap.BootstrapButton
+        android:id="@+id/btnChooseTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:text="סיום"
+        app:bootstrapBrand="success"
+        app:bootstrapSize="lg"
+        app:buttonMode="regular"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etHours"
+        app:roundedCorners="true"
+        app:showOutline="false" />
+
+</android.support.constraint.ConstraintLayout>
