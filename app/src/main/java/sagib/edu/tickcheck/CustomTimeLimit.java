@@ -1,12 +1,10 @@
 package sagib.edu.tickcheck;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +19,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class CustomTimeLimit extends BottomSheetDialogFragment {
 
     @BindView(R.id.tvDays)
@@ -47,7 +41,6 @@ public class CustomTimeLimit extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_custom_time_limit, container, false);
         unbinder = ButterKnife.bind(this, v);
         prefs = getContext().getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE);

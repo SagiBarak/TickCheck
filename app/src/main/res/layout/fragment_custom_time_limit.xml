@@ -5,8 +5,6 @@
     android:layout_height="wrap_content"
     tools:context="sagib.edu.tickcheck.CustomTimeLimit">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <TextView
         android:id="@+id/tvDays"
         android:layout_width="wrap_content"
@@ -47,8 +45,8 @@
         android:layout_marginTop="16dp"
         android:ems="2"
         android:gravity="center"
-        android:maxLines="1"
         android:inputType="number"
+        android:maxLines="1"
         app:layout_constraintLeft_toLeftOf="@+id/tvMinutes"
         app:layout_constraintRight_toRightOf="@+id/tvMinutes"
         app:layout_constraintTop_toBottomOf="@+id/tvMinutes" />
@@ -59,9 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="2"
-        android:maxLines="1"
         android:gravity="center"
         android:inputType="number"
+        android:maxLines="1"
         app:layout_constraintLeft_toLeftOf="@+id/tvHours"
         app:layout_constraintRight_toRightOf="@+id/tvHours"
         app:layout_constraintTop_toBottomOf="@+id/tvHours" />
@@ -86,7 +84,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
         android:text="סיום"
-        app:bootstrapBrand="success"
+        app:bootstrapBrand="info"
         app:bootstrapSize="lg"
         app:buttonMode="regular"
         app:layout_constraintBottom_toBottomOf="parent"

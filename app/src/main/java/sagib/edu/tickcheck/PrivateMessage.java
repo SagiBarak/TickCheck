@@ -24,8 +24,6 @@ public class PrivateMessage implements Parcelable {
         this.prvMessageUID = prvMessageUID;
     }
 
-
-
     public PrivateMessage() {
     }
 

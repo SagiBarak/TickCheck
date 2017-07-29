@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="שם ההופעה..."
-            android:singleLine="true" />
+            android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="מיקום ההופעה..."
-            android:singleLine="true" />
+            android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:hint="תאריך ההופעה..."
             android:inputType="date"
-            android:singleLine="true" />
+            android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:hint="כמות כרטיסים..."
             android:inputType="number"
-            android:singleLine="true" />
+            android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:hint="מחיר לכרטיס..."
             android:inputType="number"
-            android:singleLine="true" />
+            android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -129,7 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="הערות..."
-            android:singleLine="true" />
+            android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
     <com.beardedhen.androidbootstrap.BootstrapButton
