@@ -1,15 +1,18 @@
 package sagib.edu.tickcheck;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,6 +52,18 @@ public class MyShowsListFragment extends Fragment {
     TextView tvTitleMyShows;
     ProgressBar pbLoadingList;
     private AdView mAdView;
+    int showsCount;
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            showsCount--;
+            if (showsCount == 0) {
+                tvTitleMyShows.setText("אין הופעות ברשימה...");
+            } else
+                tvTitleMyShows.setText("סה״כ הופעות: " + showsCount);
+        }
+    };
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,6 +81,7 @@ public class MyShowsListFragment extends Fragment {
         final MyShowsListAdapter adapter = new MyShowsListAdapter(reference.orderByChild("date"), getContext(), this);
         rvMyShows.setAdapter(adapter);
         rvMyShows.setLayoutManager(new LinearLayoutManager(getContext()));
+        showsCount = rvMyShows.getAdapter().getItemCount();
         FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -77,8 +93,9 @@ public class MyShowsListFragment extends Fragment {
                     tvTitleMyShows.setText("אין הופעות ברשימה...");
                     pbLoadingList.setVisibility(View.GONE);
                 } else {
-                    tvTitleMyShows.setText("ההופעות שלי");
+                    showsCount = rvMyShows.getAdapter().getItemCount();
                     pbLoadingList.setVisibility(View.GONE);
+                    tvTitleMyShows.setText("סה״כ הופעות: " + showsCount);
                 }
             }
 
@@ -87,8 +104,20 @@ public class MyShowsListFragment extends Fragment {
 
             }
         });
-
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        IntentFilter removed = new IntentFilter("ItemRemoved");
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, removed);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
     }
 
     @Override
@@ -236,6 +265,8 @@ public class MyShowsListFragment extends Fragment {
                                     }
                                 });
                                 dialog.dismiss();
+                                Intent intent = new Intent("ItemRemoved");
+                                LocalBroadcastManager.getInstance(fragment.getContext()).sendBroadcast(intent);
                             }
                         }).setNegativeButton("לא", new DialogInterface.OnClickListener() {
                             @Override

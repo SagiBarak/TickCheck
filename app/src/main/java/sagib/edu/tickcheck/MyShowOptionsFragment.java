@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -132,6 +133,8 @@ public class MyShowOptionsFragment extends BottomSheetDialogFragment {
                     }
                 });
                 dialog.dismiss();
+                Intent intent = new Intent("ItemRemoved");
+                LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
             }
         }).setNegativeButton("לא", new DialogInterface.OnClickListener() {
             @Override
