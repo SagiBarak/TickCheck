@@ -165,6 +165,11 @@ public class MainActivity extends AppCompatActivity
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
             toolbar.setTitle("ההופעות שלי");
+            if (mAuth.getCurrentUser() != null) {
+                if (mAuth.getCurrentUser().getPhotoUrl() != null) {
+                    Picasso.with(this).load(mAuth.getCurrentUser().getPhotoUrl()).into(civProfileImage);
+                }
+            }
         }
     }
 
