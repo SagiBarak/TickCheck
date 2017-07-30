@@ -98,14 +98,16 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
                     recycler.setAdapter(adapter);
                     if (data.size() <= 0) {
                         tvTitleShows.setText("אין הופעות ברשימה");
-                    } else if (data.size() > 0){
+                    } else if (data.size() > 0) {
                         tvTitleShows.setText("רשימת הופעות");
                     }
                     dialog.dismiss();
                     swipeRefreshLayout.setRefreshing(false);
                 } else {
-                    Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                    Log.d("Sagi", e.toString());
+                    if (e.toString().contains("FileNotFound")) {
+                        Toast.makeText(getContext(), "נא לוודא את תקינות שם האמן", Toast.LENGTH_SHORT).show();
+                        Log.d("Sagi", e.toString());
+                    }
                 }
             }
         });
