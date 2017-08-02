@@ -1,5 +1,6 @@
 package sagib.edu.tickcheck;
 
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -10,81 +11,82 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.google.gson.Gson;
+
+import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArrivedListener {
-    RecyclerView recycler;
+public class ShowsByDateFragment extends Fragment implements ShowByDateDataSource.OnShowArrivedListener {
+
+    Unbinder unbinder;
+    SharedPreferences prefs;
+    @BindView(R.id.btnDateDialog)
+    BootstrapButton btnDateDialog;
+    @BindView(R.id.rvShows)
+    RecyclerView rvShows;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    Unbinder unbinder;
-    @BindView(R.id.tvTitleShows)
-    TextView tvTitleShows;
     private ProgressDialog dialog;
-    SharedPreferences prefs;
-    String performer;
-    private AdView mAdView;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_shows, container, false);
-        tvTitleShows = (TextView) v.findViewById(R.id.tvTitleShows);
-        mAdView = (AdView) v.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-        prefs = getContext().getSharedPreferences("DefaultPerformer", Context.MODE_PRIVATE);
-        performer = prefs.getString("PerformerTitle", "שלמה ארצי");
+        View v = inflater.inflate(R.layout.fragment_shows_by_date, container, false);
+        unbinder = ButterKnife.bind(this, v);
+        prefs = getContext().getSharedPreferences("ShowsDate", Context.MODE_PRIVATE);
         dialog = new ProgressDialog(getContext());
         dialog.setMessage("נא להמתין,\nמרענן רשימת הופעות..." + "\n" + "מומלץ להתחבר לרשת אלחוטית.");
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
+        Gson gson = new Gson();
+        LocalDate now = LocalDate.now();
+        MyDate nowDate = new MyDate(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth());
+        MyDate date = gson.fromJson(prefs.getString("Date", nowDate.toString()), MyDate.class);
+        if (date.getYear() == 0) {
+            btnDateDialog.setText("הופעות בתאריך: " + nowDate.toString());
+        } else {
+            btnDateDialog.setText("הופעות בתאריך: " + date.toString());
+        }
+        ShowByDateDataSource.getShows(this, getContext());
+        rvShows = (RecyclerView) v.findViewById(R.id.rvShows);
+        rvShows.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 dialog.show();
-                tvTitleShows.setText("טוען רשימת הופעות...");
-                ShowDataSource.getShows(ShowsFragment.this, getContext());
-                performer = prefs.getString("PerformerTitle", "שלמה ארצי");
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(performer);
+                ShowByDateDataSource.getShows(ShowsByDateFragment.this, getContext());
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("הופעות לפי תאריך");
 
             }
         });
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        recycler = (RecyclerView) v.findViewById(R.id.recycler);
-        ShowDataSource.getShows(this, getContext());
-        recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        recycler.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View v, DragEvent event) {
-                ShowDataSource.getShows(ShowsFragment.this, getContext());
-                return false;
-            }
-        });
-        unbinder = ButterKnife.bind(this, v);
         return v;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(performer);
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick(R.id.btnDateDialog)
+    public void onBtnDateDialogClicked() {
+        ChooseDateDialogFragment chooseDateDialogFragment = new ChooseDateDialogFragment();
+        chooseDateDialogFragment.show(getChildFragmentManager(), "DateChooserDialog");
     }
 
     @Override
@@ -95,19 +97,13 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
             public void run() {
                 if (e == null) {
                     ShowAdapter adapter = new ShowAdapter(data, getContext(), fragment);
-                    recycler.setAdapter(adapter);
-                    if (data.size() <= 0) {
-                        tvTitleShows.setText("אין הופעות ברשימה");
-                    } else if (data.size() > 0) {
-                        tvTitleShows.setText("רשימת הופעות");
-                    }
+                    rvShows.setAdapter(adapter);
                     dialog.dismiss();
                     swipeRefreshLayout.setRefreshing(false);
                 } else {
                     if (e.toString().contains("FileNotFound")) {
                         Toast.makeText(getContext(), "נא לוודא את תקינות שם האמן", Toast.LENGTH_SHORT).show();
                         Log.d("Sagi", e.toString());
-                        dialog.dismiss();
                     }
                 }
             }
@@ -115,8 +111,8 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("הופעות לפי תאריך");
     }
 }

@@ -74,7 +74,6 @@ public class ShowDataSource {
                     try {
                         URL url = new URL("https://www.zappa-club.co.il/%D7%AA%D7%92%D7%99%D7%95%D7%AA/" + performer + "/");
                         URLConnection con = url.openConnection();
-
                         con.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; U; Android 2.2.1; en-ca; LG-P505R Build/FRG83) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1");
                         con.setRequestProperty("Content-Type", "text/plain; charset=utf-8");
                         con.setRequestProperty("Connection", "Keep-Alive");

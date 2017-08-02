@@ -11,6 +11,10 @@
             android:icon="@drawable/ic_playlist"
             android:title="רשימת הופעות" />
         <item
+            android:id="@+id/nav_showsbydate"
+            android:icon="@drawable/ic_playlist"
+            android:title="הופעות לפי תאריך" />
+        <item
             android:id="@+id/nav_board"
             android:icon="@drawable/ic_board"
             android:title="פורום מכירת כרטיסים" />

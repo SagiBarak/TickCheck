@@ -246,6 +246,14 @@ public class MainActivity extends AppCompatActivity
             } else {
                 onBackPressed();
             }
+        } else if (id == R.id.nav_showsbydate) {
+            if (!toolbar.getTitle().toString().equals("רכישת כרטיסים")) {
+                clearBackStack();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsByDateFragment(), "ShowsByDate").commit();
+                toolbar.setTitle("הופעות לפי תאריך");
+            } else {
+                onBackPressed();
+            }
         } else if (id == R.id.nav_board) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();
