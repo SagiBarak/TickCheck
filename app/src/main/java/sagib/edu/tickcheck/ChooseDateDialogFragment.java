@@ -16,6 +16,7 @@ import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.gson.Gson;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +42,7 @@ public class ChooseDateDialogFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.fragment_choose_date_dialog, container, false);
         unbinder = ButterKnife.bind(this, v);
         prefs = getContext().getSharedPreferences("ShowsDate", Context.MODE_PRIVATE);
-        LocalDate date = LocalDate.now();
+        datePicker.setMinDate(LocalDateTime.now().toDate().getTime());
         return v;
     }
 
