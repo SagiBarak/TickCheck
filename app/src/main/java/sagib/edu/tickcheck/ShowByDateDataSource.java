@@ -40,12 +40,22 @@ public class ShowByDateDataSource {
         final Gson gson = new Gson();
         LocalDate now = LocalDate.now();
         LocalDateTime nowTime = LocalDateTime.now();
-        MyDate lastDate = gson.fromJson(prefs.getString("LastDate", ""), MyDate.class);
+        String lastDate1 = prefs.getString("LastDate", null);
+        MyDate lastDate = new MyDate(2017, 1, 1);
+        Log.d("SagiB lastdate1", lastDate1);
+        if (!lastDate1.equals(null)) {
+            lastDate = gson.fromJson(lastDate1, MyDate.class);
+            Log.d("SagiB inside", lastDate1);
+        }
         MyDate nowDate = new MyDate(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth());
-        MyDate chosenDate = gson.fromJson(prefs.getString("Date", nowDate.toString()), MyDate.class);
+        String prefsString = prefs.getString("Date", "");
+        MyDate chosenDate = nowDate;
+        if (!prefsString.equals("")) {
+            chosenDate = gson.fromJson(prefsString, MyDate.class);
+        }
         LocalDate before = new LocalDate(chosenDate.getYear(), chosenDate.getMonth(), chosenDate.getDay());
-        final MyDate date;
-        if (chosenDate.getYear() == 0 || before.isBefore(now)) {
+        MyDate date;
+        if (chosenDate.getYear() == 0 || before.isBefore(now) || nowDate.equals(chosenDate)) {
             date = nowDate;
         } else {
             date = chosenDate;
@@ -53,11 +63,11 @@ public class ShowByDateDataSource {
         SharedPreferences prefsBoolean = context.getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE);
         boolean isLimited = prefsBoolean.getBoolean("islimited", true);
         boolean showLastList = false;
+        Log.d("SagiB lastDate", lastDate.toString());
+        Log.d("SagiB date", date.toString());
         if (isLimited) {
             String lastTime = prefs.getString("showslisttime", "");
             int limitMinutes = prefsBoolean.getInt("Minutes", 5);
-            Log.d("SagiB Date", date.toString());
-            Log.d("SagiB LastDate", lastDate.toString());
             if (date.getDay() != lastDate.getDay() || date.getMonth() != lastDate.getMonth() || date.getYear() != lastDate.getYear()) {
                 showLastList = false;
             } else {
@@ -73,6 +83,7 @@ public class ShowByDateDataSource {
                 }
             }
         }
+        final MyDate parsedDate = date;
         if (!showLastList || !isLimited) {
             service.execute(new Runnable() {
                 @Override
@@ -80,7 +91,7 @@ public class ShowByDateDataSource {
                     String html = "";
                     Log.d("SagiB 2", "refresh");
                     try {
-                        URL url = new URL("https://www.zappa-club.co.il/sresults/?ed=" + date.getDay() + "&em=" + date.getMonth() + "&ey=" + date.getYear());
+                        URL url = new URL("https://www.zappa-club.co.il/sresults/?ed=" + parsedDate.getDay() + "&em=" + parsedDate.getMonth() + "&ey=" + parsedDate.getYear());
                         URLConnection con = url.openConnection();
                         con.setRequestProperty("Content-Type", "text/plain; charset=utf-8");
                         con.setRequestProperty("Connection", "Keep-Alive");
@@ -168,9 +179,9 @@ public class ShowByDateDataSource {
                     LocalDateTime currentNow = LocalDateTime.now();
                     prefs.edit().putString("showslisttime", currentNow.toString()).commit();
                     prefs.edit().putString("LastShows", showsJson).commit();
-                    String date1 = prefs.getString("Date", "");
-                    MyDate myDate = gson.fromJson(date1, MyDate.class);
-                    prefs.edit().putString("LastDate", gson.toJson(myDate)).commit();
+//                    String date1 = prefs.getString("Date", "");
+//                    MyDate myDate = gson.fromJson(date1, MyDate.class);
+                    prefs.edit().putString("LastDate", gson.toJson(parsedDate)).commit();
                     listener.onShowArrived(shows, null);
                 }
             });

@@ -54,7 +54,11 @@ public class ShowsByDateFragment extends Fragment implements ShowByDateDataSourc
         Gson gson = new Gson();
         LocalDate now = LocalDate.now();
         MyDate nowDate = new MyDate(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth());
-        MyDate date = gson.fromJson(prefs.getString("Date", nowDate.toString()), MyDate.class);
+        String myDateParsing = prefs.getString("Date", "");
+        MyDate date = nowDate;
+        if (!myDateParsing.equals("")) {
+            date = gson.fromJson(myDateParsing, MyDate.class);
+        }
         LocalDate before = new LocalDate(date.getYear(), date.getMonth(), date.getDay());
         if (date.getYear() == 0 || before.isBefore(now)) {
             btnDateDialog.setText("הופעות בתאריך: " + nowDate.toString());

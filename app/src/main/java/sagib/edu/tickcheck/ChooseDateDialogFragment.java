@@ -59,7 +59,11 @@ public class ChooseDateDialogFragment extends DialogFragment {
         String dateJson = gson.toJson(date);
         LocalDate now = LocalDate.now();
         MyDate nowDate = new MyDate(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth());
-        MyDate chosenDate = gson.fromJson(prefs.getString("Date", nowDate.toString()), MyDate.class);
+        String date1 = prefs.getString("Date", null);
+        MyDate chosenDate = nowDate;
+        if (date1 != null) {
+            chosenDate = gson.fromJson(date1, MyDate.class);
+        }
         final MyDate myDate;
         if (chosenDate.getYear() != 0) {
             prefs.edit().putString("LastDate", gson.toJson(chosenDate)).commit();
