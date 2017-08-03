@@ -2,7 +2,6 @@ package sagib.edu.tickcheck;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -42,10 +41,8 @@ public class ShowByDateDataSource {
         LocalDateTime nowTime = LocalDateTime.now();
         String lastDate1 = prefs.getString("LastDate", null);
         MyDate lastDate = new MyDate(2017, 1, 1);
-        Log.d("SagiB lastdate1", lastDate1);
-        if (!lastDate1.equals(null)) {
+        if (lastDate1 != null) {
             lastDate = gson.fromJson(lastDate1, MyDate.class);
-            Log.d("SagiB inside", lastDate1);
         }
         MyDate nowDate = new MyDate(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth());
         String prefsString = prefs.getString("Date", "");
@@ -63,8 +60,6 @@ public class ShowByDateDataSource {
         SharedPreferences prefsBoolean = context.getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE);
         boolean isLimited = prefsBoolean.getBoolean("islimited", true);
         boolean showLastList = false;
-        Log.d("SagiB lastDate", lastDate.toString());
-        Log.d("SagiB date", date.toString());
         if (isLimited) {
             String lastTime = prefs.getString("showslisttime", "");
             int limitMinutes = prefsBoolean.getInt("Minutes", 5);
@@ -74,11 +69,9 @@ public class ShowByDateDataSource {
                 if (lastTime.length() > 3) {
                     if (nowTime.minusMinutes(limitMinutes).isBefore(LocalDateTime.parse(lastTime))) {
                         showLastList = true;
-                        Log.d("SagiB Firstif", String.valueOf(limitMinutes));
                     }
                     if (nowTime.minusMinutes(limitMinutes).isEqual(LocalDateTime.parse(lastTime))) {
                         showLastList = true;
-                        Log.d("SagiB Secondif", String.valueOf(limitMinutes));
                     }
                 }
             }
@@ -89,7 +82,6 @@ public class ShowByDateDataSource {
                 @Override
                 public void run() {
                     String html = "";
-                    Log.d("SagiB 2", "refresh");
                     try {
                         URL url = new URL("https://www.zappa-club.co.il/sresults/?ed=" + parsedDate.getDay() + "&em=" + parsedDate.getMonth() + "&ey=" + parsedDate.getYear());
                         URLConnection con = url.openConnection();
@@ -98,7 +90,6 @@ public class ShowByDateDataSource {
                         InputStream in = con.getInputStream();
                         html = StreamIO.read(in);
                     } catch (IOException e) {
-                        Log.d("SagiB 3", e.toString());
                         listener.onShowArrived(null, e);
                     }
                     Document parse = Jsoup.parse(html);
@@ -117,7 +108,6 @@ public class ShowByDateDataSource {
                         try {
                             time = formatter1.parse(hour);
                         } catch (ParseException e) {
-                            Log.d("SagiB 4", e.toString());
                             listener.onShowArrived(null, e);
                             continue;
                         }
@@ -131,7 +121,6 @@ public class ShowByDateDataSource {
                             InputStream in = con.getInputStream();
                             parsedlinkfirst = StreamIO.read(in);
                         } catch (IOException e) {
-                            Log.d("SagiB 5", e.toString());
                             listener.onShowArrived(null, e);
                             continue;
                         }
