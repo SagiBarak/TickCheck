@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_about) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("אודות");
-            dialog.setMessage("אפליקציה זו נוצרה ע״י שגיא ברק, עבור הקהל הרחב של שלמה ארצי.\nמכיוון שכרטיס להופעה הפך להיות נדיר (עקב הביקוש הרב), החלטתי להקל על תהליך הבדיקה של זמינות הכרטיסים ולאחד את הפעולה הזו ביחד עם לוח מכירת כרטיסים.\n שימו לב!\nמומלץ להשתמש באפליקציה באמצעות חיבור WiFi על מנת לחסוך בחבילת הגלישה.\n תהנו!");
+            dialog.setMessage("אפליקציה זו נוצרה במקור עבור הקהל הרחב של שלמה ארצי.\nמכיוון שכרטיס להופעה הפך להיות נדיר (עקב הביקוש הרב), החלטתי להקל על תהליך הבדיקה של זמינות הכרטיסים ולאחד את הפעולה הזו ביחד עם לוח מכירת כרטיסים.\nבשלב השני, נוספה האפשרות לבדיקת כרטיסים עבור אמנים נוספים.\nשימו לב!\nמומלץ להשתמש באפליקציה באמצעות חיבור WiFi על מנת לחסוך בחבילת הגלישה.\n תהנו!");
             dialog.setCancelable(false);
             dialog.setNeutralButton("חזרה", new DialogInterface.OnClickListener() {
                 @Override
