@@ -43,8 +43,9 @@ public class ShowByDateDataSource {
         MyDate lastDate = gson.fromJson(prefs.getString("LastDate", ""), MyDate.class);
         MyDate nowDate = new MyDate(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth());
         MyDate chosenDate = gson.fromJson(prefs.getString("Date", nowDate.toString()), MyDate.class);
+        LocalDate before = new LocalDate(chosenDate.getYear(), chosenDate.getMonth(), chosenDate.getDay());
         final MyDate date;
-        if (chosenDate.getYear() == 0) {
+        if (chosenDate.getYear() == 0 || before.isBefore(now)) {
             date = nowDate;
         } else {
             date = chosenDate;

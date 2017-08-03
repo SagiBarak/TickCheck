@@ -30,6 +30,21 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tvTitleMyShowsDetailed"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#448AFF"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="ההופעות שלי"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvMyShows"
         android:layout_width="0dp"

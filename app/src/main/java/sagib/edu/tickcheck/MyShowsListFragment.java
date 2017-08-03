@@ -45,22 +45,44 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class MyShowsListFragment extends Fragment {
 
     RecyclerView rvMyShows;
     FirebaseUser user;
     TextView tvTitleMyShows;
     ProgressBar pbLoadingList;
+    int pastCount = 0;
+    @BindView(R.id.tvTitleMyShowsDetailed)
+    TextView tvTitleMyShowsDetailed;
+    Unbinder unbinder;
     private AdView mAdView;
     int showsCount;
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             showsCount--;
+            MyShow model = intent.getParcelableExtra("model");
             if (showsCount == 0) {
                 tvTitleMyShows.setText("אין הופעות ברשימה...");
             } else
                 tvTitleMyShows.setText("סה״כ הופעות: " + showsCount);
+            DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+            Date date = LocalDate.parse(model.getDate(), formatter).toDate();
+            if (date.before(LocalDate.now().toDate())) {
+                pastCount--;
+                tvTitleMyShowsDetailed.setText("עברו: " + pastCount + " עתידיות: " + (showsCount - pastCount));
+            }
+        }
+    };
+    BroadcastReceiver pastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            pastCount++;
+            tvTitleMyShowsDetailed.setText("עברו: " + pastCount + " עתידיות: " + (showsCount - pastCount));
         }
     };
 
@@ -76,6 +98,9 @@ public class MyShowsListFragment extends Fragment {
         rvMyShows = (RecyclerView) v.findViewById(R.id.rvMyShows);
         tvTitleMyShows = (TextView) v.findViewById(R.id.tvTitleMyShows);
         pbLoadingList = (ProgressBar) v.findViewById(R.id.pbLoadingList);
+        tvTitleMyShowsDetailed = (TextView) v.findViewById(R.id.tvTitleMyShowsDetailed);
+        tvTitleMyShowsDetailed.setVisibility(View.GONE);
+        tvTitleMyShowsDetailed.setText("עברו: " + pastCount + " עתידיות: " + (showsCount - pastCount));
         tvTitleMyShows.setText("טוען את ההופעות שלי...");
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid());
         final MyShowsListAdapter adapter = new MyShowsListAdapter(reference.orderByChild("date"), getContext(), this);
@@ -104,6 +129,21 @@ public class MyShowsListFragment extends Fragment {
 
             }
         });
+        tvTitleMyShows.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvTitleMyShows.setVisibility(View.INVISIBLE);
+                tvTitleMyShowsDetailed.setVisibility(View.VISIBLE);
+            }
+        });
+        tvTitleMyShowsDetailed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvTitleMyShows.setVisibility(View.VISIBLE);
+                tvTitleMyShowsDetailed.setVisibility(View.INVISIBLE);
+            }
+        });
+        unbinder = ButterKnife.bind(this, v);
         return v;
     }
 
@@ -112,18 +152,27 @@ public class MyShowsListFragment extends Fragment {
         super.onStart();
         IntentFilter removed = new IntentFilter("ItemRemoved");
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver, removed);
+        IntentFilter past = new IntentFilter("PastEvent");
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(pastReceiver, past);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(receiver);
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(pastReceiver);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("ההופעות שלי");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     public static class MyShowsListAdapter extends FirebaseRecyclerAdapter<MyShow, MyShowsListAdapter.MyShowsListViewHolder> {
@@ -139,9 +188,9 @@ public class MyShowsListFragment extends Fragment {
         }
 
         @Override
-        public MyShowsListAdapter.MyShowsListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MyShowsListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-            return new MyShowsListAdapter.MyShowsListViewHolder(view, fragment);
+            return new MyShowsListViewHolder(view, fragment);
         }
 
         @Override
@@ -158,7 +207,7 @@ public class MyShowsListFragment extends Fragment {
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    v.getContext().startActivity(new Intent(android.content.Intent.ACTION_VIEW,
+                    v.getContext().startActivity(new Intent(Intent.ACTION_VIEW,
                             Uri.parse(uri)));
                 }
             };
@@ -189,6 +238,9 @@ public class MyShowsListFragment extends Fragment {
                 viewHolder.tvArena.setAlpha(0.5f);
                 viewHolder.tvPerformer.setAlpha(0.5f);
                 viewHolder.tvDayDateTime.setAlpha(0.5f);
+                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(context);
+                Intent intent = new Intent("PastEvent");
+                localBroadcastManager.sendBroadcast(intent);
             }
         }
 
@@ -266,6 +318,7 @@ public class MyShowsListFragment extends Fragment {
                                 });
                                 dialog.dismiss();
                                 Intent intent = new Intent("ItemRemoved");
+                                intent.putExtra("model", model);
                                 LocalBroadcastManager.getInstance(fragment.getContext()).sendBroadcast(intent);
                             }
                         }).setNegativeButton("לא", new DialogInterface.OnClickListener() {
@@ -281,5 +334,4 @@ public class MyShowsListFragment extends Fragment {
             }
         }
     }
-
 }
