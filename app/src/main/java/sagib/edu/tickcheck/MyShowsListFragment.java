@@ -17,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,7 @@ public class MyShowsListFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             showsCount--;
             MyShow model = intent.getParcelableExtra("model");
+            Log.d("SagiB model", model.toString());
             if (showsCount == 0) {
                 tvTitleMyShows.setText("אין הופעות ברשימה...");
             } else
@@ -74,8 +76,8 @@ public class MyShowsListFragment extends Fragment {
             Date date = LocalDate.parse(model.getDate(), formatter).toDate();
             if (date.before(LocalDate.now().toDate())) {
                 pastCount--;
-                tvTitleMyShowsDetailed.setText("עברו: " + pastCount + " עתידיות: " + (showsCount - pastCount));
             }
+            tvTitleMyShowsDetailed.setText("עברו: " + pastCount + " עתידיות: " + (showsCount - pastCount));
         }
     };
     BroadcastReceiver pastReceiver = new BroadcastReceiver() {
@@ -303,6 +305,8 @@ public class MyShowsListFragment extends Fragment {
                 tvDayDateTime = (TextView) itemView.findViewById(R.id.tvDayDateTime);
                 ivNav = (ImageView) itemView.findViewById(R.id.ivNav);
                 tvNav = (TextView) itemView.findViewById(R.id.tvNav);
+                final Intent intent = new Intent("ItemRemoved");
+                intent.putExtra("model", model);
                 itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
@@ -318,8 +322,6 @@ public class MyShowsListFragment extends Fragment {
                                     }
                                 });
                                 dialog.dismiss();
-                                Intent intent = new Intent("ItemRemoved");
-                                intent.putExtra("model", model);
                                 LocalBroadcastManager.getInstance(fragment.getContext()).sendBroadcast(intent);
                             }
                         }).setNegativeButton("לא", new DialogInterface.OnClickListener() {

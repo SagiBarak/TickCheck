@@ -134,6 +134,7 @@ public class MyShowOptionsFragment extends BottomSheetDialogFragment {
                 });
                 dialog.dismiss();
                 Intent intent = new Intent("ItemRemoved");
+                intent.putExtra("model", mShow);
                 LocalBroadcastManager.getInstance(getContext()).sendBroadcast(intent);
             }
         }).setNegativeButton("לא", new DialogInterface.OnClickListener() {
