@@ -246,40 +246,41 @@ public class MyShowsListFragment extends Fragment {
 
         private void getLocationOfArena(MyShowsListViewHolder viewHolder) {
 
-            switch (viewHolder.tvArena.getText().toString()) {
-                case "זאפה אמפי שוני":
-                    uri = "geo: 32.534777, 34.948529&navigate=yes";
-                    break;
-                case "פארק ענבה מודיעין":
-                    uri = "geo: 31.898358, 35.004058&navigate=yes";
-                    break;
-                case "אמפי קיסריה (הגן הלאומי)":
-                    uri = "geo: 32.495838, 34.891096&navigate=yes";
-                    break;
-                case "זאפה הרצליה":
-                    uri = "geo: 32.166939, 34.810675&navigate=yes";
-                    break;
-                case "זאפה ירושלים":
-                    uri = "geo: 31.7670034,35.2275566&navigate=yes";
-                    break;
-                case "זאפה חיפה":
-                    uri = "geo: 32.7896917,34.9657941&navigate=yes";
-                    break;
-                case "אמפי פארק מיני ישראל":
-                    uri = "geo: 31.8421649,34.9712045&navigate=yes";
-                    break;
-                case "זאפה תל אביב":
-                    uri = "geo: 32.1112442,34.8414371&navigate=yes";
-                    break;
-                case "לייב פארק":
-                    uri = "geo: 31.9764793,34.7439862&navigate=yes";
-                    break;
-                default:
-                    viewHolder.ivNav.setVisibility(View.INVISIBLE);
-                    viewHolder.tvNav.setVisibility(View.INVISIBLE);
-                    viewHolder.ivNav.setOnClickListener(null);
-                    viewHolder.tvNav.setOnClickListener(null);
-            }
+//            switch (viewHolder.tvArena.getText().toString()) {
+//                case "זאפה אמפי שוני":
+//                    uri = "geo: 32.534777, 34.948529&navigate=yes";
+//                    break;
+//                case "פארק ענבה מודיעין":
+//                    uri = "geo: 31.898358, 35.004058&navigate=yes";
+//                    break;
+//                case "אמפי קיסריה (הגן הלאומי)":
+//                    uri = "geo: 32.495838, 34.891096&navigate=yes";
+//                    break;
+//                case "זאפה הרצליה":
+//                    uri = "geo: 32.166939, 34.810675&navigate=yes";
+//                    break;
+//                case "זאפה ירושלים":
+//                    uri = "geo: 31.7670034,35.2275566&navigate=yes";
+//                    break;
+//                case "זאפה חיפה":
+//                    uri = "geo: 32.7896917,34.9657941&navigate=yes";
+//                    break;
+//                case "אמפי פארק מיני ישראל":
+//                    uri = "geo: 31.8421649,34.9712045&navigate=yes";
+//                    break;
+//                case "זאפה תל אביב":
+//                    uri = "geo: 32.1112442,34.8414371&navigate=yes";
+//                    break;
+//                case "לייב פארק":
+//                    uri = "geo: 31.9764793,34.7439862&navigate=yes";
+//                    break;
+//                default:
+//                    viewHolder.ivNav.setVisibility(View.INVISIBLE);
+//                    viewHolder.tvNav.setVisibility(View.INVISIBLE);
+//                    viewHolder.ivNav.setOnClickListener(null);
+//                    viewHolder.tvNav.setOnClickListener(null);
+//            }
+            uri = "geo:?q=" + viewHolder.tvArena.getText().toString();
         }
 
         public static class MyShowsListViewHolder extends RecyclerView.ViewHolder {
