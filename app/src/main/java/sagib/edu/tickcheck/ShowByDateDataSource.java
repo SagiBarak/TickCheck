@@ -144,7 +144,7 @@ public class ShowByDateDataSource {
                         int sectors = substring.split("name").length - 1;
                         for (int j = 0; j < sectors; j++) {
                             int index = StreamIO.ordinalIndexOf(substring, "\"name\":\"", j + 1);
-                            String temp = substring.substring(index);
+                            String temp = substring.substring(index + 1);
                             index = StreamIO.ordinalIndexOf(temp, "\"", 13);
                             String zoneSubstring = temp.substring(0, index);
                             if (zoneSubstring.contains("capacity")) {
@@ -168,8 +168,6 @@ public class ShowByDateDataSource {
                     LocalDateTime currentNow = LocalDateTime.now();
                     prefs.edit().putString("showslisttime", currentNow.toString()).commit();
                     prefs.edit().putString("LastShows", showsJson).commit();
-//                    String date1 = prefs.getString("Date", "");
-//                    MyDate myDate = gson.fromJson(date1, MyDate.class);
                     prefs.edit().putString("LastDate", gson.toJson(parsedDate)).commit();
                     listener.onShowArrived(shows, null);
                 }
