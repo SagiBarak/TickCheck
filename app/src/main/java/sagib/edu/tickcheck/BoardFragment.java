@@ -214,6 +214,7 @@ public class BoardFragment extends Fragment {
             public BoardViewHolder(View itemView, final Fragment fragment) {
                 super(itemView);
                 this.fragment = fragment;
+
                 tvDisplayName = (TextView) itemView.findViewById(R.id.tvDisplayNameTitle);
                 tvPostContent = (TextView) itemView.findViewById(R.id.tvPostContent);
                 tvShowTitle = (TextView) itemView.findViewById(R.id.tvShowTitle);
