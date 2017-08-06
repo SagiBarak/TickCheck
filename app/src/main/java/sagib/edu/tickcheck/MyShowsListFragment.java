@@ -3,7 +3,6 @@ package sagib.edu.tickcheck;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -13,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,12 +22,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -247,41 +243,6 @@ public class MyShowsListFragment extends Fragment {
         }
 
         private void getLocationOfArena(MyShowsListViewHolder viewHolder) {
-
-//            switch (viewHolder.tvArena.getText().toString()) {
-//                case "זאפה אמפי שוני":
-//                    uri = "geo: 32.534777, 34.948529&navigate=yes";
-//                    break;
-//                case "פארק ענבה מודיעין":
-//                    uri = "geo: 31.898358, 35.004058&navigate=yes";
-//                    break;
-//                case "אמפי קיסריה (הגן הלאומי)":
-//                    uri = "geo: 32.495838, 34.891096&navigate=yes";
-//                    break;
-//                case "זאפה הרצליה":
-//                    uri = "geo: 32.166939, 34.810675&navigate=yes";
-//                    break;
-//                case "זאפה ירושלים":
-//                    uri = "geo: 31.7670034,35.2275566&navigate=yes";
-//                    break;
-//                case "זאפה חיפה":
-//                    uri = "geo: 32.7896917,34.9657941&navigate=yes";
-//                    break;
-//                case "אמפי פארק מיני ישראל":
-//                    uri = "geo: 31.8421649,34.9712045&navigate=yes";
-//                    break;
-//                case "זאפה תל אביב":
-//                    uri = "geo: 32.1112442,34.8414371&navigate=yes";
-//                    break;
-//                case "לייב פארק":
-//                    uri = "geo: 31.9764793,34.7439862&navigate=yes";
-//                    break;
-//                default:
-//                    viewHolder.ivNav.setVisibility(View.INVISIBLE);
-//                    viewHolder.tvNav.setVisibility(View.INVISIBLE);
-//                    viewHolder.ivNav.setOnClickListener(null);
-//                    viewHolder.tvNav.setOnClickListener(null);
-//            }
             uri = "geo:?q=" + viewHolder.tvArena.getText().toString();
         }
 
@@ -305,35 +266,6 @@ public class MyShowsListFragment extends Fragment {
                 tvDayDateTime = (TextView) itemView.findViewById(R.id.tvDayDateTime);
                 ivNav = (ImageView) itemView.findViewById(R.id.ivNav);
                 tvNav = (TextView) itemView.findViewById(R.id.tvNav);
-                final Intent intent = new Intent("ItemRemoved");
-                intent.putExtra("model", model);
-                itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getContext());
-                        builder.setTitle("הסר הופעה מהרשימה").setMessage("האם ברצונך למחוק את ההופעה מרשימת ״ההופעות שלי״?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                FirebaseDatabase.getInstance().getReference("MyShows").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getMyShowUID()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        FirebaseDatabase.getInstance().getReference("MyShowsList").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(model.getEventID()).removeValue();
-                                        Toast.makeText(fragment.getContext(), "ההופעה נמחקה מהרשימה!", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                dialog.dismiss();
-                                LocalBroadcastManager.getInstance(fragment.getContext()).sendBroadcast(intent);
-                            }
-                        }).setNegativeButton("לא", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).show();
-                        return false;
-                    }
-                });
-
             }
         }
     }
