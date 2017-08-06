@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,7 +105,6 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
                 } else {
                     if (e.toString().contains("FileNotFound")) {
                         Toast.makeText(getContext(), "נא לוודא את תקינות שם האמן", Toast.LENGTH_SHORT).show();
-                        Log.d("Sagi", e.toString());
                         dialog.dismiss();
                     }
                 }

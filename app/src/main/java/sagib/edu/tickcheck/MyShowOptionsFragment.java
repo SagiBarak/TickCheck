@@ -11,7 +11,6 @@ import android.provider.CalendarContract;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,13 +99,11 @@ public class MyShowOptionsFragment extends BottomSheetDialogFragment {
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
         String time = mShow.getDateTime().substring(mShow.getDateTime().length() - 5, mShow.getDateTime().length());
         Date date = LocalDateTime.parse(mShow.getDate() + " " + time, formatter).toDate();
-        Log.d("SagiB date", mShow.getDate() + " " + time);
         Calendar dateCal = Calendar.getInstance();
         dateCal.setTime(date);
         Calendar endDateCal = Calendar.getInstance();
         endDateCal.setTime(date);
         endDateCal.add(Calendar.HOUR_OF_DAY, 3);
-        Log.d("SagiB", dateCal.getTime().toString());
         Intent intent = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
                 .putExtra(CalendarContract.Events.TITLE, mShow.getPerformer())
@@ -148,38 +145,6 @@ public class MyShowOptionsFragment extends BottomSheetDialogFragment {
     }
 
     private void getLocationOfArena(MyShow mShow) {
-        Log.d("SagiB", mShow.getArena());
-//        switch (mShow.getArena()) {
-//            case "זאפה אמפי שוני":
-//                uri = "geo: 32.534777, 34.948529&navigate=yes";
-//                break;
-//            case "פארק ענבה מודיעין":
-//                uri = "geo: 31.898358, 35.004058&navigate=yes";
-//                break;
-//            case "אמפי קיסריה (הגן הלאומי)":
-//                uri = "geo: 32.495838, 34.891096&navigate=yes";
-//                break;
-//            case "זאפה הרצליה":
-//                uri = "geo: 32.166939, 34.810675&navigate=yes";
-//                break;
-//            case "זאפה ירושלים":
-//                uri = "geo: 31.7670034,35.2275566&navigate=yes";
-//                break;
-//            case "זאפה חיפה":
-//                uri = "geo: 32.7896917,34.9657941&navigate=yes";
-//                break;
-//            case "אמפי פארק מיני ישראל":
-//                uri = "geo: 31.8421649,34.9712045&navigate=yes";
-//                break;
-//            case "זאפה תל אביב":
-//                uri = "geo: 32.1112442,34.8414371&navigate=yes";
-//                break;
-//            case "לייב פארק":
-//                uri = "geo: 31.9764793,34.7439862&navigate=yes";
-//                break;
-//            default:
-//                btnNavigate.setVisibility(View.GONE);
-//        }
         uri = "geo:?q=" + mShow.getArena();
     }
 }

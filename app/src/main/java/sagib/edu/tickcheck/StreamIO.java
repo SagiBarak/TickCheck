@@ -1,7 +1,5 @@
 package sagib.edu.tickcheck;
 
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -126,7 +124,6 @@ public class StreamIO {
                 return true;
             }
         } catch (IOException e) {
-            Log.d("SagiB", e.toString());
         }
         return false;
     }
@@ -139,7 +136,6 @@ public class StreamIO {
         try {
             string = string + URLEncoder.encode(encode, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            Log.d("SagiB", e.toString());
         }
         try {
             String site = StreamIO.readWebSite(string);
@@ -147,7 +143,6 @@ public class StreamIO {
             String id = site.substring(index, index + 5);
             finalUrl = "https://tickets.zappa-club.co.il/loader.aspx/?target=hall.aspx?event%3D" + id;
         } catch (IOException e) {
-            Log.d("SagiB", e.toString());
         }
         return finalUrl;
     }
@@ -175,7 +170,6 @@ public class StreamIO {
             String id = site.substring(index, index + 5);
             finalUrl = "https://tickets.zappa-club.co.il/loader.aspx/?target=hall.aspx?event%3D" + id;
         } catch (IOException e) {
-            Log.d("SagiB", e.toString());
         }
         return finalUrl;
     }

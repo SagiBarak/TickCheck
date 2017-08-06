@@ -62,7 +62,6 @@ public class ShowDataSource {
             Type arrayListType = new TypeToken<ArrayList<Show>>() {
             }.getType();
             ArrayList<Show> lastShows = gson.fromJson(prefsShows.getString("showslist", ""), arrayListType);
-            Log.d("SagiB 1", prefsShows.getString("showslist", ""));
             listener.onShowArrived(lastShows, null);
             Toast.makeText(context, "בקרת ריענון רשימת הופעות פעילה!", Toast.LENGTH_SHORT).show();
         } else {
@@ -70,7 +69,6 @@ public class ShowDataSource {
                 @Override
                 public void run() {
                     String html = "";
-                    Log.d("SagiB 2", "refresh");
                     try {
                         URL url = new URL("https://www.zappa-club.co.il/%D7%AA%D7%92%D7%99%D7%95%D7%AA/" + performer + "/");
                         URLConnection con = url.openConnection();
@@ -80,7 +78,6 @@ public class ShowDataSource {
                         InputStream in = con.getInputStream();
                         html = StreamIO.read(in);
                     } catch (IOException e) {
-                        Log.d("SagiB 3", e.toString());
                         listener.onShowArrived(null, e);
                     }
                     Document parse = Jsoup.parse(html);
@@ -99,7 +96,6 @@ public class ShowDataSource {
                         try {
                             time = formatter1.parse(hour);
                         } catch (ParseException e) {
-                            Log.d("SagiB 4", e.toString());
                             listener.onShowArrived(null, e);
                             continue;
                         }
@@ -113,7 +109,6 @@ public class ShowDataSource {
                             InputStream in = con.getInputStream();
                             parsedlinkfirst = StreamIO.read(in);
                         } catch (IOException e) {
-                            Log.d("SagiB 5", e.toString());
                             listener.onShowArrived(null, e);
                             continue;
                         }

@@ -15,7 +15,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +64,6 @@ public class MyShowsListFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
             showsCount--;
             MyShow model = intent.getParcelableExtra("model");
-            Log.d("SagiB model", model.toString());
             if (showsCount == 0) {
                 tvTitleMyShows.setText("אין הופעות ברשימה...");
                 tvNoShows.setVisibility(View.VISIBLE);

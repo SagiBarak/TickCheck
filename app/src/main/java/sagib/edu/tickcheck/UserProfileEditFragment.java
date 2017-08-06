@@ -18,7 +18,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -273,7 +272,6 @@ public class UserProfileEditFragment extends Fragment {
                 }
             }
         }
-        Log.d("SagiB", String.valueOf(prefs.getBoolean("islimited", true)));
     }
 
     @OnClick(R.id.btnMinus)

@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +82,6 @@ public class DefaultPerformerFragment extends DialogFragment {
             public void afterTextChanged(Editable s) {
                 if (etPerformer.getAdapter().getCount() > 2)
                     etPerformer.setDropDownHeight(300);
-                Log.d("SagiB", String.valueOf(etPerformer.getAdapter().getCount()));
             }
         });
         etPerformer.setOnClickListener(new View.OnClickListener() {
