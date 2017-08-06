@@ -98,7 +98,6 @@ public class MyShowsListFragment extends Fragment {
         pbLoadingList = (ProgressBar) v.findViewById(R.id.pbLoadingList);
         tvTitleMyShowsDetailed = (TextView) v.findViewById(R.id.tvTitleMyShowsDetailed);
         tvTitleMyShowsDetailed.setVisibility(View.GONE);
-        tvTitleMyShowsDetailed.setText("עברו: " + pastCount + " עתידיות: " + (showsCount - pastCount));
         tvTitleMyShows.setText("טוען את ההופעות שלי...");
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid());
         final MyShowsListAdapter adapter = new MyShowsListAdapter(reference.orderByChild("date"), getContext(), this);
@@ -119,6 +118,7 @@ public class MyShowsListFragment extends Fragment {
                     showsCount = rvMyShows.getAdapter().getItemCount();
                     pbLoadingList.setVisibility(View.GONE);
                     tvTitleMyShows.setText("סה״כ הופעות: " + showsCount);
+                    tvTitleMyShowsDetailed.setText("עברו: " + pastCount + " עתידיות: " + (showsCount - pastCount));
                 }
             }
 
