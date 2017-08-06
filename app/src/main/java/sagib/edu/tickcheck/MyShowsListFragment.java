@@ -56,6 +56,8 @@ public class MyShowsListFragment extends Fragment {
     @BindView(R.id.tvTitleMyShowsDetailed)
     TextView tvTitleMyShowsDetailed;
     Unbinder unbinder;
+    @BindView(R.id.tvNoShows)
+    TextView tvNoShows;
     private AdView mAdView;
     int showsCount;
     BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -66,6 +68,8 @@ public class MyShowsListFragment extends Fragment {
             Log.d("SagiB model", model.toString());
             if (showsCount == 0) {
                 tvTitleMyShows.setText("אין הופעות ברשימה...");
+                tvNoShows.setVisibility(View.VISIBLE);
+
             } else
                 tvTitleMyShows.setText("סה״כ הופעות: " + showsCount);
             DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
@@ -89,6 +93,7 @@ public class MyShowsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_shows_list, container, false);
+        tvNoShows.setVisibility(View.INVISIBLE);
         mAdView = (AdView) v.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -110,10 +115,12 @@ public class MyShowsListFragment extends Fragment {
                 if (dataSnapshot.getChildrenCount() == 0) {
                     tvTitleMyShows.setText("אין הופעות ברשימה...");
                     pbLoadingList.setVisibility(View.GONE);
+                    tvNoShows.setVisibility(View.VISIBLE);
                 }
                 if (!dataSnapshot.exists()) {
                     tvTitleMyShows.setText("אין הופעות ברשימה...");
                     pbLoadingList.setVisibility(View.GONE);
+                    tvNoShows.setVisibility(View.VISIBLE);
                 } else {
                     showsCount = rvMyShows.getAdapter().getItemCount();
                     pbLoadingList.setVisibility(View.GONE);
