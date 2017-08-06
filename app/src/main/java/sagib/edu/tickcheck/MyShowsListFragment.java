@@ -93,6 +93,7 @@ public class MyShowsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_my_shows_list, container, false);
+        tvNoShows = (TextView) v.findViewById(R.id.tvNoShows);
         tvNoShows.setVisibility(View.INVISIBLE);
         mAdView = (AdView) v.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();

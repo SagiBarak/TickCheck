@@ -13,7 +13,7 @@
         android:text="אופס! רשימת ההופעות שלך ריקה.\nניתן להוסיף הופעות לרשימה באמצעות לחיצה\nעל תפריט הניווט ובחירה באחת מהרשימות."
         android:textSize="18dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/adView"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/rvMyShows" />
