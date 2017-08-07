@@ -125,8 +125,6 @@ public class BoardFragment extends Fragment {
         final View.OnClickListener cleanListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
                 setupRecycler();
                 isFiltered = false;
                 prefs.edit().remove("Tags").commit();
