@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -53,6 +54,7 @@ public class BoardFragment extends Fragment {
     RecyclerView recycler;
     SharedPreferences prefs;
     Unbinder unbinder;
+    LinearLayoutManager llManager;
     boolean isFiltered = false;
     private ProgressDialog dialog;
 
@@ -60,6 +62,7 @@ public class BoardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_board, container, false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         unbinder = ButterKnife.bind(this, v);
         etSearch = (EditText) v.findViewById(R.id.etSearch);
         btnSearch = (BootstrapButton) v.findViewById(R.id.btnSearch);
@@ -72,6 +75,9 @@ public class BoardFragment extends Fragment {
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
+        llManager = new LinearLayoutManager(getContext());
+        llManager.setStackFromEnd(true);
+        llManager.setReverseLayout(true);
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,9 +103,7 @@ public class BoardFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists() && recycler != null) {
-                    final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-                    linearLayoutManager.setStackFromEnd(true);
-                    recycler.setLayoutManager(linearLayoutManager);
+                    recycler.setLayoutManager(llManager);
                 } else
                     dialog.dismiss();
             }
@@ -202,9 +206,7 @@ public class BoardFragment extends Fragment {
             f = this;
         adapter = new BoardAdapter(database.getReference("Board"), dialog, getContext(), f);
         recycler.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setStackFromEnd(true);
-        recycler.setLayoutManager(layoutManager);
+        recycler.setLayoutManager(llManager);
     }
 
 

@@ -1,7 +1,6 @@
 package sagib.edu.tickcheck;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -54,12 +54,13 @@ public class PrivateChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_private_chat, container, false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         unbinder = ButterKnife.bind(this, v);
         recieverUID = getArguments().getString("recieverUID");
         recieverDisplay = getArguments().getString("recieverDisplay");
         sender = FirebaseAuth.getInstance().getCurrentUser();
         btnPrvSend.setOnClickListener(null);
-        btnPrvSend.setBackgroundColor(Color.GRAY);
+        btnPrvSend.setBootstrapBrand(DefaultBootstrapBrand.REGULAR);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("PrivateChats");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -143,7 +144,7 @@ public class PrivateChatFragment extends Fragment {
     public void changeButton() {
         if (etPrvMessage.getText().toString().length() < 1) {
             btnPrvSend.setOnClickListener(null);
-            btnPrvSend.setBackgroundColor(Color.GRAY);
+            btnPrvSend.setBootstrapBrand(DefaultBootstrapBrand.REGULAR);
         } else {
             btnPrvSend.setBootstrapBrand(DefaultBootstrapBrand.PRIMARY);
             btnPrvSend.setOnClickListener(new View.OnClickListener() {
