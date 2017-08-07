@@ -3,6 +3,7 @@ package sagib.edu.tickcheck;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,14 +11,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,11 +44,15 @@ public class BoardFragment extends Fragment {
     FirebaseDatabase database;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     BoardAdapter adapter;
+    EditText etSearch;
+    BootstrapButton btnSearch;
     @BindView(R.id.btnSend)
     BootstrapButton btnSend;
     @BindView(R.id.recycler)
     RecyclerView recycler;
+    SharedPreferences prefs;
     Unbinder unbinder;
+    boolean isFiltered = false;
     private ProgressDialog dialog;
 
     @Override
@@ -50,6 +60,12 @@ public class BoardFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_board, container, false);
         unbinder = ButterKnife.bind(this, v);
+        etSearch = (EditText) v.findViewById(R.id.etSearch);
+        btnSearch = (BootstrapButton) v.findViewById(R.id.btnSearch);
+        btnSearch.setClickable(false);
+        btnSearch.setBootstrapBrand(DefaultBootstrapBrand.REGULAR);
+        prefs = getContext().getSharedPreferences("SearchForPost", Context.MODE_PRIVATE);
+        prefs.edit().remove("Tags").commit();
         dialog = new ProgressDialog(getContext());
         dialog.setMessage("טוען רשימת מודעות...");
         dialog.setCancelable(false);
@@ -93,6 +109,77 @@ public class BoardFragment extends Fragment {
             }
         });
         setupRecycler();
+        final View.OnClickListener searchListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String searchTags = etSearch.getText().toString();
+                prefs.edit().putString("Tags", searchTags).commit();
+                setupRecycler();
+                isFiltered = true;
+                etSearch.setText("");
+            }
+        };
+        final View.OnClickListener cleanListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setupRecycler();
+                isFiltered = false;
+                prefs.edit().remove("Tags").commit();
+                btnSearch.setClickable(false);
+                btnSearch.setBootstrapBrand(DefaultBootstrapBrand.REGULAR);
+                btnSearch.setText("חפש");
+                btnSearch.setOnClickListener(searchListener);
+            }
+        };
+        final View.OnClickListener searchAfterSearchListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prefs.edit().remove("Tags").commit();
+                String searchTags = etSearch.getText().toString();
+                prefs.edit().putString("Tags", searchTags).commit();
+                setupRecycler();
+                isFiltered = true;
+                etSearch.setText("");
+            }
+        };
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (etSearch.getText().toString().length() > 0 && !isFiltered) {
+                    btnSearch.setClickable(true);
+                    btnSearch.setText("חפש");
+                    btnSearch.setBootstrapBrand(DefaultBootstrapBrand.INFO);
+                    btnSearch.setOnClickListener(searchListener);
+                }
+                if (etSearch.getText().toString().length() == 0 && !isFiltered) {
+                    btnSearch.setClickable(false);
+                    btnSearch.setText("חפש");
+                    btnSearch.setBootstrapBrand(DefaultBootstrapBrand.REGULAR);
+                }
+                if (etSearch.getText().toString().length() == 0 && isFiltered) {
+                    btnSearch.setClickable(true);
+                    btnSearch.setBootstrapBrand(DefaultBootstrapBrand.DANGER);
+                    btnSearch.setText("ניקוי");
+                    btnSearch.setOnClickListener(cleanListener);
+                }
+                if (etSearch.getText().toString().length() > 0 && isFiltered) {
+                    btnSearch.setClickable(true);
+                    btnSearch.setText("חפש");
+                    btnSearch.setBootstrapBrand(DefaultBootstrapBrand.INFO);
+                    btnSearch.setOnClickListener(searchAfterSearchListener);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         return v;
     }
 
@@ -128,13 +215,13 @@ public class BoardFragment extends Fragment {
         Context context;
         ProgressDialog dialog;
         Fragment fragment;
+        SharedPreferences prefs;
 
         public BoardAdapter(Query ref, ProgressDialog dialog, Context context, Fragment fragment) {
             super(BoardPost.class, R.layout.board_item, BoardViewHolder.class, ref);
             this.context = context;
             this.dialog = dialog;
             this.fragment = fragment;
-            dialog = new ProgressDialog(context);
         }
 
         @Override
@@ -145,6 +232,7 @@ public class BoardFragment extends Fragment {
 
         @Override
         protected void populateViewHolder(final BoardViewHolder viewHolder, final BoardPost post, final int position) {
+            prefs = context.getSharedPreferences("SearchForPost", Context.MODE_PRIVATE);
             viewHolder.model = post;
             dialog.dismiss();
             viewHolder.ivDelete.setVisibility(View.GONE);
@@ -192,6 +280,19 @@ public class BoardFragment extends Fragment {
                         }).show();
                     }
                 });
+            }
+            String tags = prefs.getString("Tags", null);
+            if (tags != null) {
+                Log.d("SagiB", post.toString());
+                if (post.getContents() != null) {
+                    if (!post.getContents().contains(tags) && !post.getShowArena().contains(tags) && !post.getShowTitle().contains(tags)) {
+                        viewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+                    }
+                } else {
+                    if (!post.getShowArena().contains(tags) && !post.getShowTitle().contains(tags)) {
+                        viewHolder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));
+                    }
+                }
             }
         }
 
