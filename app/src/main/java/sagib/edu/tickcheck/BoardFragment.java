@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -112,6 +113,8 @@ public class BoardFragment extends Fragment {
         final View.OnClickListener searchListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
                 String searchTags = etSearch.getText().toString();
                 prefs.edit().putString("Tags", searchTags).commit();
                 setupRecycler();
@@ -122,6 +125,8 @@ public class BoardFragment extends Fragment {
         final View.OnClickListener cleanListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
                 setupRecycler();
                 isFiltered = false;
                 prefs.edit().remove("Tags").commit();
@@ -135,6 +140,8 @@ public class BoardFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 prefs.edit().remove("Tags").commit();
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
                 String searchTags = etSearch.getText().toString();
                 prefs.edit().putString("Tags", searchTags).commit();
                 setupRecycler();
