@@ -39,10 +39,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class NewBoardFragment extends Fragment {
 
     @BindView(R.id.etSearch)
