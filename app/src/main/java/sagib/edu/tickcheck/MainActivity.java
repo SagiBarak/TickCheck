@@ -254,7 +254,8 @@ public class MainActivity extends AppCompatActivity
             }
         } else if (id == R.id.nav_board) {
             clearBackStack();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new NewBoardFragment()).commit();
+//            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();
             toolbar.setTitle("פורום מכירת כרטיסים");
         } else if (id == R.id.nav_myshows) {
             clearBackStack();
