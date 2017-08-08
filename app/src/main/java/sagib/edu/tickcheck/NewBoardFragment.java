@@ -31,7 +31,6 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -65,7 +64,6 @@ public class NewBoardFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_new_board, container, false);
         unbinder = ButterKnife.bind(this, v);
-//        getOriginalBoard();
         llManager = new LinearLayoutManager(getContext());
         llManager.setStackFromEnd(true);
         llManager.setReverseLayout(true);
@@ -153,24 +151,6 @@ public class NewBoardFragment extends Fragment {
             }
         }
         setAdapter();
-    }
-
-    private void getOriginalBoard() {
-        FirebaseDatabase.getInstance().getReference("Board").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    BoardPost value = snapshot.getValue(BoardPost.class);
-                    addToArrayList(value);
-                }
-                setAdapter();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     private void setAdapter() {
