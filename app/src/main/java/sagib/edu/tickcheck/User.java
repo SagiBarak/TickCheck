@@ -8,8 +8,17 @@ public class User {
     private String profileImage = "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_1280.png";
     private String uid;
     private String email;
+    private String token;
 
     public User() {
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public User(FirebaseUser user) {
@@ -20,6 +29,7 @@ public class User {
         }
         this.uid = user.getUid();
         this.email = user.getEmail();
+
     }
 
     public String getDisplayName() {

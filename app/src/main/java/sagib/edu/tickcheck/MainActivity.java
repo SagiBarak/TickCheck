@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseDatabase mDatabase;
     private FirebaseUser user;
     SharedPreferences prefs;
+    SharedPreferences tokenprefs;
     String performer = "";
 
     private static final int RC_SIGN_IN = 0;
@@ -148,6 +149,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
         user = mAuth.getCurrentUser();
+        tokenprefs = getSharedPreferences("id", MODE_PRIVATE);
         tvHeaderContentBar = (TextView) header.findViewById(R.id.tvHeaderContentBar);
         tvHeaderTitleBar = (TextView) header.findViewById(R.id.tvHeaderTitleBar);
         civProfileImage = (CircularImageView) header.findViewById(R.id.civProfileImage);
@@ -156,7 +158,13 @@ public class MainActivity extends AppCompatActivity
             tvHeaderTitleBar.setText(user.getDisplayName());
             Picasso.with(this).load(user.getPhotoUrl()).into(civProfileImage);
             runMyShows();
-            FirebaseMessaging.getInstance().subscribeToTopic("topic");
+            String token = tokenprefs.getString("token", null);
+            if (token != null) {
+                User normalUser = new User(user);
+                normalUser.setToken(token);
+                FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).setValue(normalUser);
+                FirebaseMessaging.getInstance().subscribeToTopic("topic");
+            }
         }
     }
 
