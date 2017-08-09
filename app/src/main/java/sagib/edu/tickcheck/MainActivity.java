@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -155,6 +156,7 @@ public class MainActivity extends AppCompatActivity
             tvHeaderTitleBar.setText(user.getDisplayName());
             Picasso.with(this).load(user.getPhotoUrl()).into(civProfileImage);
             runMyShows();
+            FirebaseMessaging.getInstance().subscribeToTopic("topic");
         }
     }
 
