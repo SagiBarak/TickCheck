@@ -28,7 +28,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -163,7 +162,6 @@ public class MainActivity extends AppCompatActivity
                 User normalUser = new User(user);
                 normalUser.setToken(token);
                 FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).setValue(normalUser);
-                FirebaseMessaging.getInstance().subscribeToTopic("topic");
             }
         }
     }
