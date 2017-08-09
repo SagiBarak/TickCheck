@@ -46,6 +46,7 @@ public class PrivateChatFragment extends Fragment {
     @BindView(R.id.rvPrvChat)
     RecyclerView rvPrvChat;
     FirebaseUser sender;
+    User receiver;
     String recieverUID;
     String recieverDisplay;
     Unbinder unbinder;
@@ -59,6 +60,17 @@ public class PrivateChatFragment extends Fragment {
         recieverUID = getArguments().getString("recieverUID");
         recieverDisplay = getArguments().getString("recieverDisplay");
         sender = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseDatabase.getInstance().getReference("Users").child(recieverUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                receiver = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         btnPrvSend.setOnClickListener(null);
         btnPrvSend.setBootstrapBrand(DefaultBootstrapBrand.REGULAR);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("PrivateChats");
@@ -166,7 +178,7 @@ public class PrivateChatFragment extends Fragment {
                                     FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).setValue(sending);
                                 }
                                 String prvMessageUID = ref.getKey();
-                                PrivateMessage privateMessage = new PrivateMessage(sender.getUid(), recieverUID, sender.getDisplayName(), recieverDisplay, LocalDateTime.now().toString("dd/MM/yy"), LocalDateTime.now().toString("HH:mm"), etPrvMessage.getText().toString(), prvMessageUID);
+                                PrivateMessage privateMessage = new PrivateMessage(sender.getUid(), recieverUID, sender.getDisplayName(), recieverDisplay, LocalDateTime.now().toString("dd/MM/yy"), LocalDateTime.now().toString("HH:mm"), etPrvMessage.getText().toString(), prvMessageUID, receiver.getToken());
                                 ref.setValue(privateMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -193,7 +205,7 @@ public class PrivateChatFragment extends Fragment {
                                     FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).setValue(sending);
                                 }
                                 String prvMessageUID = ref.getKey();
-                                PrivateMessage privateMessage = new PrivateMessage(sender.getUid(), recieverUID, sender.getDisplayName(), recieverDisplay, LocalDateTime.now().toString("dd/MM/yy"), LocalDateTime.now().toString("HH:mm"), etPrvMessage.getText().toString(), prvMessageUID);
+                                PrivateMessage privateMessage = new PrivateMessage(sender.getUid(), recieverUID, sender.getDisplayName(), recieverDisplay, LocalDateTime.now().toString("dd/MM/yy"), LocalDateTime.now().toString("HH:mm"), etPrvMessage.getText().toString(), prvMessageUID, receiver.getToken());
                                 ref.setValue(privateMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -220,7 +232,7 @@ public class PrivateChatFragment extends Fragment {
                                     FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(sender.getUid()).child(recieverUID).setValue(sending);
                                 }
                                 String prvMessageUID = ref.getKey();
-                                PrivateMessage privateMessage = new PrivateMessage(sender.getUid(), recieverUID, sender.getDisplayName(), recieverDisplay, LocalDateTime.now().toString("dd/MM/yy"), LocalDateTime.now().toString("HH:mm"), etPrvMessage.getText().toString(), prvMessageUID);
+                                PrivateMessage privateMessage = new PrivateMessage(sender.getUid(), recieverUID, sender.getDisplayName(), recieverDisplay, LocalDateTime.now().toString("dd/MM/yy"), LocalDateTime.now().toString("HH:mm"), etPrvMessage.getText().toString(), prvMessageUID, receiver.getToken());
                                 ref.setValue(privateMessage).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {

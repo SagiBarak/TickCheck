@@ -12,8 +12,17 @@ public class PrivateMessage implements Parcelable {
     String time;
     String message;
     String prvMessageUID;
+    String receiverToken;
 
-    public PrivateMessage(String senderUID, String recieverUID, String senderDisplayName, String recieverDisplayName, String date, String time, String message, String prvMessageUID) {
+    public String getReceiverToken() {
+        return receiverToken;
+    }
+
+    public void setReceiverToken(String receiverToken) {
+        this.receiverToken = receiverToken;
+    }
+
+    public PrivateMessage(String senderUID, String recieverUID, String senderDisplayName, String recieverDisplayName, String date, String time, String message, String prvMessageUID, String receiverToken) {
         this.senderUID = senderUID;
         this.recieverUID = recieverUID;
         this.senderDisplayName = senderDisplayName;
@@ -22,6 +31,8 @@ public class PrivateMessage implements Parcelable {
         this.time = time;
         this.message = message;
         this.prvMessageUID = prvMessageUID;
+        this.receiverToken = receiverToken;
+
     }
 
     public PrivateMessage() {
@@ -92,6 +103,20 @@ public class PrivateMessage implements Parcelable {
     }
 
     @Override
+    public String toString() {
+        return "PrivateMessage{" +
+                "senderUID='" + senderUID + '\'' +
+                ", recieverUID='" + recieverUID + '\'' +
+                ", senderDisplayName='" + senderDisplayName + '\'' +
+                ", recieverDisplayName='" + recieverDisplayName + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", message='" + message + '\'' +
+                ", prvMessageUID='" + prvMessageUID + '\'' +
+                '}';
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -106,6 +131,7 @@ public class PrivateMessage implements Parcelable {
         dest.writeString(this.time);
         dest.writeString(this.message);
         dest.writeString(this.prvMessageUID);
+        dest.writeString(this.receiverToken);
     }
 
     protected PrivateMessage(Parcel in) {
@@ -117,9 +143,10 @@ public class PrivateMessage implements Parcelable {
         this.time = in.readString();
         this.message = in.readString();
         this.prvMessageUID = in.readString();
+        this.receiverToken = in.readString();
     }
 
-    public static final Parcelable.Creator<PrivateMessage> CREATOR = new Parcelable.Creator<PrivateMessage>() {
+    public static final Creator<PrivateMessage> CREATOR = new Creator<PrivateMessage>() {
         @Override
         public PrivateMessage createFromParcel(Parcel source) {
             return new PrivateMessage(source);
@@ -130,18 +157,4 @@ public class PrivateMessage implements Parcelable {
             return new PrivateMessage[size];
         }
     };
-
-    @Override
-    public String toString() {
-        return "PrivateMessage{" +
-                "senderUID='" + senderUID + '\'' +
-                ", recieverUID='" + recieverUID + '\'' +
-                ", senderDisplayName='" + senderDisplayName + '\'' +
-                ", recieverDisplayName='" + recieverDisplayName + '\'' +
-                ", date='" + date + '\'' +
-                ", time='" + time + '\'' +
-                ", message='" + message + '\'' +
-                ", prvMessageUID='" + prvMessageUID + '\'' +
-                '}';
-    }
 }
