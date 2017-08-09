@@ -56,6 +56,8 @@ public class MyShowOptionsFragment extends BottomSheetDialogFragment {
     BootstrapButton btnRemoveFromList;
     String uri;
     Unbinder unbinder;
+    @BindView(R.id.btnShareMyShow)
+    BootstrapButton btnShareMyShow;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,7 +92,7 @@ public class MyShowOptionsFragment extends BottomSheetDialogFragment {
 
     @OnClick(R.id.btnNavigate)
     public void onBtnNavigateClicked() {
-        getContext().startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
+        getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(uri)));
         dismiss();
     }
 
@@ -146,5 +148,16 @@ public class MyShowOptionsFragment extends BottomSheetDialogFragment {
 
     private void getLocationOfArena(MyShow mShow) {
         uri = "geo:?q=" + mShow.getArena();
+    }
+
+    @OnClick(R.id.btnShareMyShow)
+    public void onBtnShareMyShowClicked() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        String extraText = String.format("%s ב%s\nב %s\nלרכישת כרטיסים:\n%s", mShow.getPerformer(), mShow.getArena(), mShow.getDateTime(), "https://tickets.zappa-club.co.il/loader.aspx/?target=hall.aspx?" + mShow.getEventID());
+        sendIntent.putExtra(Intent.EXTRA_TEXT, extraText);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+        dismiss();
     }
 }
