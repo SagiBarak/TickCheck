@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -40,22 +39,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         //if the app is in the foreground:
         //send the push to onMessageReceived
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(receiverUID)) {
-                Intent contentIntent = new Intent(this, MainActivity.class);
-                PendingIntent pi =
-                        PendingIntent.getActivity(this, 1, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-                builder.setContentTitle("קיבלת הודעה חדשה!")
-                        .setStyle(new NotificationCompat.BigTextStyle().bigText("הודעה מ: " + senderDisplayName + ":\n" + message))
-                        .setSmallIcon(R.drawable.logolauncher)
-                        .setAutoCancel(true)
-                        .setDefaults(Notification.DEFAULT_ALL)
-                        .setContentIntent(pi);
-                NotificationManager mgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                mgr.notify(1, builder.build());
-            }
-        }
+        Intent contentIntent = new Intent(this, MainActivity.class);
+        PendingIntent pi =
+                PendingIntent.getActivity(this, 1, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setContentTitle("קיבלת הודעה חדשה!")
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("הודעה מ: " + senderDisplayName + ":\n" + message))
+                .setSmallIcon(R.drawable.logolauncher)
+                .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setContentIntent(pi);
+        NotificationManager mgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mgr.notify(1, builder.build());
     }
 
     @Override

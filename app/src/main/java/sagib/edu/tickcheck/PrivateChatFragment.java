@@ -60,17 +60,6 @@ public class PrivateChatFragment extends Fragment {
         recieverUID = getArguments().getString("recieverUID");
         recieverDisplay = getArguments().getString("recieverDisplay");
         sender = FirebaseAuth.getInstance().getCurrentUser();
-        FirebaseDatabase.getInstance().getReference("Users").child(recieverUID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                receiver = dataSnapshot.getValue(User.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
         btnPrvSend.setOnClickListener(null);
         btnPrvSend.setBootstrapBrand(DefaultBootstrapBrand.REGULAR);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("PrivateChats");
@@ -154,6 +143,17 @@ public class PrivateChatFragment extends Fragment {
 
     @OnTextChanged(R.id.etPrvMessage)
     public void changeButton() {
+        FirebaseDatabase.getInstance().getReference("Users").child(recieverUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                receiver = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         if (etPrvMessage.getText().toString().length() < 1) {
             btnPrvSend.setOnClickListener(null);
             btnPrvSend.setBootstrapBrand(DefaultBootstrapBrand.REGULAR);
