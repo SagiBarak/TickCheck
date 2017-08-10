@@ -118,14 +118,14 @@ public class MainActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        DatabaseReference boardRef = FirebaseDatabase.getInstance().getReference("Board");
-        boardRef.keepSynced(true);
-        if (mAuth.getCurrentUser() != null) {
-            DatabaseReference myshowsRef = FirebaseDatabase.getInstance().getReference("MyShowsList").child(mAuth.getCurrentUser().getUid());
-            myshowsRef.keepSynced(true);
-            DatabaseReference privatechatsListRef = FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(mAuth.getCurrentUser().getUid());
-            privatechatsListRef.keepSynced(true);
-        }
+//        DatabaseReference boardRef = FirebaseDatabase.getInstance().getReference("Board");
+//        boardRef.keepSynced(true);
+//        if (mAuth.getCurrentUser() != null) {
+//            DatabaseReference myshowsRef = FirebaseDatabase.getInstance().getReference("MyShowsList").child(mAuth.getCurrentUser().getUid());
+//            myshowsRef.keepSynced(true);
+//            DatabaseReference privatechatsListRef = FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(mAuth.getCurrentUser().getUid());
+//            privatechatsListRef.keepSynced(true);
+//        }
         MobileAds.initialize(this, "ca-app-pub-7962012481002515~8641009187");
         if (mAuth.getCurrentUser() != null) {
             if (mAuth.getCurrentUser().getPhotoUrl() == null) {
@@ -157,16 +157,16 @@ public class MainActivity extends AppCompatActivity
             tvHeaderTitleBar.setText(user.getDisplayName());
             Picasso.with(this).load(user.getPhotoUrl()).into(civProfileImage);
             runMyShows();
-            String token = tokenprefs.getString("token", null);
-            if (token != null) {
-                User normalUser = new User(user);
-                normalUser.setToken(token);
-                FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).setValue(normalUser);
-            }
         }
     }
 
     private void runMyShows() {
+        String token = tokenprefs.getString("token", null);
+        if (token != null) {
+            User normalUser = new User(user);
+            normalUser.setToken(token);
+            FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).setValue(normalUser);
+        }
         if (getFragmentManager().findFragmentById(R.id.frame) == null) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();

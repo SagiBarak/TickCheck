@@ -27,8 +27,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //                date = message.date
         String senderUID = intent.getExtras().getString("sender");
         String receiverUID = intent.getExtras().getString("receiver");
-        String senderDisplayName = intent.getExtras().getString("senderDisplayName");
-        String message = intent.getExtras().getString("message");
+        String senderDisplayName = intent.getStringExtra("senderDisplayName");
+        String message = intent.getStringExtra("message");
         String time = intent.getExtras().getString("time");
         String date = intent.getExtras().getString("date");
 
@@ -43,14 +43,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent pi =
                 PendingIntent.getActivity(this, 1, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setContentTitle("קיבלת הודעה חדשה!")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("הודעה מ: " + senderDisplayName + ":\n" + message))
+        builder.setContentTitle("קיבלת הודעה מאת " + senderDisplayName)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(date + " " + time + "\n" + message))
                 .setSmallIcon(R.drawable.logolauncher)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentIntent(pi);
         NotificationManager mgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mgr.notify(1, builder.build());
+        Log.d("SagiB", senderDisplayName);
     }
 
     @Override
