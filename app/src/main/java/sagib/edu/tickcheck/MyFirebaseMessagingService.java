@@ -18,7 +18,7 @@ import com.google.firebase.messaging.RemoteMessage;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void handleIntent(Intent intent) {
-
+        Log.d("SagiB", "Handle");
         //get the payload from your notification
 //        sender = message.senderUID,
 //                receiver = message.receiverUID,
