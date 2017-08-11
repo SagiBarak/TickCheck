@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     private FirebaseDatabase mDatabase;
     private FirebaseUser user;
     SharedPreferences prefs;
+    NavigationView navigationView;
     SharedPreferences tokenprefs;
     String performer = "";
 
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
         user = mAuth.getCurrentUser();
@@ -171,6 +172,7 @@ public class MainActivity extends AppCompatActivity
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
             toolbar.setTitle("ההופעות שלי");
+            navigationView.setCheckedItem(R.id.nav_myshows);
             if (mAuth.getCurrentUser() != null) {
                 if (mAuth.getCurrentUser().getPhotoUrl() != null) {
                     Picasso.with(this).load(mAuth.getCurrentUser().getPhotoUrl()).into(civProfileImage);
@@ -215,6 +217,16 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_signout) {
+            clearBackStack();
+            prefs.edit().clear().commit();
+            tokenprefs.edit().clear().commit();
+            getSharedPreferences("ShowsDate", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("DefaultPerformer", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("SearchForPost", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("ShowsDate", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("showslist", Context.MODE_PRIVATE).edit().clear().commit();
             mAuth.signOut();
             return true;
         }
@@ -263,7 +275,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_board) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new NewBoardFragment()).commit();
-//            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new BoardFragment()).commit();
             toolbar.setTitle("פורום מכירת כרטיסים");
         } else if (id == R.id.nav_myshows) {
             clearBackStack();
@@ -283,9 +294,16 @@ public class MainActivity extends AppCompatActivity
             toolbar.setTitle("עריכת משתמש");
         } else if (id == R.id.nav_signout) {
             clearBackStack();
+            prefs.edit().clear().commit();
+            tokenprefs.edit().clear().commit();
+            getSharedPreferences("ShowsDate", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("DefaultPerformer", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("SearchForPost", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("ShowsDate", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("showslist", Context.MODE_PRIVATE).edit().clear().commit();
             mAuth.signOut();
-            Intent intent = new Intent(this, WelcomeSplash.class);
-            startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
