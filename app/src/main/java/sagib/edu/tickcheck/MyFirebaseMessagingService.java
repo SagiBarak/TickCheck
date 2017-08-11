@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -31,6 +33,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String message = intent.getStringExtra("message");
         String time = intent.getExtras().getString("time");
         String date = intent.getExtras().getString("date");
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         //
         //super if the app is in the background:
@@ -39,19 +42,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         //if the app is in the foreground:
         //send the push to onMessageReceived
-        Intent contentIntent = new Intent(this, MainActivity.class);
-        PendingIntent pi =
-                PendingIntent.getActivity(this, 1, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setContentTitle("קיבלת הודעה מאת " + senderDisplayName)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(date + " " + time + "\n" + message))
-                .setSmallIcon(R.drawable.logolauncher)
-                .setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setContentIntent(pi);
-        NotificationManager mgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        mgr.notify(1, builder.build());
-        Log.d("SagiB", senderDisplayName);
+        if (user != null) {
+            if (user.getUid().equals(receiverUID)) {
+                Intent contentIntent = new Intent(this, MainActivity.class);
+                PendingIntent pi =
+                        PendingIntent.getActivity(this, 1, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+                builder.setContentTitle("קיבלת הודעה מאת " + senderDisplayName)
+                        .setStyle(new NotificationCompat.BigTextStyle().bigText(date + " " + time + "\n" + message))
+                        .setSmallIcon(R.drawable.logolauncher)
+                        .setAutoCancel(true)
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .setContentIntent(pi);
+                NotificationManager mgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                mgr.notify(1, builder.build());
+                Log.d("SagiB", senderDisplayName);
+            }
+        }
     }
 
     @Override
