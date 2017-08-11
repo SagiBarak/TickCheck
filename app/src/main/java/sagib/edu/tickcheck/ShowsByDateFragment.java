@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 
 import org.joda.time.LocalDate;
@@ -38,6 +40,7 @@ public class ShowsByDateFragment extends Fragment implements ShowByDateDataSourc
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     private ProgressDialog dialog;
+    private AdView mAdView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +54,9 @@ public class ShowsByDateFragment extends Fragment implements ShowByDateDataSourc
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         Gson gson = new Gson();
+        mAdView = (AdView) v.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         LocalDate now = LocalDate.now();
         MyDate nowDate = new MyDate(now.getYear(), now.getMonthOfYear(), now.getDayOfMonth());
         String myDateParsing = prefs.getString("Date", "");
