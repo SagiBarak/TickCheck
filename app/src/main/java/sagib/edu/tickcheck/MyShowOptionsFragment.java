@@ -154,7 +154,7 @@ public class MyShowOptionsFragment extends BottomSheetDialogFragment {
     public void onBtnShareMyShowClicked() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        String extraText = String.format("%s ב%s\nב %s\nלרכישת כרטיסים:\n%s", mShow.getPerformer(), mShow.getArena(), mShow.getDateTime(), "https://tickets.zappa-club.co.il/loader.aspx/?target=hall.aspx?" + mShow.getEventID());
+        String extraText = String.format("%s ב%s\nב%s\nלרכישת כרטיסים:\n%s", mShow.getPerformer(), mShow.getArena(), mShow.getDateTime(), "https://tickets.zappa-club.co.il/loader.aspx/?target=hall.aspx?" + mShow.getEventID());
         sendIntent.putExtra(Intent.EXTRA_TEXT, extraText);
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
