@@ -108,7 +108,7 @@ public class MyShowOptionsFragment extends BottomSheetDialogFragment {
         endDateCal.add(Calendar.HOUR_OF_DAY, 3);
         Intent intent = new Intent(Intent.ACTION_INSERT)
                 .setData(CalendarContract.Events.CONTENT_URI)
-                .putExtra(CalendarContract.Events.TITLE, mShow.getPerformer())
+                .putExtra(CalendarContract.Events.TITLE, "הופעה: " + mShow.getPerformer())
                 .putExtra(CalendarContract.Events.EVENT_LOCATION, mShow.getArena())
                 .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, dateCal.getTimeInMillis())
                 .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endDateCal.getTimeInMillis());

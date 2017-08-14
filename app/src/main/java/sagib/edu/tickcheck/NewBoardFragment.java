@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -166,6 +167,8 @@ public class NewBoardFragment extends Fragment {
 
     @OnClick(R.id.btnSearch)
     public void onBtnSearchClicked() {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
         if (etSearch.getText().toString().length() > 0) {
             String tags = etSearch.getText().toString();
             ArrayList<BoardPost> filteredBoard = new ArrayList<>();

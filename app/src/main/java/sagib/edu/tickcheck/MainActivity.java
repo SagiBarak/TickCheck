@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("יציאה מהאפליקציה").setMessage("האם ברצונך לצאת מהאפליקציה?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
+            builder.setMessage("האם ברצונך לצאת מהאפליקציה?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
