@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.android.gms.ads.AdRequest;
@@ -110,10 +109,6 @@ public class ShowsByDateFragment extends Fragment implements ShowByDateDataSourc
                     rvShows.setAdapter(adapter);
                     dialog.dismiss();
                     swipeRefreshLayout.setRefreshing(false);
-                } else {
-                    if (e.toString().contains("FileNotFound")) {
-                        Toast.makeText(getContext(), "נא לוודא את תקינות שם האמן", Toast.LENGTH_SHORT).show();
-                    }
                 }
             }
         });
