@@ -157,7 +157,8 @@ public class MainActivity extends AppCompatActivity
                 clearBackStack();
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame, new UserProfileEditFragment(), "EditProfile").commit();
                 toolbar.setTitle("עריכת משתמש");
-                navigationView.setCheckedItem(R.id.action_settings);
+                navigationView.setCheckedItem(R.id.nav_editprofile);
+                drawer.closeDrawer(GravityCompat.START);
             }
         });
     }
