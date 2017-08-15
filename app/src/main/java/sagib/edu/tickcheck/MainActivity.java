@@ -101,6 +101,9 @@ public class MainActivity extends AppCompatActivity
                     Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/tickcheck-2bdf2.appspot.com/o/ProfilePictures%2Fdefault_profile.jpg?alt=media&token=72b274a4-8a84-446f-ade4-dfafb3c8c06c");
                     request.setPhotoUri(uri);
                     currentUser.updateProfile(request.build());
+                    Picasso.with(this).load(uri).into(civProfileImage);
+                } else {
+                    Picasso.with(this).load(currentUser.getPhotoUrl()).into(civProfileImage);
                 }
             }
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
@@ -232,6 +235,8 @@ public class MainActivity extends AppCompatActivity
             getSharedPreferences("ShowsDate", Context.MODE_PRIVATE).edit().clear().commit();
             getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE).edit().clear().commit();
             getSharedPreferences("showslist", Context.MODE_PRIVATE).edit().clear().commit();
+            Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/tickcheck-2bdf2.appspot.com/o/ProfilePictures%2Fdefault_profile.jpg?alt=media&token=72b274a4-8a84-446f-ade4-dfafb3c8c06c");
+            Picasso.with(this).load(uri).into(civProfileImage);
             mAuth.signOut();
             return true;
         }
@@ -308,6 +313,8 @@ public class MainActivity extends AppCompatActivity
             getSharedPreferences("ShowsDate", Context.MODE_PRIVATE).edit().clear().commit();
             getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE).edit().clear().commit();
             getSharedPreferences("showslist", Context.MODE_PRIVATE).edit().clear().commit();
+            Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/tickcheck-2bdf2.appspot.com/o/ProfilePictures%2Fdefault_profile.jpg?alt=media&token=72b274a4-8a84-446f-ade4-dfafb3c8c06c");
+            Picasso.with(this).load(uri).into(civProfileImage);
             mAuth.signOut();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
