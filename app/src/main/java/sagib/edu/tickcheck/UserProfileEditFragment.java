@@ -1,7 +1,6 @@
 package sagib.edu.tickcheck;
 
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -88,6 +87,7 @@ public class UserProfileEditFragment extends Fragment {
     @BindView(R.id.btnRestore)
     TextView btnRestore;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -140,7 +140,6 @@ public class UserProfileEditFragment extends Fragment {
                 customTimeLimit.show(getChildFragmentManager(), "CustomTimeLimit");
             }
         });
-
         return v;
     }
 
@@ -154,6 +153,8 @@ public class UserProfileEditFragment extends Fragment {
     public void onBtnChangePhotoClicked() {
         if (!checkStoragePermission()) return;
         EasyImage.openChooserWithGallery(this, "בחירת תמונה", 0);
+
+
     }
 
     @OnClick(R.id.btnKeepChanges)
@@ -202,18 +203,21 @@ public class UserProfileEditFragment extends Fragment {
     }
 
     private boolean checkStoragePermission() {
-        int resultcode = ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int resultcode = ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         boolean granted = resultcode == PackageManager.PERMISSION_GRANTED;
         if (!granted) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RC_WRITE);
+            requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, RC_WRITE);
         }
         return granted;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == RC_WRITE && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            onBtnChangePhotoClicked();
+        if (requestCode == RC_WRITE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                EasyImage.openChooserWithGallery(this, "בחירת תמונה", 0);
+            }
+        }
     }
 
     @Override
