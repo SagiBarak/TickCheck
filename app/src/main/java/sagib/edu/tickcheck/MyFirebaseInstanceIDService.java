@@ -1,6 +1,8 @@
 package sagib.edu.tickcheck;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
@@ -15,5 +17,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("token", token);
         editor.commit();
+        Intent intent = new Intent("SendToken");
+        intent.putExtra("token", token);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 }

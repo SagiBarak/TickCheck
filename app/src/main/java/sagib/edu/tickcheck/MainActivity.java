@@ -1,14 +1,17 @@
 package sagib.edu.tickcheck;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -174,6 +177,17 @@ public class MainActivity extends AppCompatActivity
         civProfileImage.setOnClickListener(goToProfileSettings);
         tvHeaderTitleBar.setOnClickListener(goToProfileSettings);
         tvHeaderContentBar.setOnClickListener(goToProfileSettings);
+        BroadcastReceiver getToken = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String token = intent.getStringExtra("token");
+                User normalUser = new User(user);
+                normalUser.setToken(token);
+                FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).setValue(normalUser);
+            }
+        };
+        IntentFilter intentFilter = new IntentFilter("SendToken");
+        LocalBroadcastManager.getInstance(this).registerReceiver(getToken, intentFilter);
     }
 
     private void runMyShows() {
