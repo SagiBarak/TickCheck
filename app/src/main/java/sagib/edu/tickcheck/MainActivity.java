@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity
             Picasso.with(this).load(user.getPhotoUrl()).into(civProfileImage);
             runMyShows();
         }
-        civProfileImage.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener goToProfileSettings = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clearBackStack();
@@ -160,7 +160,10 @@ public class MainActivity extends AppCompatActivity
                 navigationView.setCheckedItem(R.id.nav_editprofile);
                 drawer.closeDrawer(GravityCompat.START);
             }
-        });
+        };
+        civProfileImage.setOnClickListener(goToProfileSettings);
+        tvHeaderTitleBar.setOnClickListener(goToProfileSettings);
+        tvHeaderContentBar.setOnClickListener(goToProfileSettings);
     }
 
     private void runMyShows() {
