@@ -28,6 +28,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.mikhaellopez.circularimageview.CircularImageView;
 import com.squareup.picasso.Picasso;
 
@@ -106,6 +107,12 @@ public class MainActivity extends AppCompatActivity
                     Picasso.with(this).load(currentUser.getPhotoUrl()).into(civProfileImage);
                 }
             }
+            String token = FirebaseInstanceId.getInstance().getToken();
+            SharedPreferences prefs = getSharedPreferences("id", MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("token", token);
+            editor.commit();
+            user.setToken(token);
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
             ref.setValue(user);
             runMyShows();
