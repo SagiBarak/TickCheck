@@ -151,7 +151,7 @@ public class NewBoardFragment extends Fragment {
     }
 
     private void setAdapter() {
-        adapter = new BoardAdapter(originalBoard, this);
+        adapter = new BoardAdapter(originalBoard, this, getContext());
         recycler.setAdapter(adapter);
     }
 
@@ -177,7 +177,7 @@ public class NewBoardFragment extends Fragment {
                     filteredBoard.add(boardPost);
                 }
             }
-            BoardAdapter filteredAdapter = new BoardAdapter(filteredBoard, this);
+            BoardAdapter filteredAdapter = new BoardAdapter(filteredBoard, this, getContext());
             recycler.setAdapter(filteredAdapter);
             isFiltered = true;
         }
@@ -213,10 +213,10 @@ public class NewBoardFragment extends Fragment {
         private SharedPreferences prefs;
         private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        public BoardAdapter(ArrayList<BoardPost> data, Fragment fragment) {
+        public BoardAdapter(ArrayList<BoardPost> data, Fragment fragment, Context context) {
             this.data = data;
             this.fragment = fragment;
-            this.context = fragment.getContext();
+            this.context = context;
             this.inflater = LayoutInflater.from(context);
         }
 
@@ -267,7 +267,7 @@ public class NewBoardFragment extends Fragment {
                                 for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
                                     fm.popBackStack();
                                 }
-                                fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).addToBackStack("List").commit();
+                                fragment.getFragmentManager().beginTransaction().replace(R.id.frame, privateChatFragment).commit();
                             }
                         }).setNegativeButton("לא", new DialogInterface.OnClickListener() {
                             @Override

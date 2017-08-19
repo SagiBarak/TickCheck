@@ -40,6 +40,8 @@ public class PrivateChatsListFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.fabNewChat)
     FloatingActionButton fabNewChat;
+    @BindView(R.id.tvNoChats)
+    TextView tvNoChats;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +55,26 @@ public class PrivateChatsListFragment extends Fragment {
         linearLayoutManager.setStackFromEnd(true);
         linearLayoutManager.setReverseLayout(true);
         rvChatsList.setLayoutManager(linearLayoutManager);
+        FirebaseDatabase.getInstance().getReference("PrivateChatsLists").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (tvNoChats != null) {
+                    if (dataSnapshot.getChildrenCount() == 0) {
+                        tvNoChats.setVisibility(View.VISIBLE);
+                    }
+                    if (!dataSnapshot.exists()) {
+                        tvNoChats.setVisibility(View.VISIBLE);
+                    } else {
+                        tvNoChats.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         return v;
     }
 

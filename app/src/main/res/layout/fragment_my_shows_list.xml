@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="אופס! רשימת ההופעות שלך ריקה.\nניתן להוסיף הופעות לרשימה באמצעות לחיצה\nעל תפריט הניווט ובחירה באחת מהרשימות."
+        android:text="אופס!\nרשימת ההופעות שלך ריקה.\nניתן להוסיף הופעות לרשימה\nבאמצעות לחיצה על התפריט\nובחירה באחת מהרשימות."
         android:textSize="18dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/adView"
