@@ -23,8 +23,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -57,7 +55,6 @@ public class MyShowsListFragment extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.tvNoShows)
     TextView tvNoShows;
-    private AdView mAdView;
     int showsCount;
     BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
@@ -94,9 +91,6 @@ public class MyShowsListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_my_shows_list, container, false);
         tvNoShows = (TextView) v.findViewById(R.id.tvNoShows);
         tvNoShows.setVisibility(View.INVISIBLE);
-        mAdView = (AdView) v.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
         user = FirebaseAuth.getInstance().getCurrentUser();
         rvMyShows = (RecyclerView) v.findViewById(R.id.rvMyShows);
         tvTitleMyShows = (TextView) v.findViewById(R.id.tvTitleMyShows);
