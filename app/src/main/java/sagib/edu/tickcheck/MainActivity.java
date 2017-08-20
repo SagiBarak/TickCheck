@@ -256,6 +256,7 @@ public class MainActivity extends AppCompatActivity
             getSharedPreferences("ShowsDate", Context.MODE_PRIVATE).edit().clear().commit();
             getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE).edit().clear().commit();
             getSharedPreferences("showslist", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("ShowIntro", MODE_PRIVATE).edit().clear().commit();
             Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/tickcheck-2bdf2.appspot.com/o/ProfilePictures%2Fdefault_profile.jpg?alt=media&token=72b274a4-8a84-446f-ade4-dfafb3c8c06c");
             Picasso.with(this).load(uri).into(civProfileImage);
             mAuth.signOut();
@@ -334,6 +335,7 @@ public class MainActivity extends AppCompatActivity
             getSharedPreferences("ShowsDate", Context.MODE_PRIVATE).edit().clear().commit();
             getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE).edit().clear().commit();
             getSharedPreferences("showslist", Context.MODE_PRIVATE).edit().clear().commit();
+            getSharedPreferences("ShowIntro", MODE_PRIVATE).edit().clear().commit();
             Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/tickcheck-2bdf2.appspot.com/o/ProfilePictures%2Fdefault_profile.jpg?alt=media&token=72b274a4-8a84-446f-ade4-dfafb3c8c06c");
             Picasso.with(this).load(uri).into(civProfileImage);
             mAuth.signOut();

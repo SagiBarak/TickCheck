@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.provider.Settings;
 
@@ -23,15 +24,23 @@ public class WelcomeSplash extends AwesomeSplash {
         configSplash.setTitleSplash("");
         configSplash.setTitleTextSize(14F);
         configSplash.setTitleTextColor(R.color.colorPrimaryDark);
-        configSplash.setAnimTitleDuration(2000);
+        configSplash.setAnimTitleDuration(1000);
     }
 
     @Override
     public void animationsFinished() {
         if (isNetworkConnected()) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+            SharedPreferences prefs = getSharedPreferences("ShowIntro", MODE_PRIVATE);
+            boolean isDone = prefs.getBoolean("isDone", false);
+            if (isDone) {
+                Intent intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(this, IntroActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("לא נמצא חיבור אינטרנט זמין.\nמומלץ להתחבר לרשת אלחוטית.").setNegativeButton("יציאה", new DialogInterface.OnClickListener() {
