@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_board) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new NewBoardFragment()).commit();
-            toolbar.setTitle("פורום מכירת כרטיסים");
+            toolbar.setTitle("לוח מכירת כרטיסים");
         } else if (id == R.id.nav_myshows) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();

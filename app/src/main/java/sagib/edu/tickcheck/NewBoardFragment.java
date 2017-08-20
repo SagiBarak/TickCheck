@@ -200,7 +200,7 @@ public class NewBoardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("פורום מכירת כרטיסים");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("לוח מכירת כרטיסים");
     }
 
 
