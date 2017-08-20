@@ -38,19 +38,19 @@ public class IntroFragment extends Fragment {
         switch (position) {
             case 1:
                 ivScreen.setImageDrawable(getResources().getDrawable(R.drawable.intro01));
-                tvTitle.setText("חפש את ההופעות\nשל האמן האהוב עליך");
+                tvTitle.setText("חפש את ההופעות\nשל האמן האהוב עליך!");
                 break;
             case 2:
                 ivScreen.setImageDrawable(getResources().getDrawable(R.drawable.intro2));
-                tvTitle.setText("פנוי בתאריך ספציפי?\nחפש הופעה לפי תאריך");
+                tvTitle.setText("פנוי בתאריך ספציפי?\nחפש הופעה לפי תאריך!");
                 break;
             case 3:
                 ivScreen.setImageDrawable(getResources().getDrawable(R.drawable.intro3));
-                tvTitle.setText("הוסף הופעות ונהל אותן\nברשימת ההופעות האישית");
+                tvTitle.setText("הוסף הופעות ונהל אותן\nברשימת הופעות אישית!");
                 break;
             case 4:
                 ivScreen.setImageDrawable(getResources().getDrawable(R.drawable.intro4));
-                tvTitle.setText("נגמרו הכרטיסים? לא נורא...\nחפש כרטיס בלוח המכירות");
+                tvTitle.setText("נגמרו הכרטיסים? לא נורא...\nחפש כרטיס בלוח המכירות!");
                 break;
         }
         return v;
