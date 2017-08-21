@@ -3,6 +3,7 @@ package sagib.edu.tickcheck;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -272,7 +273,9 @@ public class PrivateChatFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("שיחה פרטית עם " + recieverDisplay);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setCustomView(R.layout.abs_layout);
+        ((TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("שיחה פרטית עם " + recieverDisplay);
     }
 
     public static class PrivateChatAdapter extends FirebaseRecyclerAdapter<PrivateMessage, PrivateChatAdapter.PrivateChatViewHolder> {

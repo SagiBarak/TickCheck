@@ -7,12 +7,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.google.gson.Gson;
@@ -75,8 +77,9 @@ public class ShowsByDateFragment extends Fragment implements ShowByDateDataSourc
             public void onRefresh() {
                 dialog.show();
                 ShowByDateDataSource.getShows(ShowsByDateFragment.this, getContext());
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("הופעות לפי תאריך");
-
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setCustomView(R.layout.abs_layout);
+                ((TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("הופעות לפי תאריך");
             }
         });
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -114,6 +117,8 @@ public class ShowsByDateFragment extends Fragment implements ShowByDateDataSourc
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("הופעות לפי תאריך");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setCustomView(R.layout.abs_layout);
+        ((TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("הופעות לפי תאריך");
     }
 }

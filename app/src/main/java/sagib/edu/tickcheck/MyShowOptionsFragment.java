@@ -121,7 +121,7 @@ public class MyShowOptionsFragment extends BottomSheetDialogFragment {
     @OnClick(R.id.btnRemoveFromList)
     public void onBtnRemoveFromListClicked() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("הסרה מהרשימה").setMessage("האם ברצונך למחוק את ההופעה מרשימת ״ההופעות שלי״?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
+        builder.setMessage("האם ברצונך למחוק את ההופעה מרשימת ״ההופעות שלי״?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 FirebaseDatabase.getInstance().getReference("MyShows").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(mShow.getMyShowUID()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {

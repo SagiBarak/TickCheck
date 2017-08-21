@@ -14,10 +14,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -291,33 +293,50 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_shows) {
-            if (!toolbar.getTitle().toString().equals("רכישת כרטיסים")) {
+            if (!((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).getText().toString().equals("רכישת כרטיסים")) {
+//            if (!toolbar.getTitle().toString().equals("רכישת כרטיסים")) {
                 clearBackStack();
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment(), "Shows").commit();
-                toolbar.setTitle("רשימת הופעות של " + performer);
+                getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+                getSupportActionBar().setCustomView(R.layout.abs_layout);
+                ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("\"רשימת הופעות של \" + performer");
+//                toolbar.setTitle("רשימת הופעות של " + performer);
             } else {
                 onBackPressed();
             }
         } else if (id == R.id.nav_showsbydate) {
-            if (!toolbar.getTitle().toString().equals("רכישת כרטיסים")) {
+            if (!((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).getText().toString().equals("רכישת כרטיסים")) {
                 clearBackStack();
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsByDateFragment(), "ShowsByDate").commit();
-                toolbar.setTitle("הופעות לפי תאריך");
+                getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+                getSupportActionBar().setCustomView(R.layout.abs_layout);
+                ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("הופעות לפי תאריך");
+//                toolbar.setTitle("הופעות לפי תאריך");
             } else {
                 onBackPressed();
             }
         } else if (id == R.id.nav_board) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new NewBoardFragment()).commit();
-            toolbar.setTitle("לוח מכירת כרטיסים");
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.abs_layout);
+            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("לוח מכירת כרטיסים");
+//            toolbar.setTitle("לוח מכירת כרטיסים");
         } else if (id == R.id.nav_myshows) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
-            toolbar.setTitle("ההופעות שלי");
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.abs_layout);
+            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("ההופעות שלי");
+            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setGravity(Gravity.CENTER);
+//            toolbar.setTitle("ההופעות שלי");
         } else if (id == R.id.nav_privatechats) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new PrivateChatsListFragment()).commit();
-            toolbar.setTitle("שיחות פרטיות");
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.abs_layout);
+            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("שיחות פרטיות");
+//            toolbar.setTitle("שיחות פרטיות");
         } else if (id == R.id.nav_chooseperformer) {
             clearBackStack();
             DefaultPerformerFragment defaultPerformerFragment = new DefaultPerformerFragment();
@@ -325,7 +344,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_editprofile) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new UserProfileEditFragment(), "EditProfile").commit();
-            toolbar.setTitle("עריכת משתמש");
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.abs_layout);
+            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("עריכת משתמש");
+//            toolbar.setTitle("עריכת משתמש");
         } else if (id == R.id.nav_signout) {
             clearBackStack();
             prefs.edit().clear().commit();

@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -102,7 +103,10 @@ public class MyShowsListFragment extends Fragment {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid());
         final MyShowsListAdapter adapter = new MyShowsListAdapter(reference.orderByChild("date"), getContext(), this);
         rvMyShows.setAdapter(adapter);
-        rvMyShows.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager lm = new LinearLayoutManager(getContext());
+        lm.setReverseLayout(true);
+        lm.setStackFromEnd(true);
+        rvMyShows.setLayoutManager(lm);
         showsCount = rvMyShows.getAdapter().getItemCount();
         FirebaseDatabase.getInstance().getReference("MyShows").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -168,7 +172,9 @@ public class MyShowsListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("ההופעות שלי");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setCustomView(R.layout.abs_layout);
+        ((TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("ההופעות שלי");
     }
 
     @Override
