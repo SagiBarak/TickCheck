@@ -69,6 +69,7 @@ public class ShowsByDateFragment extends Fragment implements ShowByDateDataSourc
         rvShows = (RecyclerView) v.findViewById(R.id.rvShows);
         rvShows.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setDistanceToTriggerSync(600);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

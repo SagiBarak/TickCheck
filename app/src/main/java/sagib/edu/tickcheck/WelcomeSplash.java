@@ -20,7 +20,7 @@ public class WelcomeSplash extends AwesomeSplash {
         configSplash.setRevealFlagX(Flags.REVEAL_RIGHT);
         configSplash.setRevealFlagY(Flags.REVEAL_BOTTOM);
         configSplash.setLogoSplash(R.drawable.biglogo);
-        configSplash.setAnimLogoSplashDuration(1500);
+        configSplash.setAnimLogoSplashDuration(1000);
         configSplash.setTitleSplash("");
         configSplash.setTitleTextSize(14F);
         configSplash.setTitleTextColor(R.color.colorPrimaryDark);

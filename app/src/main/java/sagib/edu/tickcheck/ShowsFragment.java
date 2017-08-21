@@ -48,6 +48,7 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         swipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setDistanceToTriggerSync(600);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
