@@ -256,7 +256,7 @@ public class NewBoardFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                        builder.setTitle("הודעה פרטית").setMessage("האם ברצונך לשלוח הודעה פרטית ל-" + post.getUserDisplay() + "?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                        builder.setMessage("האם ברצונך לשלוח הודעה פרטית ל-" + post.getUserDisplay() + "?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 PrivateChatFragment privateChatFragment = new PrivateChatFragment();
@@ -332,13 +332,13 @@ public class NewBoardFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getContext());
-                        builder.setTitle("הסר הודעה").setMessage("האם ברצונך למחוק את ההודעה?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
+                        builder.setMessage("האם ברצונך למחוק את המודעה?").setPositiveButton("כן", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 FirebaseDatabase.getInstance().getReference("Board").child(model.getPostUID()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Toast.makeText(fragment.getContext(), "ההודעה נמחקה!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(fragment.getContext(), "המודעה נמחקה!", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                                 dialog.dismiss();
