@@ -32,6 +32,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import sagib.edu.tickcheck.models.PrivateMessage;
+import sagib.edu.tickcheck.models.User;
 
 public class PrivateChatsListFragment extends Fragment {
 

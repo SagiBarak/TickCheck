@@ -21,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import sagib.edu.tickcheck.models.BoardPost;
 
 public class EditFullPostFragment extends DialogFragment {
 

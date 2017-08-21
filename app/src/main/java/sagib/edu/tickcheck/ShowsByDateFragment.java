@@ -25,6 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import sagib.edu.tickcheck.models.MyDate;
+import sagib.edu.tickcheck.models.Show;
 
 public class ShowsByDateFragment extends Fragment implements ShowByDateDataSource.OnShowArrivedListener {
 

@@ -1,4 +1,4 @@
-package sagib.edu.tickcheck;
+package sagib.edu.tickcheck.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

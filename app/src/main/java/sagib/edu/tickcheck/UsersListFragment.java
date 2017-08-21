@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import sagib.edu.tickcheck.models.User;
 
 public class UsersListFragment extends Fragment {
 

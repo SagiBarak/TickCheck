@@ -36,6 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import sagib.edu.tickcheck.models.MyShow;
 
 
 public class MyShowOptionsFragment extends BottomSheetDialogFragment {

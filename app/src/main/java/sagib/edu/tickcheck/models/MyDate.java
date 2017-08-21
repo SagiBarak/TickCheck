@@ -1,4 +1,4 @@
-package sagib.edu.tickcheck;
+package sagib.edu.tickcheck.models;
 
 /**
  * Created by sagib on 02/08/2017.

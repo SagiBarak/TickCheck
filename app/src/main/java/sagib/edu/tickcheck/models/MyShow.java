@@ -1,4 +1,4 @@
-package sagib.edu.tickcheck;
+package sagib.edu.tickcheck.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

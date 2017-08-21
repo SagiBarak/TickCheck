@@ -26,6 +26,11 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import sagib.edu.tickcheck.models.MyDate;
+import sagib.edu.tickcheck.models.Show;
+import sagib.edu.tickcheck.models.Zone;
+import sagib.edu.tickcheck.utils.StreamIO;
+
 public class ShowByDateDataSource {
 
     public interface OnShowArrivedListener {

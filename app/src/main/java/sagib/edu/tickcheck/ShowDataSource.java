@@ -2,7 +2,6 @@ package sagib.edu.tickcheck;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -25,6 +24,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import sagib.edu.tickcheck.models.Show;
+import sagib.edu.tickcheck.models.Zone;
+import sagib.edu.tickcheck.utils.StreamIO;
 
 public class ShowDataSource {
 

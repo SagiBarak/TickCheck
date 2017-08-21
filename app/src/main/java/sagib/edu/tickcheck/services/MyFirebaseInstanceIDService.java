@@ -1,4 +1,4 @@
-package sagib.edu.tickcheck;
+package sagib.edu.tickcheck.services;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

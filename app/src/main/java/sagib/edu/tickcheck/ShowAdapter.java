@@ -17,6 +17,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import sagib.edu.tickcheck.models.Show;
+
 public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder> {
 
     private ArrayList<Show> data;

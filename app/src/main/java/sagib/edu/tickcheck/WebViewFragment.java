@@ -34,6 +34,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import sagib.edu.tickcheck.models.MyShow;
+import sagib.edu.tickcheck.models.Show;
+
 public class WebViewFragment extends Fragment {
 
     WebView webview;

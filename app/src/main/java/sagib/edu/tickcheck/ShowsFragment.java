@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import sagib.edu.tickcheck.models.Show;
 
 public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArrivedListener {
     RecyclerView recycler;

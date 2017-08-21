@@ -1,4 +1,4 @@
-package sagib.edu.tickcheck;
+package sagib.edu.tickcheck.models;
 
 import com.google.firebase.auth.FirebaseUser;
 
