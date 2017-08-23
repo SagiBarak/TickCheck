@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 
@@ -42,7 +42,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
     @Override
     public void onBindViewHolder(ShowViewHolder holder, int position) {
         final Show show = data.get(position);
-        Picasso.with(context).load(show.getImage()).into(holder.ivImage);
+        holder.ivImage.setImageURI(show.getImage());
         holder.tvPerformer.setText("\n" + show.getPerformer());
         holder.tvArena.setText(show.getArena());
         if (show.isTicketsAvailable()) {
@@ -71,7 +71,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
 
     class ShowViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView ivImage;
+        SimpleDraweeView ivImage;
         ImageView ivSoldOut;
         TextView tvPerformer;
         TextView tvArena;
@@ -84,7 +84,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.ShowViewHolder
             super(v);
             this.fragment = fragment;
             ivSoldOut = (ImageView) v.findViewById(R.id.ivSoldOut);
-            ivImage = (ImageView) v.findViewById(R.id.ivImage);
+            ivImage = (SimpleDraweeView) v.findViewById(R.id.ivImage);
             tvPerformer = (TextView) v.findViewById(R.id.tvPerformer);
             tvArena = (TextView) v.findViewById(R.id.tvArena);
             tvTicketsAvailable = (TextView) v.findViewById(R.id.tvTicketsAvailable);

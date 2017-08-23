@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,8 +27,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -149,10 +148,10 @@ public class PrivateChatsListFragment extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
                     if (user != null) {
-                        Picasso.with(viewHolder.itemView.getContext()).load(user.getProfileImage()).into(viewHolder.civProfileImageList);
+                        viewHolder.civProfileImageList.setImageURI(user.getProfileImage());
                     } else {
                         Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/tickcheck-2bdf2.appspot.com/o/ProfilePictures%2Fdefault_profile.jpg?alt=media&token=72b274a4-8a84-446f-ade4-dfafb3c8c06c");
-                        Picasso.with(viewHolder.itemView.getContext()).load(uri).into(viewHolder.civProfileImageList);
+                        viewHolder.civProfileImageList.setImageURI(uri);
                     }
                 }
 
@@ -203,7 +202,7 @@ public class PrivateChatsListFragment extends Fragment {
             TextView tvLastMessage;
             TextView tvLastHour;
             TextView tvLastDate;
-            CircularImageView civProfileImageList;
+            SimpleDraweeView civProfileImageList;
 
             public PrivateChatsListViewHolder(View itemView) {
                 super(itemView);
@@ -211,7 +210,7 @@ public class PrivateChatsListFragment extends Fragment {
                 tvLastMessage = (TextView) itemView.findViewById(R.id.tvLastMessage);
                 tvLastDate = (TextView) itemView.findViewById(R.id.tvLastDate);
                 tvLastHour = (TextView) itemView.findViewById(R.id.tvLastHour);
-                civProfileImageList = (CircularImageView) itemView.findViewById(R.id.civProfileImageList);
+                civProfileImageList = (SimpleDraweeView) itemView.findViewById(R.id.civProfileImageList);
             }
         }
     }

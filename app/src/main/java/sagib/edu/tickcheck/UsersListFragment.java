@@ -10,12 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.mikhaellopez.circularimageview.CircularImageView;
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,9 +64,9 @@ public class UsersListFragment extends Fragment {
         protected void populateViewHolder(final UsersListViewHolder viewHolder, final User model, int position) {
             viewHolder.tvUserName.setText(model.getDisplayName());
             if (model.getProfileImage().isEmpty()) {
-                viewHolder.civProfileImage.setImageDrawable(viewHolder.itemView.getContext().getResources().getDrawable(R.drawable.ic_profile));
+                viewHolder.civProfileImage.setImageResource(R.drawable.ic_profile);
             } else
-                Picasso.with(viewHolder.itemView.getContext()).load(model.getProfileImage()).into(viewHolder.civProfileImage);
+                viewHolder.civProfileImage.setImageURI(model.getProfileImage());
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -86,12 +85,12 @@ public class UsersListFragment extends Fragment {
         public static class UsersListViewHolder extends RecyclerView.ViewHolder {
 
             TextView tvUserName;
-            CircularImageView civProfileImage;
+            SimpleDraweeView civProfileImage;
 
             public UsersListViewHolder(View itemView) {
                 super(itemView);
                 tvUserName = (TextView) itemView.findViewById(R.id.tvUserName);
-                civProfileImage = (CircularImageView) itemView.findViewById(R.id.civProfileImageList);
+                civProfileImage = (SimpleDraweeView) itemView.findViewById(R.id.civProfileImageList);
             }
         }
     }
