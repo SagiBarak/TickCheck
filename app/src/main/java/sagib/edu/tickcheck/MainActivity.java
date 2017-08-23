@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity
                 onBackPressed();
             }
         } else if (id == R.id.nav_showsbydate) {
-            if (!((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).getText().toString().equals("רכישת כרטיסים")) {
+            if (!toolbar.getTitle().toString().equals("רכישת כרטיסים")) {
                 clearBackStack();
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsByDateFragment(), "ShowsByDate").commit();
                 toolbar.setTitle("הופעות לפי תאריך");
