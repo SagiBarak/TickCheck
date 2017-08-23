@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -205,9 +204,9 @@ public class MainActivity extends AppCompatActivity
         if (getFragmentManager().findFragmentById(R.id.frame) == null) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
-            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            getSupportActionBar().setCustomView(R.layout.abs_layout);
-            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("ההופעות שלי");
+//            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//            getSupportActionBar().setCustomView(R.layout.abs_layout);
+//            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("ההופעות שלי");
             navigationView.setCheckedItem(R.id.nav_myshows);
             if (mAuth.getCurrentUser() != null) {
                 if (mAuth.getCurrentUser().getPhotoUrl() != null) {
@@ -294,14 +293,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_shows) {
-            if (!((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).getText().toString().equals("רכישת כרטיסים")) {
-//            if (!toolbar.getTitle().toString().equals("רכישת כרטיסים")) {
+            if (!toolbar.getTitle().toString().equals("רכישת כרטיסים")) {
                 clearBackStack();
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsFragment(), "Shows").commit();
-                getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-                getSupportActionBar().setCustomView(R.layout.abs_layout);
-                ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("\"רשימת הופעות של \" + performer");
-//                toolbar.setTitle("רשימת הופעות של " + performer);
+                toolbar.setTitle("רשימת הופעות של " + performer);
             } else {
                 onBackPressed();
             }
@@ -309,34 +304,23 @@ public class MainActivity extends AppCompatActivity
             if (!((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).getText().toString().equals("רכישת כרטיסים")) {
                 clearBackStack();
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame, new ShowsByDateFragment(), "ShowsByDate").commit();
-                getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-                getSupportActionBar().setCustomView(R.layout.abs_layout);
-                ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("הופעות לפי תאריך");
-//                toolbar.setTitle("הופעות לפי תאריך");
+                toolbar.setTitle("הופעות לפי תאריך");
             } else {
                 onBackPressed();
             }
         } else if (id == R.id.nav_board) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new NewBoardFragment()).commit();
-            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            getSupportActionBar().setCustomView(R.layout.abs_layout);
-            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("לוח מכירת כרטיסים");
-//            toolbar.setTitle("לוח מכירת כרטיסים");
+            toolbar.setTitle("לוח מכירת כרטיסים");
         } else if (id == R.id.nav_myshows) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
-            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            getSupportActionBar().setCustomView(R.layout.abs_layout);
-            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("ההופעות שלי");
-//            toolbar.setTitle("ההופעות שלי");
+            toolbar.setTitle("ההופעות שלי");
+            toolbar.setTitle("ההופעות שלי");
         } else if (id == R.id.nav_privatechats) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new PrivateChatsListFragment()).commit();
-            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            getSupportActionBar().setCustomView(R.layout.abs_layout);
-            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("שיחות פרטיות");
-//            toolbar.setTitle("שיחות פרטיות");
+            toolbar.setTitle("שיחות פרטיות");
         } else if (id == R.id.nav_chooseperformer) {
             clearBackStack();
             DefaultPerformerFragment defaultPerformerFragment = new DefaultPerformerFragment();
@@ -344,10 +328,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_editprofile) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new UserProfileEditFragment(), "EditProfile").commit();
-            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            getSupportActionBar().setCustomView(R.layout.abs_layout);
-            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("עריכת משתמש");
-//            toolbar.setTitle("עריכת משתמש");
+            toolbar.setTitle("עריכת משתמש");
         } else if (id == R.id.nav_signout) {
             clearBackStack();
             prefs.edit().clear().commit();

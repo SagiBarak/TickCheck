@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -161,8 +160,7 @@ public class WebViewFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setCustomView(R.layout.abs_layout);
-        ((TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("רכישת כרטיסים");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("רכישת כרטיסים");
+
     }
 }

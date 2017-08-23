@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -57,10 +56,7 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
                 tvTitleShows.setText("טוען רשימת הופעות...");
                 ShowDataSource.getShows(ShowsFragment.this, getContext());
                 performer = prefs.getString("PerformerTitle", "שלמה ארצי");
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-                ((AppCompatActivity) getActivity()).getSupportActionBar().setCustomView(R.layout.abs_layout);
-                ((TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText(performer);
-
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(performer);
             }
         });
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -81,9 +77,8 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setCustomView(R.layout.abs_layout);
-        ((TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText(performer);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(performer);
+
     }
 
     @Override

@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -202,9 +201,8 @@ public class NewBoardFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setCustomView(R.layout.abs_layout);
-        ((TextView) ((AppCompatActivity) getActivity()).getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("לוח מכירת כרטיסים");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("לוח מכירת כרטיסים");
+
     }
 
 
@@ -235,7 +233,6 @@ public class NewBoardFragment extends Fragment {
             prefs = context.getSharedPreferences("SearchForPost", Context.MODE_PRIVATE);
             final BoardPost post = data.get(position);
             viewHolder.model = post;
-//            dialog.dismiss();
             viewHolder.ivDelete.setVisibility(View.GONE);
             viewHolder.ivEdit.setVisibility(View.GONE);
             viewHolder.tvPostContent.setText("הערות: " + post.getContents());
