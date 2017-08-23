@@ -19,7 +19,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -204,7 +203,9 @@ public class MainActivity extends AppCompatActivity
         if (getFragmentManager().findFragmentById(R.id.frame) == null) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
-            toolbar.setTitle("ההופעות שלי");
+            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            getSupportActionBar().setCustomView(R.layout.abs_layout);
+            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("ההופעות שלי");
             navigationView.setCheckedItem(R.id.nav_myshows);
             if (mAuth.getCurrentUser() != null) {
                 if (mAuth.getCurrentUser().getPhotoUrl() != null) {
@@ -274,9 +275,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.action_about) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setTitle("אודות");
             dialog.setMessage("אפליקציה זו נוצרה למטרות לימודיות בלבד ואינה למטרות רווח.\n");
-            dialog.setCancelable(false);
             dialog.setNeutralButton("חזרה", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -328,7 +327,6 @@ public class MainActivity extends AppCompatActivity
             getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             getSupportActionBar().setCustomView(R.layout.abs_layout);
             ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("ההופעות שלי");
-            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setGravity(Gravity.CENTER);
 //            toolbar.setTitle("ההופעות שלי");
         } else if (id == R.id.nav_privatechats) {
             clearBackStack();
