@@ -51,6 +51,14 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     SharedPreferences tokenprefs;
     String performer = "";
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String uri = intent.getStringExtra("uri");
+            Picasso.with(MainActivity.this).load(Uri.parse(uri)).into(civProfileImage);
+        }
+    };
+    LocalBroadcastManager mgr = LocalBroadcastManager.getInstance(this);
 
     private static final int RC_SIGN_IN = 0;
 
@@ -204,9 +212,6 @@ public class MainActivity extends AppCompatActivity
         if (getFragmentManager().findFragmentById(R.id.frame) == null) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new MyShowsListFragment()).commit();
-//            getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//            getSupportActionBar().setCustomView(R.layout.abs_layout);
-//            ((TextView) getSupportActionBar().getCustomView().findViewById(R.id.mytext)).setText("ההופעות שלי");
             navigationView.setCheckedItem(R.id.nav_myshows);
             if (mAuth.getCurrentUser() != null) {
                 if (mAuth.getCurrentUser().getPhotoUrl() != null) {
@@ -354,6 +359,7 @@ public class MainActivity extends AppCompatActivity
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
+        mgr.registerReceiver(mBroadcastReceiver, new IntentFilter("UpdatePhoto"));
     }
 
     @Override
@@ -362,6 +368,7 @@ public class MainActivity extends AppCompatActivity
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+        mgr.unregisterReceiver(mBroadcastReceiver);
     }
 
     private void clearBackStack() {

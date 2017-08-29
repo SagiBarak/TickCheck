@@ -159,6 +159,12 @@ public class UserProfileEditFragment extends Fragment {
 
     @OnClick(R.id.btnKeepChanges)
     public void onBtnKeepChangesClicked() {
+        btnChangePhoto.setOnClickListener(null);
+        btnChangePhoto.setBootstrapBrand(DefaultBootstrapBrand.REGULAR);
+        btnChangePhoto.setText("מעדכן...");
+        btnKeepChanges.setOnClickListener(null);
+        btnKeepChanges.setVisibility(View.GONE);
+        etDisplayName.setInputType(InputType.TYPE_NULL);
         String newDisplayName = etDisplayName.getText().toString();
         FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("displayName").setValue(newDisplayName);
         UserProfileChangeRequest.Builder builder = new UserProfileChangeRequest.Builder();
@@ -200,6 +206,10 @@ public class UserProfileEditFragment extends Fragment {
         btnKeepChanges.setOnClickListener(null);
         btnKeepChanges.setVisibility(View.GONE);
         etDisplayName.setInputType(InputType.TYPE_NULL);
+        Intent intent = new Intent("UpdatePhoto");
+        intent.putExtra("uri", photoUrl.toString());
+        LocalBroadcastManager mgr = LocalBroadcastManager.getInstance(getContext());
+        mgr.sendBroadcast(intent);
     }
 
     private boolean checkStoragePermission() {
