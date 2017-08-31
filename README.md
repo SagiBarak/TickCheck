@@ -10,10 +10,10 @@ For each show you can check for available tickets (and the available zones in th
 
 The app get the requested data from Zappa website on realtime (there is no API for this site).<br>
 In the <a href="https://github.com/SagiBarak/TickCheck/blob/master/app/src/main/java/sagib/edu/tickcheck/ShowDataSource.java">ShowsDataSource</a> and <a href="https://github.com/SagiBarak/TickCheck/blob/master/app/src/main/java/sagib/edu/tickcheck/ShowByDateDataSource.java">ShowsByDateDataSource</a> classes there is a parsing proccess that get the data for each show (by request).<br>
-There is also a caching of the ArrayList to keep the user's bandwidth.<br>
+There is also a caching of the ArrayList to save the user's bandwidth.<br>
 All the private data (Users, MyShows lists, Chats) stored in Firebase Database and Firebase Storage (for the profile images).
 <br><br>
-The project includes three Activities and 17 Fragments (Dialogs and BottomSheet included).
+The project includes 3 Activities and 17 Fragments (Dialogs and BottomSheet included).
 
 <H2> Tools </H2>
 
