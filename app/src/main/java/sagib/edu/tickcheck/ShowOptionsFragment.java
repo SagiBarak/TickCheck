@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.BootstrapLabel;
 import com.beardedhen.androidbootstrap.api.defaults.DefaultBootstrapBrand;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,7 +51,7 @@ public class ShowOptionsFragment extends BottomSheetDialogFragment {
     @BindView(R.id.tvDayDateTime)
     TextView tvDayDateTime;
     @BindView(R.id.btnTicketsStatus)
-    BootstrapButton btnTicketsStatus;
+    BootstrapLabel btnTicketsStatus;
     @BindView(R.id.btnAddToMyShows)
     BootstrapButton btnAddToMyShows;
     @BindView(R.id.btnBuyTickets)
