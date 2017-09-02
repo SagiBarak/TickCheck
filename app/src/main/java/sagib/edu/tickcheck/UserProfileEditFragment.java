@@ -16,6 +16,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -155,6 +156,12 @@ public class UserProfileEditFragment extends Fragment {
         EasyImage.openChooserWithGallery(this, "בחירת תמונה", 0);
 
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("עריכת משתמש");
     }
 
     @OnClick(R.id.btnKeepChanges)
