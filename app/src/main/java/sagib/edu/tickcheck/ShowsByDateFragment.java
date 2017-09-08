@@ -47,7 +47,7 @@ public class ShowsByDateFragment extends Fragment implements ShowByDateDataSourc
         unbinder = ButterKnife.bind(this, v);
         prefs = getContext().getSharedPreferences("ShowsDate", Context.MODE_PRIVATE);
         dialog = new ProgressDialog(getContext());
-        dialog.setMessage("נא להמתין,\nמרענן רשימת הופעות..." + "\n" + "מומלץ להתחבר לרשת אלחוטית.");
+        dialog.setMessage("נא להמתין,\nמרענן רשימת הופעות..." + "\n");
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();

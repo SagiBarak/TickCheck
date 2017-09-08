@@ -47,7 +47,7 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
         prefs = getContext().getSharedPreferences("DefaultPerformer", Context.MODE_PRIVATE);
         performer = prefs.getString("PerformerTitle", "שלמה ארצי");
         dialog = new ProgressDialog(getContext());
-        dialog.setMessage("נא להמתין,\nמרענן רשימת הופעות..." + "\n" + "מומלץ להתחבר לרשת אלחוטית.");
+        dialog.setMessage("נא להמתין,\nמרענן רשימת הופעות..." + "\n");
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
