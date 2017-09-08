@@ -7,8 +7,8 @@ android {
         applicationId "sagib.edu.tickcheck"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
         multiDexEnabled true
@@ -37,6 +37,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.firebaseui:firebase-ui:2.0.1'
     compile 'com.google.firebase:firebase-auth:11.0.1'
+    compile 'com.google.firebase:firebase-core:11.0.1'
     compile 'com.google.firebase:firebase-messaging:11.0.1'
     compile 'joda-time:joda-time:2.9.9'
     compile 'com.google.android.gms:play-services-maps:11.0.1'

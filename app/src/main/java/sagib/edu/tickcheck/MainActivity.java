@@ -18,14 +18,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.common.Scopes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     SharedPreferences tokenprefs;
     String performer = "";
+    boolean loadFUI = true;
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -66,7 +65,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
             user = firebaseAuth.getCurrentUser();
-            if (user == null) {
+            if (user == null && loadFUI) {
                 List<AuthUI.IdpConfig> providers = Arrays.asList(
                         new AuthUI.IdpConfig.
                                 Builder(AuthUI.GOOGLE_PROVIDER).
@@ -80,12 +79,17 @@ public class MainActivity extends AppCompatActivity
                                 Builder(AuthUI.FACEBOOK_PROVIDER).
                                 build()
                 );
+                loadFUI = false;
                 Intent intent = AuthUI.getInstance().
                         createSignInIntentBuilder().
                         setLogo(R.drawable.biglogo).
                         setAvailableProviders(providers).build();
                 startActivityForResult(intent, RC_SIGN_IN);
-            } else {
+            } else if (user == null){
+                finish();
+                System.exit(0);
+            }
+            else {
                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                 View header = navigationView.getHeaderView(0);
                 user = mAuth.getCurrentUser();
@@ -144,7 +148,6 @@ public class MainActivity extends AppCompatActivity
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        MobileAds.initialize(this, "ca-app-pub-7962012481002515~8641009187");
         if (mAuth.getCurrentUser() != null) {
             if (mAuth.getCurrentUser().getPhotoUrl() == null) {
                 UserProfileChangeRequest.Builder request = new UserProfileChangeRequest.Builder();
@@ -247,52 +250,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_signout) {
-            clearBackStack();
-            prefs.edit().clear().commit();
-            tokenprefs.edit().clear().commit();
-            getSharedPreferences("ShowsDate", Context.MODE_PRIVATE).edit().clear().commit();
-            getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE).edit().clear().commit();
-            getSharedPreferences("DefaultPerformer", Context.MODE_PRIVATE).edit().clear().commit();
-            getSharedPreferences("SearchForPost", Context.MODE_PRIVATE).edit().clear().commit();
-            getSharedPreferences("ShowsDate", Context.MODE_PRIVATE).edit().clear().commit();
-            getSharedPreferences("BandSwitchBoolean", Context.MODE_PRIVATE).edit().clear().commit();
-            getSharedPreferences("showslist", Context.MODE_PRIVATE).edit().clear().commit();
-            getSharedPreferences("ShowIntro", MODE_PRIVATE).edit().clear().commit();
-            Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/tickcheck-2bdf2.appspot.com/o/ProfilePictures%2Fdefault_profile.jpg?alt=media&token=72b274a4-8a84-446f-ade4-dfafb3c8c06c");
-            Picasso.with(this).load(uri).into(civProfileImage);
-            mAuth.signOut();
-            return true;
-        }
-        if (id == R.id.action_default) {
-            DefaultPerformerFragment defaultPerformerFragment = new DefaultPerformerFragment();
-            defaultPerformerFragment.show(getSupportFragmentManager(), "Choose");
-            return true;
-        }
-
-        if (id == R.id.action_about) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setMessage("אפליקציה זו נוצרה למטרות לימודיות בלבד ואינה למטרות רווח.\n");
-            dialog.setNeutralButton("חזרה", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -326,14 +283,20 @@ public class MainActivity extends AppCompatActivity
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new PrivateChatsListFragment()).commit();
             toolbar.setTitle("שיחות פרטיות");
-        } else if (id == R.id.nav_chooseperformer) {
-            clearBackStack();
-            DefaultPerformerFragment defaultPerformerFragment = new DefaultPerformerFragment();
-            defaultPerformerFragment.show(getSupportFragmentManager(), "Choose");
-        } else if (id == R.id.nav_editprofile) {
+        }  else if (id == R.id.nav_editprofile) {
             clearBackStack();
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, new UserProfileEditFragment(), "EditProfile").commit();
             toolbar.setTitle("עריכת משתמש");
+        } else if (id == R.id.nav_about) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("אפליקציה זו פותחה כפרוייקט לימודי ואינה למטרות רווח.\nצריכת נתונים - כ-500~ ק״ב עבור 10 הופעות (ברשימת ההופעות עבור אמן או תאריך).");
+            builder.setPositiveButton("חזרה", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
         } else if (id == R.id.nav_signout) {
             clearBackStack();
             prefs.edit().clear().commit();

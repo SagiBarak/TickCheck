@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,8 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
     Unbinder unbinder;
     @BindView(R.id.tvTitleShows)
     TextView tvTitleShows;
+    @BindView(R.id.tvChoosePerf)
+    TextView tvChoosePerf;
     private ProgressDialog dialog;
     SharedPreferences prefs;
     String performer;
@@ -40,6 +43,7 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_shows, container, false);
         tvTitleShows = (TextView) v.findViewById(R.id.tvTitleShows);
+        tvChoosePerf = (TextView) v.findViewById(R.id.tvChoosePerf);
         prefs = getContext().getSharedPreferences("DefaultPerformer", Context.MODE_PRIVATE);
         performer = prefs.getString("PerformerTitle", "שלמה ארצי");
         dialog = new ProgressDialog(getContext());
@@ -68,6 +72,14 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
             public boolean onDrag(View v, DragEvent event) {
                 ShowDataSource.getShows(ShowsFragment.this, getContext());
                 return false;
+            }
+        });
+        tvChoosePerf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearBackStack();
+                DefaultPerformerFragment defaultPerformerFragment = new DefaultPerformerFragment();
+                defaultPerformerFragment.show(getFragmentManager(), "Choose");
             }
         });
         unbinder = ButterKnife.bind(this, v);
@@ -111,5 +123,12 @@ public class ShowsFragment extends Fragment implements ShowDataSource.OnShowArri
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    private void clearBackStack() {
+        FragmentManager fm = getFragmentManager();
+        for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
     }
 }

@@ -63,8 +63,8 @@ public class MyShowsListFragment extends Fragment {
             showsCount--;
             MyShow model = intent.getParcelableExtra("model");
             if (showsCount == 0) {
-                tvTitleMyShows.setText("אין הופעות ברשימה...");
-                tvTitleMyShowsDetailed.setText("אין הופעות ברשימה...");
+                tvTitleMyShows.setText("אין הופעות ברשימה");
+                tvTitleMyShowsDetailed.setText("אין הופעות ברשימה");
                 tvNoShows.setVisibility(View.VISIBLE);
 
             } else
@@ -111,14 +111,14 @@ public class MyShowsListFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getChildrenCount() == 0) {
-                    tvTitleMyShows.setText("אין הופעות ברשימה...");
-                    tvTitleMyShowsDetailed.setText("אין הופעות ברשימה...");
+                    tvTitleMyShows.setText("אין הופעות ברשימה");
+                    tvTitleMyShowsDetailed.setText("אין הופעות ברשימה");
                     pbLoadingList.setVisibility(View.GONE);
                     tvNoShows.setVisibility(View.VISIBLE);
                 }
                 if (!dataSnapshot.exists()) {
-                    tvTitleMyShows.setText("אין הופעות ברשימה...");
-                    tvTitleMyShowsDetailed.setText("אין הופעות ברשימה...");
+                    tvTitleMyShows.setText("אין הופעות ברשימה");
+                    tvTitleMyShowsDetailed.setText("אין הופעות ברשימה");
                     pbLoadingList.setVisibility(View.GONE);
                     tvNoShows.setVisibility(View.VISIBLE);
                 } else {

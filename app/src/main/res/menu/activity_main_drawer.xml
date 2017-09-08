@@ -26,10 +26,6 @@
 
     <item android:title="ניהול משתמש">
         <menu>
-            <item
-                android:id="@+id/nav_chooseperformer"
-                android:icon="@drawable/ic_performer"
-                android:title="בחר אמן לרשימה" />
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/nav_editprofile"
@@ -41,6 +37,10 @@
                 android:id="@+id/nav_signout"
                 android:icon="@drawable/ic_cancel"
                 android:title="התנתקות" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_about"
+                android:title="אודות ותנאי שימוש" />
         </menu>
     </item>
 
