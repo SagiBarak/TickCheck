@@ -159,7 +159,7 @@ public class StreamIO {
     }
 
     public static String encodeZappaFromEncode(String url) {
-        String string = "https://www.zappa-club.co.il/";
+        String string = "https://m.zappa-club.co.il/";
         int originalindex = string.length();
         String encode = url.substring(originalindex);
         String finalUrl = "";
